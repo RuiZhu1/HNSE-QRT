@@ -2,3 +2,5 @@
 
 
 把上面几个 technical holes 补死 给我完整的latex
+
+这个论文是否已经成功的建立起了non hermitian skin effect的quantum resource theories 如果6/10是physical review a的及格线的话 你给这篇论文多少分
