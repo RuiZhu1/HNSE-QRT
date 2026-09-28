@@ -15,7 +15,7 @@
 提示 我们已经用不同的模型做过很多次这样的审稿和修改了 可是不管怎么改 永远都需要major revision 永远都是5.5/10 最终导致的结果就是论文越来越臃肿越来越长 现在我给你完整的latex 你依照之前提出的审稿建议 更新latex 给我完整的latex
 
 
-
+我们的目的是成功的建立起了non hermitian skin effect的universal quantum resource theories 
 任务 3：提出修改建议
 
 按优先级列出需要修改的问题，每一条说明：
