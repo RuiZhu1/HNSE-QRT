@@ -68,10 +68,8 @@ by conventional non-Hermitian skin-effect (NHSE) physics rather than by NHSE its
 resource. The primitive fixed-time objects are CPTP bistochastic channels obtained from normalized
 non-Hermitian propagators through a canonical Julia unitary completion. The Julia completion is a
 representation convention of the present QRT, not a uniqueness claim about physical open-system
-realizations. At finite system size, the present object definition is intentionally a compatibility
-structure: because the locality constants may depend on $L$, the fixed-$L$ object class coincides
-with the CPTP bistochastic class; nontrivial locality enters only through $L$-uniform thermodynamic
-family conditions. The free objects are transpose-reciprocal channels, while the free
+realizations. At finite size the object class is the CPTP bistochastic class; locality enters only through
+$L$-uniform family conditions. The free objects are transpose-reciprocal channels, while the free
 transformations are the physically realizable superchannels that preserve the object class and
 commute with channel transpose on that class. We interpret this covariance requirement as the
 axiomatic resource-neutrality criterion of the present QRT, not as a complete microscopic model of
@@ -103,7 +101,10 @@ representation is treated only as a diagnostic and is not identified with part o
 
 The exact scope of the NHSE correspondence is class dependent. Positivity of the
 trajectory-derived resource is universally equivalent, under the stated assumptions, to
-transpose-reciprocity breaking. An exact biconditional with conventional NHSE is obtained only on
+transpose-reciprocity breaking. Because reciprocity is defined relative to a fixed frame
+(a time reversal implemented by complex conjugation), the resource is also positive for
+Hermitian and even gauge-trivial reciprocity breaking; it detects transpose-reciprocity breaking,
+not non-Hermiticity or skin accumulation as such. An exact biconditional with conventional NHSE is obtained only on
 model classes for which conventional NHSE is independently equivalent to transpose-reciprocity
 breaking. The uniform Hatano--Nelson family provides an explicit exact example. Reciprocal
 non-Abelian $\mathbb Z_2$ skin physics and genuinely Lindbladian skin topology are outside the
@@ -154,6 +155,26 @@ present $\FreeOps_L$ class as a complete statement that every such implementatio
 resource-free in an engineering sense. Rather, it is the symmetry-covariant free-operation class
 of the QRT constructed here. A stricter hardware-level resource theory would require an additional,
 independently specified class of resource-neutral pre- and post-processing devices.
+\end{remark}
+
+\begin{remark}[Reciprocity as time-reversal invariance in the fixed frame]
+\label{rem:T-reversal-meaning}
+Let $\mathcal C(X)=X^{*}$ denote complex conjugation in the fixed basis. For a bistochastic
+channel $\mathcal N$ with Kraus operators $\{K_a\}$, its Heisenberg-picture dual
+$\mathcal N^{\dagger}(Y)=\sum_aK_a^\dagger YK_a$ is again CPTP. Since
+$\big(\sum_aK_a^\dagger X^{*}K_a\big)^{*}=\sum_aK_a^{T}XK_a^{*}$, one has
+\begin{equation}
+\mathcal N^{\rev}=\mathcal C\circ\mathcal N^{\dagger}\circ\mathcal C .
+\end{equation}
+Hence $\mathcal N=\mathcal N^{\rev}$ if and only if $\mathcal N^{\dagger}=\mathcal C\mathcal N\mathcal C$:
+the channel coincides with its own time reversal, the antiunitary being $\mathcal C$ in the
+reciprocity frame. For the Julia unitary $\widetilde U_K$, viewed as a scattering matrix between
+the physical and environmental ports, $\widetilde U_K^{T}=\widetilde U_K$ is the Onsager--Casimir
+(Lorentz) reciprocity condition $S=S^{T}$~\cite{Jalas2013}. The resource $A_\diamond$ therefore
+quantifies the violation of this time-reversal invariance; it is not, by construction, a measure
+of non-Hermiticity (see Proposition~\ref{prop:hermitian-gauge}). The covariance requirement on
+free superchannels remains an axiomatic choice, but it now has a concrete meaning: free
+transformations must commute with this specific time reversal.
 \end{remark}
 
 A non-Hermitian Hamiltonian by itself does not define a CPTP map. We therefore normalize its
@@ -441,9 +462,34 @@ $\norm{K_{H,t}^\dagger K_{H,t}}_\infty\le q_t^2<1$, the binomial series
 \qquad
 X=K_{H,t}^\dagger K_{H,t},
 \end{equation}
-converges absolutely in operator norm and preserves exponential quasi-locality under the
-convolution of exponentially decaying kernels. The same applies to $D_{K^\dagger}$, and the
-block form of $\widetilde U_K$ completes the proof.
+converges absolutely in operator norm. Operator-norm convergence alone does not control
+off-diagonal decay, because the constants of $X^r$ accumulate, so we argue in a weighted norm.
+Let $\hat x|n,\alpha\rangle=n|n,\alpha\rangle$ and $A_{\sigma\mu}:=e^{\sigma\mu\hat x}Ae^{-\sigma\mu\hat x}$
+for $\sigma=\pm1$. Then
+\begin{equation}
+\norm{P_nAP_m}_\infty\le e^{-\sigma\mu(n-m)}\norm{A_{\sigma\mu}}_\infty .
+\tag{$\star$}
+\end{equation}
+\emph{Step 1.} Write $H=\sum_{|r|\le R}H^{(r)}$ with displacement bands $H^{(r)}$,
+$\norm{H^{(r)}}_\infty\le h$ (Fourier average of $e^{i\theta\hat x}He^{-i\theta\hat x}$). Then
+$H_{\sigma\mu}-H=\sum_r(e^{\sigma\mu r}-1)H^{(r)}$, so
+$\norm{H_{\sigma\mu}-H}_\infty\le\delta(\mu):=(2R+1)h\,(e^{\mu R}-1)$. Duhamel's formula gives
+$\norm{U_{\sigma\mu}-U}_\infty\le t\,\delta(\mu)e^{(h+\delta(\mu))t}$, hence
+$\norm{K_{\sigma\mu}}_\infty\le q_t+\varepsilon_t(\mu)$ with
+$\varepsilon_t(\mu)=t\,\delta(\mu)e^{(h+\delta(\mu))t}/\sqrt{\kappa}\to0$ as $\mu\to0$, uniformly in $L$.
+Since $(K^\dagger)_{\sigma\mu}=(K_{-\sigma\mu})^\dagger$, the same bound holds for $K^\dagger$.
+
+\emph{Step 2.} $X_{\sigma\mu}=(K^\dagger)_{\sigma\mu}K_{\sigma\mu}$ obeys
+$\norm{X_{\sigma\mu}}_\infty\le\xi:=(q_t+\varepsilon_t(\mu))^2$. Choose $\mu_t>0$ with $\xi<1$.
+Conjugation by $e^{\sigma\mu\hat x}$ is an algebra homomorphism, so
+$[(\id-X)^{1/2}]_{\sigma\mu}=\sum_rc_r(X_{\sigma\mu})^r$, and since $c_0=1$, $c_r<0$ for $r\ge1$ and
+$\sum_{r\ge1}|c_r|\xi^r=1-\sqrt{1-\xi}\le1$, we get $\norm{(D_K)_{\sigma\mu}}_\infty\le2$. The same holds for
+$D_{K^\dagger}$ (with $KK^\dagger$) and, from Step~1, for $K$ and $U_H(t)$. Combining with $(\star)$
+and the block form of $\widetilde U_K$ gives \eqref{eq:quasi-julia} (the bound (28) of the compiled
+text) with $\mu=\mu_t$ and an $L$-independent constant. The admissible rate $\mu_t$ is set by $q_t$
+and $\delta(\mu)$, not by the factorial tail of $U_H(t)$; this explains why the defect operators
+decay more slowly than $K$ in Fig.~\ref{fig:lemma1}. Moreover $U_H(t)$ itself decays faster than any
+exponential (Poisson tail), so the quoted $\mu\approx2.56$ is a window-dependent local slope, not a rate.
 \end{proof}
 
 \begin{remark}
@@ -1225,6 +1271,44 @@ This gives $\Rrob\le1$. The same argument applies to tensor powers using
 (\mathcal N^{\rev})^{\otimes n}.
 \end{equation}
 \end{proof}
+
+\begin{proposition}[Max-relative-entropy form of the robustness and structural boundedness]
+\label{prop:Rmax-bounded}
+For $\mathcal N\in\mathsf{Obj}_L$ define
+\begin{equation}
+R_{\max}(\mathcal N)
+=
+\min_{\mathcal F\in\F_L}\log\min\{\lambda\ge1:\ \lambda\mathcal F-\mathcal N\ \text{completely positive}\}.
+\end{equation}
+Then: (i) $R_{\max}(\mathcal N)=\log\!\big(1+\Rrob(\mathcal N)\big)$; (ii) $R_{\max}$ is faithful and
+nonincreasing under every $\Theta\in\FreeOps_L$; (iii) for every $n$, the same quantity for
+$\mathcal N^{\otimes n}$, with the free set of the $n$-copy space defined by the same involution,
+satisfies $R_{\max}(\mathcal N^{\otimes n})\le\log 2$.
+\end{proposition}
+
+\begin{proof}
+(i) If $\lambda\mathcal F-\mathcal N$ is completely positive, with $\mathcal F,\mathcal N$
+trace-preserving, then its trace is $\lambda-1\ge0$. For $s=\lambda-1>0$ the map
+$\mathcal M=(\lambda\mathcal F-\mathcal N)/s$ is CP, trace preserving and unital, i.e.\
+$\mathcal M\in\mathsf{Obj}_L$, and $(\mathcal N+s\mathcal M)/(1+s)=\mathcal F\in\F_L$; the converse
+direction is the same computation read backwards. Minimizing over $\mathcal F$ and using the
+attainment of Remark~\ref{rem:} gives (i). (ii) Faithfulness is Theorem~\ref{thm:robustness}'s
+statement transported by (i); for monotonicity, $\Theta(\mathcal F)\in\F_L$ by covariance, and
+$\lambda\Theta(\mathcal F)-\Theta(\mathcal N)=\Theta(\lambda\mathcal F-\mathcal N)$ is CP, because a
+physical superchannel maps CP maps to CP maps. (iii) $(\mathcal N^{\otimes n})^{\rev}=(\mathcal N^{\rev})^{\otimes n}$,
+so $\mathcal F_n=\tfrac12[\mathcal N^{\otimes n}+(\mathcal N^{\rev})^{\otimes n}]$ is reciprocal and
+$2\mathcal F_n-\mathcal N^{\otimes n}=(\mathcal N^{\rev})^{\otimes n}$ is CP, so $\lambda=2$ is feasible.
+\end{proof}
+
+\begin{remark}[No extensive rates from a $\mathbb Z_2$ covariance]
+The bound in (iii) is uniform in $n$, and any channel divergence dominated by the max-relative entropy
+inherits it. This is the general finite-group phenomenon (cf.\ the asymmetry of states and channels
+under a finite group~\cite{MarvianSpekkens2014} and channel divergences~\cite{GourWilde2021}):
+asymmetry with respect to a single involution cannot be extensive in tensor powers. It explains
+Proposition~\ref{prop:} and is why extensivity in this paper is obtained only through the explicit
+cellwise construction of Sec.~\ref{sec:cellular}. Asymptotic distillation and dilution rates are not
+defined here and remain open.
+\end{remark}
 
 \begin{corollary}[Robustness dominates channel asymmetry]
 For every channel,
@@ -2431,8 +2515,9 @@ U_H(t)^T-U_H(t)
 -i(H^T-H)t+O(t^2).
 \end{equation}
 Since $H^T-H\ne0$, the analytic matrix-valued function
-$t\mapsto U_H(t)^T-U_H(t)$ cannot vanish identically in any neighborhood of $t=0$. Therefore
-there exists a sequence $t_j\downarrow0$ for which
+$t\mapsto U_H(t)^T-U_H(t)$ has the nonvanishing first-order coefficient $-i(H^T-H)$, so there
+is $\varepsilon>0$ with $U_H(t)^T\ne U_H(t)$ for every $t\in(0,\varepsilon)$, not merely along some
+sequence. Since $\mathcal T$ contains a sequence $t_j\downarrow0$, for all sufficiently large $j$ one has
 \begin{equation}
 U_H(t_j)^T\ne U_H(t_j).
 \end{equation}
@@ -2479,6 +2564,41 @@ A_\diamond^{\sup}>0
 \end{equation}
 is asserted here only for the explicitly defined sector $\mathcal C_{\rm TR\text{-}NHSE}$.
 No universal converse for the full set $\mathcal C_{\rm NHSE}^{\rm conv}$ is claimed.
+\end{remark}
+
+\begin{proposition}[Hermitian and gauge-trivial reciprocity breaking]
+\label{prop:hermitian-gauge}
+Let $\mathcal T$ contain a sequence $t_j\downarrow0$ and let $\kappa$ be an admissible strict
+normalization.
+\begin{enumerate}
+\item If $H=H^\dagger$ and $H^T\ne H$ (i.e.\ $H$ is not real symmetric), then
+$A^{\sup}_{\diamond,\kappa}(H;\mathcal T)>0$.
+\item For $\phi\notin\pi\mathbb Z$ and $L\ge2$, the open Hermitian chain
+$H_\phi=J\sum_{n=1}^{L-1}\big(e^{i\phi}|n{+}1\rangle\langle n|+e^{-i\phi}|n\rangle\langle n{+}1|\big)$
+has $A^{\sup}_{\diamond,\kappa}(H_\phi;\mathcal T)>0$, although $H_\phi=DH_0D^\dagger$ with the unitary
+$D=\mathrm{diag}(e^{i\phi n})$ and $H_0$ real symmetric, and its eigenvectors have the same moduli
+as those of $H_0$ (no skin accumulation).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Theorem~\ref{thm:trajectory-TR-characterization} uses only $H^T\ne H$; for $H=H^\dagger$ one has
+$\norm{U_H(t)}_\infty=1$, so every $\kappa>1$ is admissible. (2) $(H_\phi^T)_{n+1,n}=(H_\phi)_{n,n+1}=Je^{-i\phi}\ne Je^{i\phi}=(H_\phi)_{n+1,n}$
+for $\phi\notin\pi\mathbb Z$, so (1) applies. Moreover $(DH_0D^\dagger)_{n+1,n}=e^{i\phi(n+1)}Je^{-i\phi n}=Je^{i\phi}$,
+and eigenvectors transform as $\psi_\phi=D\psi_0$, so $|\psi_\phi(n)|=|\psi_0(n)|$.
+\end{proof}
+
+\begin{remark}[Consequences for the scope of the resource]
+(i) Positivity of $A_\diamond^{\sup}$ does not require non-Hermiticity, and for Hermitian chirality-type
+reciprocity breaking (e.g.\ chiral quantum walks~\cite{Zimboras2013}) it is genuinely present. The resource is
+a time-reversal-asymmetry detector (Remark~\ref{rem:T-reversal-meaning}); the class
+$\mathcal C_{\rm TRB}$ contains Hermitian members, and transpose-reciprocity-complete classes in the sense of
+Definition~\ref{def:TR-complete-class} must exclude them. (ii) Part~2 shows that the resource depends on the
+U(1) site-phase gauge: this is the fixed-frame dependence of Remark~\ref{rem:physical-motivation}'s
+predecessor, Remark on the reciprocity frame, made concrete. The imaginary gauge $S_g$ of the
+Hatano--Nelson family is non-unitary and physical, so the calibration results are unaffected. (iii) A
+gauge-invariant refinement, e.g.\ minimizing $A^{\sup}_\diamond(DHD^\dagger)$ over diagonal phase gauges
+$D$, is natural, but we do not show that it is a monotone under $\FreeOps_L$; this is left open.
 \end{remark}
 
 \begin{definition}[Transpose-reciprocity-complete NHSE class]
@@ -3177,14 +3297,20 @@ The result follows from Corollary~\ref{cor:uniform-thermo-shorttime}.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig_prop23_persistence.pdf}
-\caption{Numerical evaluation of the Proposition~\ref{prop:uniform-shorttime-bridge} lower
-bound on $A_\diamond$, as a function of system size $L$ for the uniform Hatano--Nelson family
-at fixed $g\ne0$, using the tight normalization of Remark~\ref{rem:HN-tight-thermo}. The bound
+\caption{Numerical evaluation of the finite-$t$ transition-amplitude bound of
+Proposition~\ref{prop:Adiamond-probe},
+$\tfrac12\max_m\sum_n\big||K(n,m)|^2-|K(m,n)|^2\big|$, as a function of system size $L$ for the
+uniform Hatano--Nelson family at $g=0.5$ and $t=0.35$, with the normalization
+$\kappa_L=1.05\,\|U_{H_{g,L}}(t)\|_\infty^2$ (the form of Remark~\ref{rem:HN-tight-thermo} with
+$\varepsilon_0=0.05$, evaluated at $t=0.35$ rather than in the limit $t\to0^+$, so $\kappa_L$
+itself varies with $L$, from $1.98$ at $L=4$ to $2.286$ at $L=120$). This is not the $O(t^2)$
+expression of Proposition~\ref{prop:uniform-shorttime-bridge}. The bound
 decreases monotonically from $0.1376$ at $L=4$ and converges to $\approx0.1227$ by $L=120$,
 with successive differences shrinking rapidly (e.g.\ $L=90\to120$ changes the bound by
-$<3\times10^{-5}$). This is a clean numerical confirmation that the thermodynamic short-time
-lower bound of Corollary~\ref{cor:uniform-thermo-shorttime} converges to a finite, strictly
-positive value rather than degrading with system size.}
+$<3\times10^{-5}$). The curve shows that the finite-$t$ probe bound saturates as $L$ grows,
+consistent with the $L$-uniform structure of Corollary~\ref{cor:uniform-thermo-shorttime}; it is a
+consistency check at a single $(g,t)$, not a verification of the small-$t$ asymptotics or of the
+thermodynamic limit.}
 \label{fig:prop23}
 \end{figure}
 }{}
@@ -3973,10 +4099,30 @@ $\kappa_0=1+\varepsilon_0$.
 
 \begin{remark}[Scope of the exact Hatano--Nelson theorem]
 \label{rem:HN-exact-scope}
-Theorem~\ref{thm:HN-exact} is an exact solved subtheory. Its biconditional NHSE statement
+Corollary~\ref{thm:HN-exact} is an exact solved subtheory. Its biconditional NHSE statement
 relies on the fact that, within the uniform Hatano--Nelson family, conventional OBC skin
 accumulation is equivalent to transpose-reciprocity breaking. The theorem is therefore not a claim
 that $A_\diamond^{\sup}>0$ is a universal detector of every possible NHSE mechanism.
+\end{remark}
+
+\begin{remark}[Frame dependence of the multichannel example]
+\label{rem:twisted-frame}
+The following proposition, like Proposition~\ref{prop:18} of Sec.~\ref{sec:multichannel}, is a statement
+in the untwisted reciprocity frame. Let $\Sigma=\sigma_x$ swap the two species in
+$H_{\oplus,g}=H_g\oplus H_{-g}$. Since $H_g^T=H_{-g}$, one has $H_{\oplus,g}^T=\Sigma H_{\oplus,g}\Sigma^\dagger$,
+and likewise $\Sigma K^T\Sigma^\dagger=K$ for $K=K_{\oplus}$. Because $D_{\Sigma A\Sigma^\dagger}=\Sigma D_A\Sigma^\dagger$,
+\begin{equation}
+\widetilde\Sigma\,\widetilde U_K^{\,T}\,\widetilde\Sigma^\dagger=\widetilde U_{\Sigma K^T\Sigma^\dagger}=\widetilde U_K,
+\qquad\widetilde\Sigma=\Sigma\oplus\Sigma .
+\end{equation}
+The channel is thus reciprocal for the twisted transpose $X\mapsto\widetilde\Sigma X^{T}\widetilde\Sigma^\dagger$
+(an involution because $\Sigma$ is real symmetric), a time reversal with an internal partner of the
+spin-flip type used in the symmetry classes that host $\mathbb Z_2$ skin effects~\cite{OkumaEtAl2020}.
+In that frame the resource vanishes although the two sectors accumulate at opposite edges. The example
+therefore shows that the resource is positive relative to the untwisted frame while the scalar winding
+cancels; it does not show detection of skin physics that a scalar winding misses in a physically fixed
+frame. Such twisted involutions can be accommodated as additional covariance data in the sense of
+Sec.~\ref{sec:symmetry-extended}, but that is not done here.
 \end{remark}
 
 \begin{proposition}[Multichannel cancellation does not invalidate the scope theorem]
@@ -4167,13 +4313,13 @@ E_\diamond^{\sup}>0
 }
 \end{equation}
 For a cell that is itself a thermodynamic uniform Hatano--Nelson family,
-Theorem~\ref{thm:HN-exact} identifies this positivity with conventional OBC skin accumulation
+Corollary~\ref{thm:HN-exact} identifies this positivity with conventional OBC skin accumulation
 in that cell family.
 \end{theorem}
 
 \begin{proof}
 The sum is nonnegative, so it is positive exactly when at least one summand is positive.
-The Hatano--Nelson identification follows from Theorem~\ref{thm:HN-exact}.
+The Hatano--Nelson identification follows from Corollary~\ref{thm:HN-exact}.
 \end{proof}
 
 \begin{remark}[Scope of the extensive extension]
@@ -5064,7 +5210,7 @@ A_\diamond
 Beyond the analytic calibration, three numerical checks are reported. They should be understood
 as consistency checks of the analytic statements rather than as independent proofs.
 
-\textbf{Lemma~\ref{lem:quasi-julia} (quasi-locality).} At $L=60$ and fixed $t$, the propagator and
+\textbf{Numerical check of Lemma~\ref{lem:quasi-julia}.} At $L=60$ and fixed $t$, the propagator and
 normalized contraction give the same fitted rate, $\mu(U_H(t))=\mu(K)\approx2.5648$ over the
 short range before reaching double-precision noise. For the defect operators, the quoted fit on
 $r\in[2,25]$ gives $\mu(D_K)=\mu(D_{K^\dagger})\approx0.6625$, while refitting over the full
@@ -5074,7 +5220,7 @@ the defect operators. The robust numerical conclusion is qualitative: the defect
 exponentially decaying over the tested range but display a slower and more fit-sensitive decay than
 $K$ itself.
 
-\textbf{Proposition~\ref{prop:uniform-shorttime-bridge} (thermodynamic persistence).} For the
+\textbf{Finite-$t$ probe bound of Proposition~\ref{prop:Adiamond-probe} versus $L$.} For the
 uniform Hatano--Nelson family at fixed $g\ne0$ and the tight gauge of
 Remark~\ref{rem:HN-tight-thermo}, the concrete finite-size lower-bound expression was evaluated
 for $L=4,8,12,20,30,45,60,90,120$. The reported values decrease from approximately $0.1376$ at
@@ -5096,21 +5242,26 @@ not be interpreted as reliable estimates of the analytic decay rate. We therefor
 data only to demonstrate rapid convergence to the numerical floor, consistent with the analytic
 exponential buffer bound.
 
-The offset diagnostic has a different behavior. The full-chain and window offsets use different
-maximally-mixed complement dimensions, $d_{\bar V}=56$ and $d_{\bar V}=2b$, respectively. The
-reported differences
+Two offset diagnostics must be distinguished. (i) The \emph{normalized} offset
+$\Xi=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ uses different maximally-mixed complement
+dimensions in the full chain and the window, $d_{\bar V}=56$ and $d_{\bar V}=2b$. Its discrepancy,
 $\|\Xi^{(L)}-\Xi^{(W)}\|\approx0.070,\,0.035,\,0.023,\,0.016,\,0.013,\,0.010,\,0.0068,\,0.0049$
-for $b=1,2,3,4,5,6,8,10$ satisfy
+for $b=1,2,3,4,5,6,8,10$, satisfies
 \[
 b\,\|\Xi^{(L)}-\Xi^{(W)}\|\in[0.049,0.071],
 \]
-which is consistent with approximately $1/b$ decay over the tested range. This behavior is
-dominated by the mismatched complement-dimension prefactor rather than by a demonstrated
-nonlocality of the propagator. Accordingly, no exponential fit is quoted for the normalized
-offset, and the earlier value $\mu_\Xi\approx0.28$ is withdrawn as a locality exponent. Whether
-the un-normalized leakage $K_{V\bar V}K_{V\bar V}^\dagger$ has an independent exponential buffer
-limit remains untested and plays no role in the present channel results. The numerical study uses
-the single parameter point $(g,t,\ell,L)=(0.5,0.35,4,60)$.
+i.e.\ approximately $1/b$ decay, which is dominated by the prefactor mismatch rather than by
+nonlocality of the propagator; no exponential fit is quoted for it, and the earlier value
+$\mu_\Xi\approx0.28$ is withdrawn as a locality exponent. (ii) The \emph{un-normalized} leakage
+$K_{V\bar V}K_{V\bar V}^\dagger$, which is the quantity plotted in Fig.~\ref{fig:windowed}
+(script default \texttt{normalize=False}), was tested at the same parameter point: the discrepancy
+between full chain and window is $6.3\times10^{-3}$, $2.4\times10^{-4}$, $\approx5\times10^{-6}$ for
+$b=1,2,3$, and below $10^{-6}$ (the numerical floor) from $b=4$ on. The successive ratios
+($\approx27$, then $\gtrsim45$) increase with $b$, i.e.\ the decay is faster than any single
+exponential, as expected from the factorial (Poisson) tail of the propagator. The $1/b$ behavior of
+$\Xi$ is therefore a normalization artifact. No decay rate is quoted for either curve, and neither
+offset enters any channel statement. The numerical study uses the single parameter point
+$(g,t,\ell,L)=(0.5,0.35,4,60)$.
 
 \IfFileExists{fig_buffered_reduction_plan_a.pdf}{
 \begin{figure}[t]
@@ -5120,10 +5271,11 @@ the single parameter point $(g,t,\ell,L)=(0.5,0.35,4,60)$.
 $\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$ for $\ell=4$ and bulk $L=60$. The asymmetry
 discrepancy $|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})|$ falls to the numerical
 floor rapidly; because the fitted exponent depends strongly on the fitting range, no precision
-value of $\mu_\Lambda$ is claimed. The covariance-matrix offset diagnostic behaves differently:
-over the tested range its discrepancy is consistent with approximately $1/b$ decay, attributable
-to the different maximally-mixed complement dimensions used in the full and isolated constructions.
-Accordingly, the offset is not presented as evidence for exponential buffer convergence. The
+value of $\mu_\Lambda$ is claimed. The plotted offset curves are the un-normalized leakage
+$K_{V\bar V}K_{V\bar V}^\dagger$ (full chain versus window), which also converges rapidly, faster
+than a single exponential; no fitted rate is claimed. The normalized offset $\Xi$, which carries the
+prefactor $1/d_{\bar V}$ and is not plotted, instead decays as approximately $1/b$ because of the
+complement-dimension mismatch (see text). The
 figure concerns the compressed-contraction channel and the separate covariance diagnostic; it is
 not a test of a genuine many-body reduced channel.}
 \label{fig:windowed}
@@ -5615,6 +5767,26 @@ Phys.~Rev.~Lett.~\textbf{136}, 016603 (2026).
 J.~Sirker,
 \textit{Pseudospectral phenomena and the origin of the non-Hermitian skin effect},
 arXiv:2603.22643 (2026).
+
+\bibitem{Jalas2013}
+D.~Jalas \textit{et al.},
+\textit{What is --- and what is not --- an optical isolator},
+Nat.~Photon.~\textbf{7}, 579 (2013).
+
+\bibitem{MarvianSpekkens2014}
+I.~Marvian and R.~W.~Spekkens,
+\textit{Extending Noether's theorem by quantifying the asymmetry of quantum states},
+Nat.~Commun.~\textbf{5}, 3821 (2014).
+
+\bibitem{GourWilde2021}
+G.~Gour and M.~M.~Wilde,
+\textit{Entropy of a quantum channel},
+Phys.~Rev.~Research~\textbf{3}, 023096 (2021).
+
+\bibitem{Zimboras2013}
+Z.~Zimbor\'as \textit{et al.},
+\textit{Quantum transport enhancement by time-reversal symmetry breaking},
+Sci.~Rep.~\textbf{3}, 2361 (2013).
 
 \end{thebibliography}
 
