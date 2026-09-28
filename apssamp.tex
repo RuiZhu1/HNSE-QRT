@@ -4554,14 +4554,45 @@ normalization $\kappa(t)$ with
 q<1,
 \end{equation}
 and with $\inf_{t\in\mathcal T_0}\kappa(t)>0$. Then, for every fixed $\mu>0$, there is a constant
-$C=C(\ell,R,M,h,\mu,\mathcal T_0,\kappa)$ independent of $L$ and of the position of $V$ such that
+$C_U=C_U(\ell,R,M,h,\mu,\mathcal T_0,\kappa)$ independent of $L$ and of the position of $V$ such
+that
 \begin{equation}
-\left|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})\right|
-\le C(q)\,C\,e^{-\mu b},
-\qquad
-C(q)=2\!\left(1+\tfrac{q}{\sqrt{1-q^2}}\right).
+\boxed{
+\left\|
+K_V^{(L)}-K_V^{(W)}
+\right\|_\infty
+\le
+C_Ue^{-\mu b}.
+}
 \end{equation}
-The corresponding estimate for $\Lambda_V^{\rev}$ holds with the same constant.
+Consequently, with
+\begin{equation}
+C_\Lambda
+=
+2\!\left(1+\frac{q}{\sqrt{1-q^2}}\right)C_U,
+\end{equation}
+one has
+\begin{equation}
+\boxed{
+\left\|
+\Lambda_V^{(L)}-\Lambda_V^{(W)}
+\right\|_\diamond
+\le
+C_\Lambda e^{-\mu b},
+}
+\end{equation}
+and, by transpose invariance of the operator norm,
+\begin{equation}
+\boxed{
+\left\|
+(\Lambda_V^{(L)})^{\rev}
+-
+(\Lambda_V^{(W)})^{\rev}
+\right\|_\diamond
+\le
+C_\Lambda e^{-\mu b}.
+}
+\end{equation}
 \end{proposition}
 
 \begin{proof}
@@ -4686,8 +4717,8 @@ tensor-product realization (Remark~\ref{rem:affine-reduction}); that relation is
 $\Xi_V$ is a covariance-matrix diagnostic that appears in no $A_\diamond$ statement.
 \end{remark}
 
-\begin{theorem}[Buffered asymmetry bound for the compressed-contraction Julia channel]
-\label{thm:buffered-reduction}
+\begin{corollary}[Buffered asymmetry bound for the compressed-contraction Julia channel]
+\label{cor:buffered-reduction}
 Under the hypotheses of Proposition~\ref{prop:buffer-compression}, for every
 $t\in\mathcal T_0$,
 \begin{equation}
@@ -4698,17 +4729,10 @@ A_\diamond(\Lambda_{V_j}^{(L)})
 A_\diamond(\Lambda_{V_j}^{(W)})
 \right|
 \le
-\frac{C_\Lambda+C_\Lambda'}{2}
-e^{-\mu_\Lambda b}.
+C_\Lambda e^{-\mu b}.
 }
 \end{equation}
-In the unconditional formulation of Proposition~\ref{prop:buffer-compression}, one may take
-$C_\Lambda=C_\Lambda'=C(q)\,C$ and $\mu_\Lambda=\mu$. This theorem concerns only the separately
-defined compressed-contraction channels $\Lambda_{V_j}^{(L)}$ and $\Lambda_{V_j}^{(W)}$. No
-statement is made that either channel is the reduced channel of a tensor-product many-body
-realization, nor that the covariance-matrix offset $\Xi_V$ obeys the same estimate. No
-unconditional robustness truncation estimate is required for the results below.
-\end{theorem}
+\end{corollary}
 
 \begin{proof}
 By the triangle inequality,
@@ -4718,22 +4742,13 @@ A_\diamond(\mathcal A)-A_\diamond(\mathcal B)
 \right|
 &\le
 \frac12
-\left\|
-(\mathcal A-\mathcal A^{\rev})
--
-(\mathcal B-\mathcal B^{\rev})
-\right\|_\diamond
-\\
-&\le
-\frac12
 \left(
 \|\mathcal A-\mathcal B\|_\diamond
 +
 \|\mathcal A^{\rev}-\mathcal B^{\rev}\|_\diamond
 \right).
 \end{align}
-Apply the two $\Lambda$-bounds, which hold by Proposition~\ref{prop:buffer-compression}, to
-$\mathcal A=\Lambda_{V_j}^{(L)}$, $\mathcal B=\Lambda_{V_j}^{(W)}$.
+Apply Proposition~\ref{prop:buffer-compression}.
 \end{proof}
 
 \begin{remark}[Optional one-sided variant]
@@ -4795,14 +4810,17 @@ For the separate covariance-matrix diagnostic, define the aggregate offset sizes
 }
 \end{equation}
 These quantities are not identified with the channel resource $E_{\diamond,\ell,b}^{\rm loc}$.
+\end{definition}
 
 \begin{proposition}[Exact local monotonicity for compressed channels]
 \label{prop:local-reduced-monotone}
-Let
+For each window $V_j$, let
 \begin{equation}
-\Theta_j:\mathsf{Obj}(V_j)\to\mathsf{Obj}(V_j)
+\Theta_j\in\FreeOps(V_j)
 \end{equation}
-be free superchannels acting independently on the compressed-contraction channels
+denote a free superchannel defined by the same covariance-preserving construction as
+$\FreeOps_L$, with the Hilbert-space dimension and reciprocity frame restricted to that window.
+Assume that the $\Theta_j$ act independently on the compressed-contraction Julia channels
 $\Lambda_{V_j}^{(L)}$. Then
 \begin{equation}
 \boxed{
@@ -4812,13 +4830,18 @@ A_\diamond(\Theta_j(\Lambda_{V_j}^{(L)}))
 E_{\diamond,\ell,b}^{\rm loc}(L,t).
 }
 \end{equation}
-No robustness aggregate is introduced in this section, so no corresponding local
-$R_{\rm rob}$ statement is used below.
+No robustness aggregate is introduced in this section.
 \end{proposition}
 
 \begin{proof}
-Apply Theorem~\ref{thm:Adiamond} and Theorem~\ref{thm:robustness} to each linear reduced channel
-$\Lambda_{V_j}^{(L)}$, then sum.
+Each $\Lambda_{V_j}^{(L)}$ is a bistochastic Julia-completed channel on the window, so
+Theorem~\ref{thm:Adiamond} gives
+\begin{equation}
+A_\diamond(\Theta_j(\Lambda_{V_j}^{(L)}))
+\le
+A_\diamond(\Lambda_{V_j}^{(L)}).
+\end{equation}
+Summing over $j$ yields the claim.
 \end{proof}
 
 \begin{proposition}[Exponential coupling control for compressed-contraction channels]
@@ -4847,7 +4870,11 @@ up to a constant prefactor.
 
 \begin{proposition}[Bulk local resource density]
 \label{prop:bulk-local-density}
-If the coupled tensor-local channel realization is translation invariant in the bulk, then
+Assume a fixed-width bulk tiling for which the number of windows satisfies
+\begin{equation}
+\frac{J_L}{L}\longrightarrow \nu_\ell
+\end{equation}
+as $L\to\infty$, with finite $\nu_\ell$. Define
 \begin{equation}
 a_{\diamond,\ell,b}^{\rm loc}(t)
 =
@@ -4855,7 +4882,15 @@ a_{\diamond,\ell,b}^{\rm loc}(t)
 \frac1L
 E_{\diamond,\ell,b}^{\rm loc}(L,t)
 \end{equation}
-is finite for fixed $\ell,t$, and under Assumption~\ref{ass:buffer-stability},
+and
+\begin{equation}
+a_{\diamond,\ell,b}^{\rm iso}(t)
+=
+\limsup_{L\to\infty}
+\frac1L
+E_{\diamond,\ell,b}^{\rm iso}(L,t).
+\end{equation}
+Then both densities are finite for fixed $\ell,t$, and the unconditional buffer estimate gives
 \begin{equation}
 \boxed{
 \left|
@@ -4864,27 +4899,42 @@ a_{\diamond,\ell,b}^{\rm loc}(t)
 a_{\diamond,\ell,b}^{\rm iso}(t)
 \right|
 \le
-C_{\ell,t}e^{-\mu_\Lambda b}.
+\nu_\ell\,C(q)\,C\,e^{-\mu b}.
 }
 \end{equation}
 No corresponding statement is made for the covariance-matrix offset.
 \end{proposition}
 
 \begin{proof}
-Finiteness follows from $A_\diamond\le1$. The error estimate follows from
-Proposition~\ref{prop:local-coupling-control} and the uniform tiling assumption.
+Since $0\le A_\diamond\le1$,
+\begin{equation}
+0\le
+\frac1L
+E_{\diamond,\ell,b}^{\rm loc}(L,t)
+\le
+\frac{J_L}{L},
+\end{equation}
+so the local density is finite under the assumed bounded tiling density. The same argument applies
+to the isolated-buffer benchmark. Proposition~\ref{prop:local-coupling-control} gives
+\begin{equation}
+\left|
+E_{\diamond,\ell,b}^{\rm loc}(L,t)
+-
+E_{\diamond,\ell,b}^{\rm iso}(L,t)
+\right|
+\le
+J_L C(q)C e^{-\mu b}.
+\end{equation}
+Dividing by $L$ and taking the limsup yields the stated bound.
 \end{proof}
 
 \begin{remark}
-These statements provide a controlled local reduction for coupled chains only when an explicit
-spatial tensor-product realization of the channel is supplied. For the native single-particle
-Julia channel, the local diagnostic used without this extra architecture is the transition-amplitude
-probe of Proposition~\ref{prop:Adiamond-probe}. The present results do not claim monotonicity under
-arbitrary coherent global superchannels acting on the full chain, and they do not derive exponential
-buffer convergence solely from Lemma~\ref{lem:quasi-julia}. They also do not claim, beyond
-Remark~\ref{rem:Adiamond-linear-part}, an exact diamond-norm discrimination statement for the full
-affine reduced map; only its linear part $\Lambda_V$ and its offset $\Xi_V$ are controlled, and
-separately.
+These statements provide a controlled buffer analysis for coupled chains only when an explicit
+spatial tensor-product realization is supplied for any claim involving a genuine reduced channel.
+For the native single-particle Julia channel, the unconditional local probe is
+Proposition~\ref{prop:Adiamond-probe}. The buffered theorem proved here concerns only the compressed
+contraction $K_V=P_VKP_V$ and its Julia-completed channel $\Lambda_V$. The covariance-matrix offset
+$\Xi_V$ is a separate representation-dependent diagnostic and is not part of the channel statement.
 \end{remark}
 
 % ================================================================
