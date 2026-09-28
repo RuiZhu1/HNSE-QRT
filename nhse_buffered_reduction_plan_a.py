@@ -65,11 +65,19 @@ applied separately to the two pieces rather than to one single quantity:
     shrinks exponentially with buffer thickness. We do the same for the
     "reversed" (transpose-K) offset, mirroring Eq. 359.
 
-Both pieces are reported and plotted separately below. Neither claims to BE
-the paper's single scalar A_diamond(M_V) -- that quantity is not literally
-defined for an affine map -- but together they give an honest, well-defined,
-and directly falsifiable numerical test of the buffer-convergence idea that
-underlies Assumption 3 / Theorem 15.
+Both pieces are reported and plotted separately below. Neither is the
+paper's single scalar A_diamond of a many-body reduced channel; that object
+is not defined for an affine map.
+
+WHAT THIS SCRIPT DOES AND DOES NOT TEST (matches the paper's current wording):
+  * It tests buffer convergence of the compressed-contraction Julia channel
+    Lambda_V = E~_{K_V}, K_V = P_V K P_V (Prop. buffer-compression).
+  * It also reports the un-normalized covariance-matrix leakage
+    K_cross K_cross^dagger as a separate DIAGNOSTIC. This is not part of
+    Lambda_V, and no relation to a genuine many-body reduced channel
+    (Definitions 45-48, Assumption 3, Theorem 15) is tested or implied.
+  * No decay rate is fitted or claimed; only convergence to the
+    floating-point floor is shown. Single parameter point only.
 
 Requires: numpy, scipy, matplotlib.
 Run with: python3 nhse_buffered_reduction_plan_a.py
@@ -168,7 +176,7 @@ def compressed_contraction_Adiamond(K, idx_V):
     return half_diamond_A(Ut)
 
 
-linear_part_Adiamond = compressed_contraction_Adiamond  # backward-compat alias; remove later
+# linear_part_Adiamond = compressed_contraction_Adiamond  # backward-compat alias; remove later
 
 
 def leakage_offset(K, idx_V, idx_Vbar, normalize=False):
@@ -207,8 +215,8 @@ def leakage_offset_rev(K, idx_V, idx_Vbar, normalize=False):
 def run_buffer_convergence(g=0.5, t_op=0.35, t0=1.0, ell=4, L_bulk=60,
                             buffers=(0, 1, 2, 3, 4, 5, 6, 8, 10)):
     print("=" * 70)
-    print("Plan A: buffered local-channel reduction via free-fermion")
-    print("correlation-matrix embedding")
+    print("Compressed-contraction buffer test (Lambda_V = Julia(P_V K P_V))")
+    print("plus separate covariance-leakage diagnostic")
     print("=" * 70)
 
     v_start = L_bulk // 2 - ell // 2
@@ -222,7 +230,7 @@ def run_buffer_convergence(g=0.5, t_op=0.35, t0=1.0, ell=4, L_bulk=60,
     idx_V_bulk, idx_Vbar_bulk = window_indices(L_bulk, v_start, ell)
 
     # These do NOT depend on the buffer size -- computed once.
-    A_full = linear_part_Adiamond(K_bulk, idx_V_bulk)
+    A_full = compressed_contraction_Adiamond(K_bulk, idx_V_bulk)
     b_full = leakage_offset(K_bulk, idx_V_bulk, idx_Vbar_bulk)
     b_full_rev = leakage_offset_rev(K_bulk, idx_V_bulk, idx_Vbar_bulk)
     print(f"A_diamond of the LINEAR part, full bulk chain: {A_full:.6f}")
@@ -243,7 +251,7 @@ def run_buffer_convergence(g=0.5, t_op=0.35, t0=1.0, ell=4, L_bulk=60,
         K_w = U_from_H(H_w, t_op) / np.sqrt(kappa)  # SAME kappa, Definition 47
         idx_V_w, idx_Vbar_w = window_indices(w_width, buf, ell)
 
-        A_w = linear_part_Adiamond(K_w, idx_V_w)
+        A_w = compressed_contraction_Adiamond(K_w, idx_V_w)
         b_w = leakage_offset(K_w, idx_V_w, idx_Vbar_w)
         b_w_rev = leakage_offset_rev(K_w, idx_V_w, idx_Vbar_w)
 
@@ -255,10 +263,10 @@ def run_buffer_convergence(g=0.5, t_op=0.35, t0=1.0, ell=4, L_bulk=60,
         else:
             db = np.linalg.norm(b_full - b_w, 2)
             db_rev = np.linalg.norm(b_full_rev - b_w_rev, 2)
-            db_str, db_rev_str = f"{db:16.6f}", f"{db_rev:22.6f}"
+            db_str, db_rev_str = f"{db:16.3e}", f"{db_rev:22.3e}"
 
         results.append((buf, U_w_norm, A_w, dA, db, db_rev))
-        print(f"{buf:4d} {U_w_norm:14.6f} {A_w:10.6f} {dA:14.6f} "
+        print(f"{buf:4d} {U_w_norm:14.6f} {A_w:10.6f} {dA:14.3e} "
               f"{db_str} {db_rev_str}")
     print()
     return A_full, results
@@ -297,24 +305,22 @@ def plot_results(results, outbase="fig_buffered_reduction_plan_a"):
     db = np.array([r[4] for r in results])
     db_rev = np.array([r[5] for r in results])
 
-    mu_A = fit_rate(b, dA)
-    mu_b = fit_rate(b, db)
-    mu_brev = fit_rate(b, db_rev)
-
+    floor = 1e-17  # keep exact zeros drawable on the log axis
     fig, ax = plt.subplots(figsize=(6, 4.5))
-    ax.semilogy(b, dA, 'o-', label=fr'$|A_{{full}}-A_{{window}}|$ ($\mu\approx{mu_A:.2f}$)')
-    ax.semilogy(b, db, 's-', label=fr'$\|b_{{full}}-b_{{window}}\|$ ($\mu\approx{mu_b:.2f}$)')
-    ax.semilogy(b, db_rev, '^-', label=fr'$\|b^{{rev}}_{{full}}-b^{{rev}}_{{window}}\|$ ($\mu\approx{mu_brev:.2f}$)')
+    ax.semilogy(b, np.maximum(dA, floor), 'o-',
+                label=r'$|A_\diamond(\Lambda_V^{\rm full})-A_\diamond(\Lambda_V^{\rm win})|$')
+    ax.semilogy(b, np.maximum(db, floor), 's-',
+                label=r'$\|K_{V\bar V}K_{V\bar V}^\dagger\|$ discrepancy')
+    ax.semilogy(b, np.maximum(db_rev, floor), '^-',
+                label=r'reversed-map leakage discrepancy')
     ax.set_xlabel('buffer thickness b (sites)')
     ax.set_ylabel('deviation from bulk value')
-    ax.set_title('Buffered local-channel reduction (Plan A, free-fermion embedding)')
+    ax.set_title('Compressed-contraction buffer test', fontsize=10)
     ax.legend(fontsize=8)
     plt.tight_layout()
     plt.savefig(outbase + '.pdf')
     plt.savefig(outbase + '.png', dpi=150)
-    print(f"Saved {outbase}.pdf/.png")
-    print(f"Fitted decay rates: mu_A={mu_A:.4f}, mu_offset={mu_b:.4f}, "
-          f"mu_offset_rev={mu_brev:.4f}")
+    print(f"Saved {outbase}.pdf/.png (no decay rates fitted or claimed)")
 
 
 if __name__ == "__main__":
@@ -323,10 +329,8 @@ if __name__ == "__main__":
 
     print()
     print("=" * 70)
-    print("Reminder: the LINEAR part (A_full vs A_window) and the OFFSET")
-    print("terms (leakage from the traced-out complement) are reported")
-    print("separately because the reduced map here is affine, not linear --")
-    print("see the module docstring for why. Exponential decay of ALL THREE")
-    print("curves with buffer thickness is the honest numerical analogue of")
-    print("Assumption 3 / Theorem 15 for this free-fermion realization.")
+    print("Reminder: this script tests only the compressed-contraction Julia")
+    print("channel Lambda_V and, separately, an un-normalized covariance-matrix")
+    print("leakage diagnostic. It does NOT test a many-body reduced channel, and")
+    print("no decay rate is claimed (convergence to the floating-point floor only).")
     print("=" * 70)

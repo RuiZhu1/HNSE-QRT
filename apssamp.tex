@@ -63,6 +63,26 @@
 \date{\today}
 
 \begin{abstract}
+We formulate a fixed-time quantum resource theory of transpose-reciprocity breaking for channels
+obtained from normalized non-Hermitian propagators through a canonical Julia unitary completion.
+Free channels are transpose-reciprocal; free superchannels are physical superchannels that preserve
+the bistochastic object class and commute with channel transpose, an axiomatic covariance choice
+rather than a hardware cost model. The channel asymmetry $A_\diamond$, equal to
+$2p_{\rm succ}^{\rm opt}-1$ for one-shot discrimination of a channel from its reciprocal transpose,
+and the generalized robustness are faithful monotones. On the two-site Hatano--Nelson orbit
+$A_\diamond$ has a closed form that is strictly increasing in $|g|$ under a common strict
+normalization, which gives a necessary condition for deterministic free conversion; the converse is
+not proved, and an ancilla-free unitary-congruence subclass is rigid. The support of the resource is
+normalization independent while its value is gauge dependent. An $L$-uniform short-time estimate
+gives a thermodynamic lower bound for uniform Hatano--Nelson chains. The resource detects
+transpose-reciprocity breaking, not non-Hermiticity or skin accumulation as such (it is also
+positive for Hermitian, gauge-trivial breaking); an exact biconditional with conventional NHSE holds
+only on model classes where the two are independently equivalent, such as the uniform
+Hatano--Nelson family. For coupled chains only the compressed-contraction Julia channel is treated;
+its relation to a many-body reduced channel is open.
+\end{abstract}
+\iffalse
+\begin{abstract}
 This work develops a quantum resource theory of channel transpose-reciprocity breaking, motivated
 by conventional non-Hermitian skin-effect (NHSE) physics rather than by NHSE itself as a universal
 resource. The primitive fixed-time objects are CPTP bistochastic channels obtained from normalized
@@ -112,9 +132,9 @@ universal scope of this channel QRT. The principal open problems are quantitativ
 dependence, deterministic attenuation on the full free-superchannel class, and the relation
 between compressed single-particle Julia channels and genuine many-body reduced channels.
 \end{abstract}
+\fi
 
 \maketitle
-
 % ================================================================
 \section{Operational starting point: fixed-time NHSE channels as resources}
 \label{sec:operational}
@@ -130,6 +150,21 @@ with conventional NHSE arising as a physically motivated instance rather than as
 axiomatized. The primitive resource object is a CPTP bistochastic channel at a fixed operational
 time $t$. A time-dependent non-Hermitian evolution gives a family of such objects, but the family
 is a derived trajectory rather than a new primitive process tensor or comb object.
+
+\begin{remark}[Relation to time-reversal covariance and existing resource theories]
+\label{rem:related-frameworks}
+The condition $\mathcal N=\mathcal N^{\rev}=\mathcal C\mathcal N^\dagger\mathcal C$ of
+Remark~\ref{rem:T-reversal-meaning} is a microreversibility (time-reversal) condition on the channel,
+of the same type as the quantum detailed-balance conditions
+\cite{Agarwal1973,Alicki1976,Kossakowski1977}. The present theory can thus be read as a resource
+theory of violation of this time-reversal covariance, with an involution $\rev$ playing the role that
+a group action plays in resource theories of asymmetry \cite{MarvianSpekkens2014}. The monotone
+$A_\diamond$ is a channel-discrimination quantity of the type used in resource theories of asymmetric
+distinguishability \cite{WangWilde2019}. We do not claim novelty for these general structures. What is
+specific to this paper is (i) the identification of the Julia completion of a normalized non-Hermitian
+propagator as the object, (ii) the reciprocity-covariant free superchannels on that object class, and
+(iii) the exact Hatano--Nelson calibration and its thermodynamic lower bound.
+\end{remark}
 
 \begin{remark}[Physical status of the reciprocity-covariant free-operation choice]
 \label{rem:physical-motivation}
@@ -485,8 +520,7 @@ Conjugation by $e^{\sigma\mu\hat x}$ is an algebra homomorphism, so
 $[(\id-X)^{1/2}]_{\sigma\mu}=\sum_rc_r(X_{\sigma\mu})^r$, and since $c_0=1$, $c_r<0$ for $r\ge1$ and
 $\sum_{r\ge1}|c_r|\xi^r=1-\sqrt{1-\xi}\le1$, we get $\norm{(D_K)_{\sigma\mu}}_\infty\le2$. The same holds for
 $D_{K^\dagger}$ (with $KK^\dagger$) and, from Step~1, for $K$ and $U_H(t)$. Combining with $(\star)$
-and the block form of $\widetilde U_K$ gives \eqref{eq:quasi-julia} (the bound (28) of the compiled
-text) with $\mu=\mu_t$ and an $L$-independent constant. The admissible rate $\mu_t$ is set by $q_t$
+and the block form of $\widetilde U_K$ gives the bound in the statement of the lemma with $\mu=\mu_t$ and an $L$-independent constant. The admissible rate $\mu_t$ is set by $q_t$
 and $\delta(\mu)$, not by the factorial tail of $U_H(t)$; this explains why the defect operators
 decay more slowly than $K$ in Fig.~\ref{fig:lemma1}. Moreover $U_H(t)$ itself decays faster than any
 exponential (Poisson tail), so the quoted $\mu\approx2.56$ is a window-dependent local slope, not a rate.
@@ -543,6 +577,103 @@ t\mapsto\mathcal N_{H,t}.
 \end{equation}
 This map is not treated as a primitive process tensor or quantum comb.
 \end{definition}
+
+\begin{definition}[Physical-input channel asymmetry]
+\label{def:phys-input-asym}
+Let $\mathcal N=\widetilde{\mathcal E}_K$ be the Julia channel and $R$ an arbitrary reference
+system with $\dim R\ge\dim\mathcal H_L$. Define
+\begin{equation}
+A_\diamond^{\rm phys}(\mathcal N)
+=
+\sup_{\rho\in\mathcal D(\mathcal H_L\otimes R)}
+\tfrac12\bigl\|(\mathcal N\otimes\mathrm{id}_R)(\rho)-(\mathcal N^{\rev}\otimes\mathrm{id}_R)(\rho)\bigr\|_1,
+\end{equation}
+where inputs are supported on the \emph{physical} block $\mathcal H_L\subset\widetilde{\mathcal H}_L$
+only. The environmental block and coherences between the two blocks are excluded, because the
+environmental port of the canonical dilation is not an operationally preparable input.
+\end{definition}
+
+\begin{proposition}[Physical-input asymmetry]
+\label{prop:phys-input}
+Let $K$ be a strict contraction, $\widetilde U=\widetilde U_K$, $W=\widetilde U^\dagger\widetilde U^{T}$,
+and $W_{11}=K^\dagger K^{T}+D_KD_{K^T}$ its physical diagonal block. Then:
+\begin{enumerate}
+\item $A_\diamond^{\rm phys}=\sqrt{1-\nu_{\rm ph}^2}$ with
+$\nu_{\rm ph}=\min\{|z|:z\in\mathcal W(W_{11})\}$, $\mathcal W$ the numerical range;
+\item $A_\diamond^{\rm phys}\le A_\diamond$;
+\item $A_\diamond^{\rm phys}\ge\tfrac12\max_m\sum_n\bigl||K(n,m)|^2-|K(m,n)|^2\bigr|$, i.e.\ the
+transition-amplitude bound of Proposition~\ref{prop:Adiamond-probe} already holds for
+physical inputs;
+\item $A_\diamond^{\rm phys}=0\iff A_\diamond=0\iff K=K^{T}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) For pure $\psi\in\mathcal H_L\otimes R$ the two outputs are the pure states $(\widetilde U\otimes\id)\psi$
+and $(\widetilde U^{T}\otimes\id)\psi$, whose trace distance is $\sqrt{1-|\langle\psi|W\otimes\id|\psi\rangle|^2}$,
+and $\langle\psi|W\otimes\id|\psi\rangle=\langle\psi|W_{11}\otimes\id|\psi\rangle$. Mixed inputs do not
+increase the distance by convexity. Since $\dim R\ge\dim\mathcal H_L$, the reduced states on
+$\mathcal H_L$ exhaust all density operators, and the resulting set is $\mathcal W(W_{11})$ by
+the Toeplitz--Hausdorff theorem. The expression for $W_{11}$ follows from block multiplication and
+$D_{K^\dagger}^{T}=D_{K^T}$.
+
+(2) $\mathcal W(W_{11})\subseteq\mathcal W(W)$, so $\nu_{\rm ph}\ge\nu(W)$; compare with the
+exact discrimination formula \cite{Acin2001} used in Theorem~\ref{thm:gauge-nogo}.
+
+(3) Take the input $|m\rangle$. The outputs are $\widetilde U|m\rangle$ and $\widetilde U^{T}|m\rangle$;
+measuring the site basis of $\widetilde{\mathcal H}_L$ gives physical-block probabilities
+$|K(n,m)|^2$ and $|\widetilde U_{mn}|^2=|K(m,n)|^2$. The trace distance is at least the total-variation
+distance, which is at least half the sum of the physical-block differences.
+
+(4) If $K=K^T$ then $\widetilde U^T=\widetilde U$ and all three quantities vanish. If
+$A_\diamond^{\rm phys}=0$ then $|\langle\psi|W_{11}\psi\rangle|=1$ for every unit $\psi$; since
+$W_{11}$ is a contraction, every $\psi$ is an eigenvector with a unimodular eigenvalue, hence
+$W_{11}=e^{i\varphi}\id$. Unitarity of $W$ forces $W_{12}=W_{21}=0$, so the first block column of
+$\widetilde U^{T}=\widetilde UW$ gives $K^{T}=e^{i\varphi}K$ and $D_{K^\dagger}^{T}=e^{i\varphi}D_K$.
+If $K\ne0$, $K^{T}=e^{i\varphi}K$ implies $e^{2i\varphi}=1$. The case $e^{i\varphi}=-1$ would give
+$D_{K^T}=-D_K$; but $D_{K^T}=D_K$ because $D$ depends only on $K^\dagger K$ and $K^{T}=-K$, so
+$D_K=0$, contradicting strictness. Hence $\varphi=0$ and $K=K^{T}$. The case $K=0$ is trivial.
+\end{proof}
+
+\begin{proposition}[Support is independent of the unitary dilation]
+\label{prop:dilation-support}
+Let $V$ be any unitary on $\mathcal H_L\oplus\mathcal E$ ($\mathcal E$ arbitrary) whose physical
+block is $V_{11}=K$. If the unitary channel $V\cdot V^\dagger$ equals its own transpose, then
+$K^{T}=\pm K$. In particular, if $K^{T}\ne\pm K$, then \emph{every} unitary dilation of $K$ is
+non-reciprocal.
+\end{proposition}
+
+\begin{proof}
+Equality of unitary channels gives $V^{T}=e^{i\varphi}V$. Taking the physical block,
+$K^{T}=e^{i\varphi}K$, hence $K=e^{2i\varphi}K$, so either $K=0$ or $e^{i\varphi}=\pm1$.
+\end{proof}
+
+\begin{corollary}[Physical-input asymmetry on the two-site calibration orbit]
+\label{cor:phys-equals-full-two-site}
+For the two-site Hatano--Nelson calibration of Sec.~\ref{sec:example} in the strict regime,
+$W_{11}=c(g)\,\id$ with $c(g)$ as in Theorem~\ref{thm:gauge-nogo}. Consequently
+\begin{equation}
+A_\diamond^{\rm phys}(\mathcal N_{g,\tau_*})=A_\diamond(\mathcal N_{g,\tau_*})=\sqrt{1-c(g)^2}.
+\end{equation}
+The ordering of Corollary~\ref{cor:HN-monotone-order} therefore holds for physical inputs as well.
+\end{corollary}
+
+\begin{proof}
+With $K_g=-iu\begin{pmatrix}0&e^g\\e^{-g}&0\end{pmatrix}$ one has $K_g^\dagger K_g^{T}=u^2\id$, and
+$D_{K_g}=\diag(a,b)$, $D_{K_g^{T}}=\diag(b,a)$ (the latter is $D_{K_{-g}}$), so
+$D_{K_g}D_{K_g^{T}}=ab\,\id$. Hence $W_{11}=(u^2+ab)\id=c(g)\id$, its numerical range is the single
+point $c(g)$, and Proposition~\ref{prop:phys-input}(1) gives $A_\diamond^{\rm phys}=\sqrt{1-c(g)^2}$,
+which is the value of Theorem~\ref{thm:gauge-nogo}.
+\end{proof}
+
+\begin{remark}[What is and is not claimed]
+Propositions~\ref{prop:phys-input} and~\ref{prop:dilation-support} show that the \emph{support} of the
+resource ($K\ne K^T$) does not depend on the inaccessible environmental inputs or on the choice of
+unitary dilation. The \emph{value} of $A_\diamond$ does depend on both. We do not claim that
+$A_\diamond^{\rm phys}$ is monotone under $\FreeOps_L$: a free superchannel may route inputs into the
+environmental block, so monotonicity is proved only for $A_\diamond$ and $\Rrob$. Whether a
+physical-input monotone exists is open.
+\end{remark}
 
 \begin{lemma}[Conditional spatial transition probabilities]
 \label{lem:conditional}
@@ -1292,7 +1423,7 @@ trace-preserving, then its trace is $\lambda-1\ge0$. For $s=\lambda-1>0$ the map
 $\mathcal M=(\lambda\mathcal F-\mathcal N)/s$ is CP, trace preserving and unital, i.e.\
 $\mathcal M\in\mathsf{Obj}_L$, and $(\mathcal N+s\mathcal M)/(1+s)=\mathcal F\in\F_L$; the converse
 direction is the same computation read backwards. Minimizing over $\mathcal F$ and using the
-attainment of Remark~\ref{rem:} gives (i). (ii) Faithfulness is Theorem~\ref{thm:robustness}'s
+attainment of Remark~\ref{rem:robustness-attained} gives (i). (ii) Faithfulness is Theorem~\ref{thm:robustness}'s
 statement transported by (i); for monotonicity, $\Theta(\mathcal F)\in\F_L$ by covariance, and
 $\lambda\Theta(\mathcal F)-\Theta(\mathcal N)=\Theta(\lambda\mathcal F-\mathcal N)$ is CP, because a
 physical superchannel maps CP maps to CP maps. (iii) $(\mathcal N^{\otimes n})^{\rev}=(\mathcal N^{\rev})^{\otimes n}$,
@@ -1305,8 +1436,8 @@ The bound in (iii) is uniform in $n$, and any channel divergence dominated by th
 inherits it. This is the general finite-group phenomenon (cf.\ the asymmetry of states and channels
 under a finite group~\cite{MarvianSpekkens2014} and channel divergences~\cite{GourWilde2021}):
 asymmetry with respect to a single involution cannot be extensive in tensor powers. It explains
-Proposition~\ref{prop:} and is why extensivity in this paper is obtained only through the explicit
-cellwise construction of Sec.~\ref{sec:cellular}. Asymptotic distillation and dilution rates are not
+Proposition~\ref{prop:bounded-global} and is why extensivity in this paper is obtained only through the explicit
+cellwise construction of Sec.~\ref{sec:extensive}. Asymptotic distillation and dilution rates are not
 defined here and remain open.
 \end{remark}
 
@@ -1630,8 +1761,10 @@ Then
 \le
 2q\norm{K_1-K_2}_\infty.
 \end{equation}
-Since the spectra of $X_j$ lie in $[0,q^2]$, the square-root functional calculus on $1-X$
-gives
+Set $Y_j=\id-X_j\ge(1-q^2)\id$ and $Z=D_{K_1}-D_{K_2}$. Then
+$D_{K_1}Z+ZD_{K_2}=Y_1-Y_2$, so $Z=\int_0^\infty e^{-sD_{K_1}}(Y_1-Y_2)e^{-sD_{K_2}}\,ds$ and, because
+$D_{K_j}\ge\sqrt{1-q^2}\,\id$, $\|Z\|_\infty\le\|Y_1-Y_2\|_\infty/(2\sqrt{1-q^2})$. Combining with
+$\|X_1-X_2\|_\infty\le2q\|K_1-K_2\|_\infty$ gives
 \begin{equation}
 \norm{D_{K_1}-D_{K_2}}_\infty
 \le
@@ -2594,8 +2727,7 @@ reciprocity breaking (e.g.\ chiral quantum walks~\cite{Zimboras2013}) it is genu
 a time-reversal-asymmetry detector (Remark~\ref{rem:T-reversal-meaning}); the class
 $\mathcal C_{\rm TRB}$ contains Hermitian members, and transpose-reciprocity-complete classes in the sense of
 Definition~\ref{def:TR-complete-class} must exclude them. (ii) Part~2 shows that the resource depends on the
-U(1) site-phase gauge: this is the fixed-frame dependence of Remark~\ref{rem:physical-motivation}'s
-predecessor, Remark on the reciprocity frame, made concrete. The imaginary gauge $S_g$ of the
+U(1) site-phase gauge: this is the fixed-frame dependence of Remark~\ref{rem:reciprocity-frame} made concrete. The imaginary gauge $S_g$ of the
 Hatano--Nelson family is non-unitary and physical, so the calibration results are unaffected. (iii) A
 gauge-invariant refinement, e.g.\ minimizing $A^{\sup}_\diamond(DHD^\dagger)$ over diagonal phase gauges
 $D$, is natural, but we do not show that it is a monotone under $\FreeOps_L$; this is left open.
@@ -3304,11 +3436,17 @@ uniform Hatano--Nelson family at $g=0.5$ and $t=0.35$, with the normalization
 $\kappa_L=1.05\,\|U_{H_{g,L}}(t)\|_\infty^2$ (the form of Remark~\ref{rem:HN-tight-thermo} with
 $\varepsilon_0=0.05$, evaluated at $t=0.35$ rather than in the limit $t\to0^+$, so $\kappa_L$
 itself varies with $L$, from $1.98$ at $L=4$ to $2.286$ at $L=120$). This is not the $O(t^2)$
-expression of Proposition~\ref{prop:uniform-shorttime-bridge}. The bound
-decreases monotonically from $0.1376$ at $L=4$ and converges to $\approx0.1227$ by $L=120$,
-with successive differences shrinking rapidly (e.g.\ $L=90\to120$ changes the bound by
-$<3\times10^{-5}$). The curve shows that the finite-$t$ probe bound saturates as $L$ grows,
-consistent with the $L$-uniform structure of Corollary~\ref{cor:uniform-thermo-shorttime}; it is a
+expression of Proposition~\ref{prop:uniform-shorttime-bridge}. The blue curve (tight $\kappa_L$)
+decreases from $0.1376$ at $L=4$ to $\approx0.1227$ at $L=120$, but this decrease is a
+normalization effect; the red dashed curve uses one $L$-independent $\kappa=2.2865$ (evaluated at
+$L=200$) and rises from $0.1192$ at $L=4$ to $0.12265$ at $L=8$, constant to six digits for all
+$L\ge12$. At that $\kappa$ the leading short-time term of Proposition~\ref{prop:uniform-shorttime-bridge},
+$t^2D_{\rm amp}/(2\kappa)$, equals $0.1259$, within $3\%$ of the plateau. The blue-curve decrease is a
+normalization effect: the un-normalized numerator $\kappa_L\times$(bound) equals $0.2726$ at
+$L=4$ and $0.2805$ (unchanged to four digits) for every tested $L\ge8$, so the entire
+$L$-dependence of the curve comes from $\kappa_L$. The figure therefore does not by itself test
+spatial locality; the $L$-uniform content is the saturation of the numerator from $L=8$ on, which
+is consistent with the $L$-uniform structure of Corollary~\ref{cor:uniform-thermo-shorttime}. It is a
 consistency check at a single $(g,t)$, not a verification of the small-$t$ asymptotics or of the
 thermodynamic limit.}
 \label{fig:prop23}
@@ -3408,8 +3546,11 @@ resource.
 \end{proof}
 
 \begin{remark}
-This construction shows why the channel resource should not be identified with a single scalar
-determinant winding integer.
+This construction shows why the channel
+resource should not be identified with a single scalar determinant winding integer. The statement is
+relative to the untwisted reciprocity frame: in the spin-flip-twisted frame of
+Remark~\ref{rem:twisted-frame} the same channel is reciprocal and the resource vanishes, so this example
+does not by itself show detection of skin physics that a scalar winding misses in a physically fixed frame.
 \end{remark}
 
 % ================================================================
@@ -4107,7 +4248,7 @@ that $A_\diamond^{\sup}>0$ is a universal detector of every possible NHSE mechan
 
 \begin{remark}[Frame dependence of the multichannel example]
 \label{rem:twisted-frame}
-The following proposition, like Proposition~\ref{prop:18} of Sec.~\ref{sec:multichannel}, is a statement
+The following proposition, like Proposition~\ref{prop:winding-cancellation} of Sec.~\ref{sec:sharpness}, is a statement
 in the untwisted reciprocity frame. Let $\Sigma=\sigma_x$ swap the two species in
 $H_{\oplus,g}=H_g\oplus H_{-g}$. Since $H_g^T=H_{-g}$, one has $H_{\oplus,g}^T=\Sigma H_{\oplus,g}\Sigma^\dagger$,
 and likewise $\Sigma K^T\Sigma^\dagger=K$ for $K=K_{\oplus}$. Because $D_{\Sigma A\Sigma^\dagger}=\Sigma D_A\Sigma^\dagger$,
@@ -4594,9 +4735,7 @@ density operators of $\mathcal F_V$. We have \emph{not} constructed or analyzed 
 in particular we have not shown that its transpose equals the reduced channel of the second-quantized
 transposed Julia unitary, nor computed its diamond-norm asymmetry.
 
-An earlier version of this section asserted that this reduced map is affine,
-$\Lambda_V(\rho_V)+\Xi_V$, in the density operator $\rho_V$. That statement is withdrawn: it
-was a type error. The affine structure occurs only in the \emph{single-particle correlation-matrix
+The affine structure occurs only in the \emph{single-particle correlation-matrix
 representation} of Gaussian states, where
 $C(t)=K\,C(0)\,K^\dagger$ and, for $C(0)=C_V\oplus\id_{\bar V}/d_{\bar V}$,
 \begin{equation}
@@ -5225,8 +5364,13 @@ uniform Hatano--Nelson family at fixed $g\ne0$ and the tight gauge of
 Remark~\ref{rem:HN-tight-thermo}, the concrete finite-size lower-bound expression was evaluated
 for $L=4,8,12,20,30,45,60,90,120$. The reported values decrease from approximately $0.1376$ at
 $L=4$ to $0.122676$ at $L=120$. This numerical sequence is consistent with the analytic
-$L$-uniform short-time estimate and illustrates that the finite-size expression does not visibly
-degrade with system size; it is not itself a proof of the thermodynamic bound.
+$L$-uniform short-time estimate. The decrease is, however, entirely due to the $L$-dependent
+tight normalization $\kappa_L$ (from $1.98$ to $2.286$): the product $\kappa_L\times$(bound) is
+$0.2726$ at $L=4$ and constant, $0.2805$, for all tested $L\ge8$. A test that isolates locality
+should therefore use one fixed $L$-independent $\kappa$; with $\kappa=2.2865$ the finite-size
+bound rises from $0.1192$ ($L=4$) to $0.12265$ ($L=8$) and is constant to six digits for $L\ge12$,
+within $3\%$ of the leading short-time value $t^2D_{\rm amp}/(2\kappa)=0.1259$. The reported sequence is not a proof of the thermodynamic
+bound.
 
 \textbf{Compressed-contraction buffer test (Sec.~\ref{sec:windowed}).}
 For $\ell=4$, bulk $L=60$, and a common normalization inferred from the bulk propagator norm, the
@@ -5235,12 +5379,9 @@ $\Lambda_V=\widetilde{\mathcal E}_{K_V}$ for the full chain and for isolated buf
 This is a test of Proposition~\ref{prop:buffer-compression}, not of a many-body reduced channel.
 The bulk value is
 $A_\diamond(\Lambda_V^{(L)})=0.528469$, and the isolated-window value agrees to the displayed
-precision from $b=2$ onward. The reported exponential fits are strongly dependent on the fitting
-range: using $b=1,2,3,4$ gives $\mu\approx6.1525$, whereas using $b=1,\ldots,6$ gives
-$\mu\approx4.2686$. Because only a few points remain above numerical precision, these values should
-not be interpreted as reliable estimates of the analytic decay rate. We therefore use the numerical
-data only to demonstrate rapid convergence to the numerical floor, consistent with the analytic
-exponential buffer bound.
+precision from $b=2$ onward. No decay rate is fitted or claimed: only a few points lie above double-precision noise, so any
+fitted exponent would depend on the fitting window. The data are used only to show rapid
+convergence to the numerical floor, consistent with the analytic exponential buffer bound.
 
 Two offset diagnostics must be distinguished. (i) The \emph{normalized} offset
 $\Xi=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ uses different maximally-mixed complement
@@ -5251,13 +5392,14 @@ for $b=1,2,3,4,5,6,8,10$, satisfies
 b\,\|\Xi^{(L)}-\Xi^{(W)}\|\in[0.049,0.071],
 \]
 i.e.\ approximately $1/b$ decay, which is dominated by the prefactor mismatch rather than by
-nonlocality of the propagator; no exponential fit is quoted for it, and the earlier value
-$\mu_\Xi\approx0.28$ is withdrawn as a locality exponent. (ii) The \emph{un-normalized} leakage
+nonlocality of the propagator; no exponential fit is quoted for it. (ii) The \emph{un-normalized} leakage
 $K_{V\bar V}K_{V\bar V}^\dagger$, which is the quantity plotted in Fig.~\ref{fig:windowed}
 (script default \texttt{normalize=False}), was tested at the same parameter point: the discrepancy
 between full chain and window is $6.3\times10^{-3}$, $2.4\times10^{-4}$, $\approx5\times10^{-6}$ for
-$b=1,2,3$, and below $10^{-6}$ (the numerical floor) from $b=4$ on. The successive ratios
-($\approx27$, then $\gtrsim45$) increase with $b$, i.e.\ the decay is faster than any single
+$b=1,\dots,6$ (the earlier six-decimal printout is superseded): $6.3\times10^{-3}$, $2.4\times10^{-4}$,
+$4.7\times10^{-6}$, $6.1\times10^{-8}$, $5.6\times10^{-10}$, $3.8\times10^{-12}$; for $b\ge8$ the
+discrepancy is $\lesssim10^{-16}$, i.e.\ double-precision noise. The successive ratios of the first
+five values ($\approx27$, $50$, $77$, $110$) increase with $b$, i.e.\ the decay is faster than any single
 exponential, as expected from the factorial (Poisson) tail of the propagator. The $1/b$ behavior of
 $\Xi$ is therefore a normalization artifact. No decay rate is quoted for either curve, and neither
 offset enters any channel statement. The numerical study uses the single parameter point
@@ -5288,7 +5430,7 @@ not a test of a genuine many-body reduced channel.}
 
 The logical structure is
 \begin{equation}
-\boxed{
+\resizebox{0.97\columnwidth}{!}{$\displaystyle\boxed{
 \begin{array}{ccl}
 \text{fixed-time QRT}
 &:&
@@ -5340,7 +5482,7 @@ A_{\diamond,\infty},R_{{\rm rob},\infty}),
 &:&
 (C_I^{L/R},G_I;P_t,D_t).
 \end{array}
-}
+}$}
 \end{equation}
 
 The exact logical implications are
@@ -5396,29 +5538,21 @@ A_\diamond(\Lambda_{V_j}^{(L)})
 A_\diamond(\Lambda_{V_j}^{(W)})
 \right|
 \le
-\frac{C_\Lambda+C_\Lambda'}{2}
-e^{-\mu_\Lambda b},
-\qquad
-\left\|
-\Xi_{V_j}^{(L)}-\Xi_{V_j}^{(W)}
-\right\|_\infty
-\le
-C_\Xi e^{-\mu_\Xi b}
+C_\Lambda\,e^{-\mu b}
 \end{equation}
-under Assumption~\ref{ass:buffer-stability}. For the native single-particle direct-sum Hilbert
+with $C_\Lambda,\mu$ as in Proposition~\ref{prop:buffer-compression}. The covariance-matrix offset
+$\Xi_{V_j}$ carries no buffer estimate in this paper: Assumption~\ref{ass:buffer-stability} is an
+optional, unverified hypothesis, and the normalized offset is observed numerically to decay only as $1/b$. For the native single-particle direct-sum Hilbert
 space, the unconditional local probe is Proposition~\ref{prop:Adiamond-probe}, not a partial-trace
 reduction.
 
 On the uniform Hatano--Nelson orbit,
 \begin{equation}
 \boxed{
-A_\diamond^{\sup}(H_g)>0
-\iff
-g\ne0
-\iff
-\rho_{\GBZ}>0
-\iff
-\text{conventional OBC NHSE},
+\begin{gathered}
+A_\diamond^{\sup}(H_g)>0\iff g\ne0\\
+\iff\rho_{\GBZ}>0\iff\text{conventional OBC NHSE},
+\end{gathered}
 }
 \end{equation}
 with the NHSE statement understood for the thermodynamic uniform chain family.
@@ -5599,7 +5733,7 @@ at each $t$, and taking the supremum yields monotonicity under families of point
 superchannels. This construction is not claimed to be a causal process-supermap resource theory.
 
 The thermodynamic short-time theorem uses an explicitly $L$-uniform propagator remainder and an
-$L$-uniform transition-intensity estimate, numerically confirmed to converge cleanly with system
+$L$-uniform transition-intensity estimate, whose numerator is numerically constant in system
 size (Sec.~\ref{sec:numerics}). For the uniform Hatano--Nelson family this yields
 \begin{equation}
 \boxed{
@@ -5782,6 +5916,26 @@ Nat.~Commun.~\textbf{5}, 3821 (2014).
 G.~Gour and M.~M.~Wilde,
 \textit{Entropy of a quantum channel},
 Phys.~Rev.~Research~\textbf{3}, 023096 (2021).
+
+\bibitem{Agarwal1973}
+G.~S.~Agarwal,
+\textit{Open quantum Markovian systems and the microreversibility},
+Z.~Phys.~\textbf{258}, 409 (1973).
+
+\bibitem{Alicki1976}
+R.~Alicki,
+\textit{On the detailed balance condition for non-Hamiltonian systems},
+Rep.~Math.~Phys.~\textbf{10}, 249 (1976).
+
+\bibitem{Kossakowski1977}
+A.~Kossakowski, A.~Frigerio, V.~Gorini, and M.~Verri,
+\textit{Quantum detailed balance and KMS condition},
+Commun.~Math.~Phys.~\textbf{57}, 97 (1977).
+
+\bibitem{WangWilde2019}
+X.~Wang and M.~M.~Wilde,
+\textit{Resource theory of asymmetric distinguishability},
+Phys.~Rev.~Research~\textbf{1}, 033169 (2019).
 
 \bibitem{Zimboras2013}
 Z.~Zimbor\'as \textit{et al.},

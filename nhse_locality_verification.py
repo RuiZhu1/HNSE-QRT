@@ -165,7 +165,7 @@ def plot_lemma1(results, outbase="fig_lemma1_locality"):
                     label=fr"{name} ($\mu\approx{mu:.2f}$)")
     ax.set_xlabel(r"site distance $|n-m|$")
     ax.set_ylabel(r"$\max |M_{n,n\pm r}|$")
-    ax.set_title("Lemma 1: exponential quasi-locality")
+    ax.set_title("Lemma 1: quasi-locality of K, U, D_K", fontsize=10)
     ax.legend(fontsize=7)
     plt.tight_layout()
     plt.savefig(outbase + ".pdf")
@@ -194,26 +194,45 @@ def run_prop23_scaling(g=0.5, t_op=0.35, t0=1.0,
     print("=" * 70)
     print("Proposition 23 lower bound: thermodynamic persistence with L")
     print("=" * 70)
-    print(f"{'L':>5} {'kappa':>10} {'Prop23 bound':>14}")
+    # One L-independent normalization for the fixed-kappa comparison.
+    # ||U_L(t)|| increases with L and saturates, so L_ref >= max(lengths)
+    # guarantees K stays a strict contraction for every tested L.
+    L_ref = max(max(lengths), 200)
+    kappa_fixed = (1.05 * np.linalg.norm(
+        U_from_H(hn_chain(L_ref, g, t0), t_op), 2)) ** 2
+    print(f"fixed kappa (from L_ref={L_ref}) = {kappa_fixed:.6f}")
+    print(f"{'L':>5} {'kappa_L':>10} {'bound(tight)':>14} "
+          f"{'kappa_L*bound':>14} {'bound(fixed)':>14}")
 
-    bounds = []
+    bounds, bounds_fixed = [], []
     for L in lengths:
         H = hn_chain(L, g, t0)
         kappa = (1.05 * np.linalg.norm(U_from_H(H, t_op), 2)) ** 2
         K, _, _ = julia_pieces(H, t_op, kappa)
         bound = prop23_lower_bound(K)
+        K_fix, _, _ = julia_pieces(H, t_op, kappa_fixed)
+        bound_fix = prop23_lower_bound(K_fix)
         bounds.append(bound)
-        print(f"{L:5d} {kappa:10.4f} {bound:14.6f}")
+        bounds_fixed.append(bound_fix)
+        print(f"{L:5d} {kappa:10.4f} {bound:14.6f} "
+              f"{kappa * bound:14.6f} {bound_fix:14.6f}")
     print()
-    return np.array(lengths), np.array(bounds)
+    print("Note: kappa_L*bound is the un-normalized numerator. If it is constant")
+    print("in L while bound(tight) drifts, the drift is a normalization effect.")
+    print()
+    return np.array(lengths), np.array(bounds), np.array(bounds_fixed)
 
 
-def plot_prop23(lengths, bounds, outbase="fig_prop23_persistence"):
+def plot_prop23(lengths, bounds, bounds_fixed, outbase="fig_prop23_persistence"):
     fig, ax = plt.subplots(figsize=(5, 4))
-    ax.plot(lengths, bounds, 'o-', color='#1f4e79')
+    ax.plot(lengths, bounds, 'o-', color='#1f4e79',
+            label=r'tight $\kappa_L$ (varies with $L$)')
+    ax.plot(lengths, bounds_fixed, 's--', color='#c0504d',
+            label=r'fixed $\kappa$ ($L$-independent)')
     ax.set_xlabel("chain length L (sites)")
-    ax.set_ylabel(r"Prop. 23 lower bound on $A_\diamond$")
-    ax.set_title("Thermodynamic persistence of the resource lower bound")
+    ax.set_ylabel(r"Prop. 23 bound on $A_\diamond$")
+    ax.set_title("Prop. 23 bound vs L", fontsize=10)
+    ax.legend(fontsize=8)
     plt.tight_layout()
     plt.savefig(outbase + ".pdf")
     plt.savefig(outbase + ".png", dpi=150)
@@ -228,8 +247,8 @@ if __name__ == "__main__":
     results = run_lemma1_check()
     plot_lemma1(results)
 
-    lengths, bounds = run_prop23_scaling()
-    plot_prop23(lengths, bounds)
+    lengths, bounds, bounds_fixed = run_prop23_scaling()
+    plot_prop23(lengths, bounds, bounds_fixed)
 
     print("=" * 70)
     print("NOTE: this script deliberately does NOT attempt Definitions 45-48 /")
