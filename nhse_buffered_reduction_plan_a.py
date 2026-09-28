@@ -157,37 +157,47 @@ def window_indices(n_sites, v_start, ell):
 # 3. The two pieces of the affine reduced map: linear part L, offset b
 # ----------------------------------------------------------------------
 
-def linear_part_Adiamond(K, idx_V):
-    """A_diamond of L(rho_V) = K_sub rho_V K_sub^dagger, K_sub = K[V, V]."""
+def compressed_contraction_Adiamond(K, idx_V):
+    """
+    A_diamond of the Julia completion of the COMPRESSED contraction K_V = K[V, V]
+    (Remark 'Meaning of Lambda_V' in the paper).  This is a new channel on the
+    window; it is NOT the 'linear part' of any many-body reduced channel.
+    """
     K_sub = K[np.ix_(idx_V, idx_V)]
     Ut = julia_from_K(K_sub)
     return half_diamond_A(Ut)
 
 
-def leakage_offset(K, idx_V, idx_Vbar):
+linear_part_Adiamond = compressed_contraction_Adiamond  # backward-compat alias; remove later
+
+
+def leakage_offset(K, idx_V, idx_Vbar, normalize=False):
     """
-    b = (1/dVbar) K_cross K_cross^dagger, K_cross = K[V, Vbar].
-    Undefined (no complement to leak from) when dVbar == 0 (buffer = 0,
-    isolated system exactly equal to the window); returns None in that case.
+    b = K_cross K_cross^dagger, K_cross = K[V, Vbar]  (UN-normalized by default).
+    With normalize=True the covariance-matrix prefactor 1/dVbar is included; that
+    prefactor differs between the bulk (dVbar = L-ell) and the isolated window
+    (dVbar = 2*buf), which by itself produces a ~1/b discrepancy unrelated to
+    propagator locality.  Returns None when dVbar == 0.
     """
     dVbar = len(idx_Vbar)
     if dVbar == 0:
         return None
     K_cross = K[np.ix_(idx_V, idx_Vbar)]
-    return (K_cross @ K_cross.conj().T) / dVbar
+    out = K_cross @ K_cross.conj().T
+    return out / dVbar if normalize else out
 
 
-def leakage_offset_rev(K, idx_V, idx_Vbar):
+def leakage_offset_rev(K, idx_V, idx_Vbar, normalize=False):
     """
-    Same quantity but for the reciprocal map (K -> K^T, per Eq. 11 of the
-    paper: K_{H^T,t} = K_{H,t}^T). K_cross_rev = K^T[V, Vbar] = K[Vbar, V]^T.
-    Returns None when dVbar == 0, for the same reason as leakage_offset.
+    Same quantity for the reciprocal map (K -> K^T): K_cross_rev = K[Vbar, V]^T.
+    UN-normalized by default; see leakage_offset.  Returns None when dVbar == 0.
     """
     dVbar = len(idx_Vbar)
     if dVbar == 0:
         return None
     K_cross_rev = K[np.ix_(idx_Vbar, idx_V)].T
-    return (K_cross_rev @ K_cross_rev.conj().T) / dVbar
+    out = K_cross_rev @ K_cross_rev.conj().T
+    return out / dVbar if normalize else out
 
 
 # ----------------------------------------------------------------------
@@ -254,13 +264,31 @@ def run_buffer_convergence(g=0.5, t_op=0.35, t0=1.0, ell=4, L_bulk=60,
     return A_full, results
 
 
-def fit_rate(b, y):
-    mask = y > 1e-12
-    if mask.sum() < 2:
+def fit_rate(b, y, label=""):
+    """
+    Exponential fit log y = -mu*b + c, reported together with a power-law fit
+    log y = -p*log(b) + c (b>0 only), on the points with y > 1e-12 and b >= 1.
+    Prints the points used and both R^2 values so the two models can be compared.
+    Returns mu (exponential rate).
+    """
+    mask = (y > 1e-12) & (b >= 1)
+    n = int(mask.sum())
+    print(f"[fit {label}] points used: b={b[mask].tolist()}")
+    if n < 3:
+        print(f"[fit {label}] fewer than 3 points -> rate is not meaningful")
         return float("nan")
-    A = np.vstack([b[mask], np.ones(mask.sum())]).T
-    slope, _ = np.linalg.lstsq(A, np.log(y[mask]), rcond=None)[0]
-    return -slope
+    ly = np.log(y[mask])
+
+    def r2(x):
+        c = np.polyfit(x, ly, 1)
+        res = ly - np.polyval(c, x)
+        return c, 1.0 - res.var() / ly.var() if ly.var() > 0 else float("nan")
+
+    (c_exp, R2_exp) = r2(b[mask])
+    (c_pow, R2_pow) = r2(np.log(b[mask]))
+    print(f"[fit {label}] exponential: mu={-c_exp[0]:.4f}, R2={R2_exp:.4f} | "
+          f"power law: p={-c_pow[0]:.4f}, R2={R2_pow:.4f}")
+    return -c_exp[0]
 
 
 def plot_results(results, outbase="fig_buffered_reduction_plan_a"):

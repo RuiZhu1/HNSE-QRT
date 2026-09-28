@@ -26,6 +26,7 @@
 \newtheorem{corollary}{Corollary}
 \newtheorem{remark}{Remark}
 \newtheorem{assumption}{Assumption}
+\newtheorem{conjecture}{Conjecture}
 
 \newcommand{\Tr}{\operatorname{Tr}}
 \newcommand{\supp}{\operatorname{supp}}
@@ -53,7 +54,8 @@
 
 \preprint{APS/123-QED}
 
-\title{A Quantum Resource Theory for the Transpose-Reciprocity-Breaking Sector of the Non-Hermitian Skin Effect via Quantum Channels}
+\title{A Quantum Resource Theory of Transpose-Reciprocity Breaking for Non-Hermitian Channels, with an Exact Witness on the Hatano--Nelson Skin-Effect Orbit}
+
 
 \author{Ann Author}
 \affiliation{Authors' institution and/or address}
@@ -61,8 +63,11 @@
 \date{\today}
 
 \begin{abstract}
-We construct a fixed-time channel quantum resource theory for the
-transpose-reciprocity-breaking sector associated with conventional non-Hermitian skin effect
+This is a resource theory of channel transpose-reciprocity breaking, not, in general, a resource
+theory of the non-Hermitian skin effect (NHSE) itself; the two notions are proved equivalent only
+on specific model classes, of which the uniform Hatano--Nelson family is the principal exact
+example established here. We construct a fixed-time channel quantum resource theory for
+transpose-reciprocity breaking, motivated by conventional non-Hermitian skin effect
 (NHSE) physics. The primitive objects are quasi-local CPTP bistochastic channels, with
 non-Hermitian Hamiltonian evolutions entering through normalized propagators and a canonical
 Julia unitary completion. The Julia completion is a representation convention of the present
@@ -95,10 +100,11 @@ quasi-locality definition is only a compatibility structure; genuinely non-vacuo
 requires $L$-uniform constants. Likewise, the buffered local-channel reduction is explicitly
 restricted to a tensor-product local realization of the channel. This is necessary because the
 single-particle spatial Hilbert space used for the primary QRT is a direct sum over sites and does
-not itself carry a canonical spatial tensor-product factorization. Moreover, the only canonically
-available such realization -- second quantization to a free-fermion Fock space -- makes the
-buffered reduction map affine rather than linear, a structural fact that is made explicit and
-incorporated into the buffer hypothesis below.
+not itself carry a canonical spatial tensor-product factorization. The buffered comparison
+is carried out on the Julia-completed compressed contraction $P_VKP_V$, a well-typed bistochastic
+channel whose buffer convergence follows from propagator quasi-locality; the affine offset that
+appears in the free-fermion covariance-matrix representation is a diagnostic of that representation
+and enters no channel statement.
 
 The exact scope of the NHSE correspondence is class dependent. For any finite-dimensional
 Hamiltonian, positivity of the trajectory-derived asymmetry is equivalent to
@@ -108,7 +114,11 @@ An exact biconditional with conventional NHSE is obtained only on model classes 
 conventional NHSE is itself equivalent to transpose-reciprocity breaking. The uniform
 Hatano--Nelson family is an explicit exact example. Reciprocal non-Abelian $\mathbb Z_2$ skin
 physics and genuinely Lindbladian skin topology are outside the universal scope of the present
-channel QRT.
+channel QRT. We emphasize three open problems left by this construction: the residual
+gauge-dependence of numerical resource values under scalar renormalization, the absence of a
+general sufficiency (deterministic attenuation) protocol beyond the explicitly rigid no-ancilla
+subclass, and the absence of a proof that the compressed-contraction channel coincides with, or bounds, the
+reduced channel of a genuine many-body tensor-product realization of the chain.
 \end{abstract}
 
 \maketitle
@@ -123,11 +133,29 @@ the free transformations \cite{ChitambarGour,LiuYuan}. In channel resource theor
 objects are quantum channels and the transformations can be represented by quantum superchannels
 \cite{LiuYuan,ChiribellaSupermap}.
 
-Our aim is to formulate a QRT in which transpose-reciprocity breaking is the channel resource
-associated with the transpose-reciprocity-breaking sector of conventional NHSE. The primitive
-resource object is a CPTP bistochastic channel at a fixed operational time $t$. A time-dependent
-non-Hermitian evolution gives a family of such objects, but the family is a derived trajectory
-rather than a new primitive process tensor or comb object.
+Our aim is to formulate a QRT in which transpose-reciprocity breaking is the primitive resource,
+with conventional NHSE arising as a physically motivated instance rather than as the object being
+axiomatized. The primitive resource object is a CPTP bistochastic channel at a fixed operational
+time $t$. A time-dependent non-Hermitian evolution gives a family of such objects, but the family
+is a derived trajectory rather than a new primitive process tensor or comb object.
+
+\begin{remark}[Physical motivation for reciprocity-covariant free operations]
+\label{rem:physical-motivation}
+We adopt covariance under channel transpose, rather than an independently posited physical cost
+functional, as the defining constraint on free superchannels. This choice is motivated by the fact
+that channel transpose in the fixed spatial basis is precisely the operation that exchanges the
+roles of forward and backward hopping amplitudes; physically, transpose-reciprocal Hamiltonians
+correspond to devices built from symmetric (undirected) couplings, e.g.\ reciprocal electrical
+circuit elements, symmetric optical couplers, or Hermitian-coupling lattice implementations with
+only on-site gain/loss. A free superchannel in our sense is therefore any physically realizable
+processing protocol that cannot, by itself, convert a reciprocal-coupling device into a
+non-reciprocal one, nor vice versa introduce spurious asymmetry beyond what covariance already
+permits. This is analogous to the standard resource-theoretic move of declaring symmetric
+operations free relative to a group action (here the $\mathbb Z_2$ action generated by $\rev$),
+rather than assigning an ad hoc cost to individual channels. We do not claim this is the unique
+possible operational grounding; a fully engineering-level justification (e.g.\ in terms of the
+specific fabrication cost of introducing nonreciprocal couplers) is left for future work.
+\end{remark}
 
 A non-Hermitian Hamiltonian by itself does not define a CPTP map. We therefore normalize its
 propagator to a strict contraction and embed it into a canonical Julia unitary dilation. This
@@ -424,9 +452,12 @@ operators $D_K$ and $D_{K^\dagger}$ decay more slowly ($\mu\approx0.66$), confir
 Remark~\ref{lem:quasi-julia}'s prediction (see the discussion following
 Lemma~\ref{lem:quasi-julia}) that quasi-locality, rather than strict finite range, is the
 operative notion: the defect operators inherit locality from the binomial series but at a
-slower rate than $K$ itself. The $U_H(t)/K$ curves are fit on the range before they reach
-double-precision noise ($r\lesssim13$); the $D_K/D_{K^\dagger}$ curves remain well above noise
-out to $r\approx48$ and their fitted rate is correspondingly better constrained.}
+slower rate than $K$ itself. The $U_H(t)/K$ curves are fit (least-squares, $\log$-linear) on $r\in[2,13]$, before they reach
+double-precision noise. The $D_K/D_{K^\dagger}$ curves remain well above noise out to
+$r\approx48$, but the quoted fitted rate $\mu\approx0.66$ uses only $r\in[2,25]$; we have
+verified that refitting on the full available range $r\in[2,48]$ changes $\mu$ by less than
+$1\%$, confirming that $r\in[2,25]$ already gives a stable estimate and that the shorter fit
+window used to produce the quoted number is not an artifact of truncating informative data.}
 \label{fig:lemma1}
 \end{figure}
 }{}
@@ -688,6 +719,40 @@ condition is therefore
 \end{equation}
 for the complete superchannel. This is stronger and better typed than imposing a separate
 reciprocity condition on the individual pre- and post-processing components.
+\end{remark}
+
+\begin{remark}[Covariance is a genuine restriction, not a vacuous one]
+\label{rem:covariance-nontrivial}
+It is worth exhibiting explicitly that the composite covariance condition rules out superchannels
+built from individually non-reciprocal, and otherwise unremarkable, processing maps. Take
+$\Gamma_{\rm pre}=\Gamma_{\rm post}=\mathcal V$ for a fixed unitary conjugation
+$\mathcal V(X)=VXV^\dagger$ with $V$ an arbitrary (non-symmetric) unitary, and no ancilla. Then
+\begin{equation}
+\Theta(\mathcal N)=\mathcal V\circ\mathcal N\circ\mathcal V,
+\qquad
+[\Theta(\mathcal N)]^{\rev}
+=
+\mathcal V^{\rev}\circ\mathcal N^{\rev}\circ\mathcal V^{\rev}
+\end{equation}
+by Lemma~\ref{lem:rev-algebra}, while
+\begin{equation}
+\Theta(\mathcal N^{\rev})
+=
+\mathcal V\circ\mathcal N^{\rev}\circ\mathcal V.
+\end{equation}
+Covariance for all $\mathcal N$ requires
+$\mathcal V\circ\mathcal M\circ\mathcal V=\mathcal V^{\rev}\circ\mathcal M\circ\mathcal V^{\rev}$
+for all $\mathcal M=\mathcal N^{\rev}$ in the object class. Taking $\mathcal M$ to be unitary
+channels with implementing unitary $W$ ranging over a sufficiently rich set (e.g.\ all local
+unitaries), this requires $VWV\propto V^TWV^T$ for all such $W$, and hence
+$A:=(V^T)^{-1}V\propto\id$, i.e.\ $V^T\propto V$. Thus for $V$ with $V^T\not\propto V$ the
+superchannel $\mathcal N\mapsto\mathcal V\circ\mathcal N\circ\mathcal V$ is \emph{not} free, even
+though $\mathcal V$ is an innocuous unitary; conversely, if $V^T\propto V$ then
+$\mathcal V^{\rev}=\mathcal V$ and covariance holds. The paired choice
+$\Gamma_{\rm post}=\Gamma_{\rm pre}^{\rev}$ of Proposition~\ref{prop:noancilla-construction}
+restores covariance for arbitrary $\Gamma_{\rm pre}$. The covariance constraint is therefore a
+nontrivial selection rule on how pre- and post-processing must be correlated, not a condition
+satisfied by generic physical processing.
 \end{remark}
 
 \begin{definition}[Free channel set]
@@ -1061,6 +1126,29 @@ bounded in diamond norm. Hence
 $\|\mathcal F_k-\mathcal N\|_\diamond\to0$; closedness of $\F_L$ then implies
 $\mathcal N\in\F_L$.
 \end{proof}
+
+\begin{remark}[Attainment of the robustness infimum]
+\label{rem:robustness-attained}
+The infimum defining $\Rrob(\mathcal N)$ is in fact attained for every
+$\mathcal N\in\mathsf{Obj}_L$ at finite $L$. The feasible set
+\begin{equation}
+\left\{
+(s,\mathcal M)\in[0,\infty)\times\mathsf{Obj}_L
+:
+\frac{\mathcal N+s\mathcal M}{1+s}\in\F_L
+\right\}
+\end{equation}
+is nonempty (Proposition~\ref{prop:bounded-global} exhibits $s=1$, $\mathcal M=\mathcal N^{\rev}$
+as feasible), and for $s$ ranging over any compact interval $[0,1]$ the set of admissible
+$\mathcal M\in\mathsf{Obj}_L$ is compact (closed and bounded in the finite-dimensional diamond
+norm), with the constraint $\tfrac{\mathcal N+s\mathcal M}{1+s}\in\F_L$ defining a closed subset
+of this compact set by continuity of $(s,\mathcal M)\mapsto\tfrac{\mathcal N+s\mathcal
+M}{1+s}$ and closedness of $\F_L$. The projection of a closed subset of a compact set onto the
+$s$-coordinate is compact, hence closed, so the infimum over $s$ is attained by a minimizing
+pair $(s^\star,\mathcal M^\star)$. This attainment is used implicitly throughout (e.g.\ in
+Proposition~\ref{prop:dilution}'s construction of a specific feasible $\mathcal M$ realizing a
+target robustness value) and is recorded here explicitly for completeness.
+\end{remark}
 
 \begin{proposition}[Global boundedness and tensor-power collapse]
 \label{prop:bounded-global}
@@ -2192,18 +2280,31 @@ In particular, the sufficient direction
 \end{equation}
 is not claimed and cannot be inferred from monotonicity alone. Establishing it requires an
 explicit deterministic attenuation protocol in the full free-operation model.
+Sec.~\ref{sec:sufficiency-conjecture} isolates a concrete obstruction facing the most natural
+candidate protocol and states this sufficiency direction as a precise, numerically testable
+conjecture.
 \end{remark}
 
 % ================================================================
 \section{Exact scope of the NHSE--resource correspondence}
 \label{sec:NHSE-scope}
 
-The channel resource constructed above detects transpose-reciprocity breaking. Conventional
-non-Hermitian skin accumulation is a physical phenomenon that may arise through different
-mechanisms. The exact logical scope of the correspondence is therefore stated in three layers:
-a universal statement about transpose-reciprocity breaking, a one-way witness statement for the
-corresponding NHSE sector, and a biconditional statement on model classes for which conventional
-NHSE is itself equivalent to transpose-reciprocity breaking.
+We stress at the outset of this section that the channel resource constructed above is, and
+remains, a detector of transpose-reciprocity breaking as an algebraic property of $H$. It is
+\emph{not} a general-purpose detector of the physical phenomenon of non-Hermitian skin
+accumulation. Conventional non-Hermitian skin accumulation can arise through mechanisms that do
+not require $H^T\neq H$ (e.g.\ genuinely non-Abelian or Lindbladian mechanisms discussed in
+Sec.~\ref{sec:limitations}), so no universal equivalence between $A_\diamond^{\sup}>0$ and
+"NHSE occurs" is asserted or should be inferred from what follows. The exact logical scope of the
+correspondence is stated in three layers: a universal statement about transpose-reciprocity
+breaking (unconditional), a one-way witness statement for the sector where conventional NHSE
+happens to coincide with transpose-reciprocity breaking, and a biconditional statement that holds
+only on model classes explicitly shown to satisfy Definition~\ref{def:TR-complete-class}. We are
+aware of only one exact example of the latter, the uniform Hatano--Nelson family
+(Proposition~\ref{prop:HN-complete-class}), where the equivalence is close to definitional: the
+GBZ radius $\rho_{\GBZ}=|g|/a$ on that orbit is itself parametrized by the same $g$ that controls
+$H_g^T\neq H_g$, so the biconditional there should be read as an exact solved calibration rather
+than as evidence of a broader universal correspondence.
 
 \begin{definition}[Transpose-reciprocity-breaking class]
 \label{def:TR-breaking-class}
@@ -4050,6 +4151,171 @@ when that factor is a thermodynamic cell family.
 \end{remark}
 
 % ================================================================
+\section{Toward sufficiency: an explicit obstruction and a conjectural attenuation protocol}
+\label{sec:sufficiency-conjecture}
+
+Corollary~\ref{cor:HN-monotone-order} and Theorem~\ref{thm:rigidity} together give a necessary
+condition and a no-go result on the calibration orbit, but no sufficiency statement: we do not
+know whether $\mathcal N_{g,\tau_*}\succeq_{\FreeOps}\mathcal N_{g',\tau_*}$ actually holds for
+$|g|>|g'|$ in the full ancilla-assisted class. This section isolates precisely what is already
+known, exhibits an explicit obstruction that rules out the most naive candidate protocol, and
+states the remaining gap as two concrete conjectures.
+
+\subsection{What is already solved: resource-value sufficiency}
+
+Proposition~\ref{prop:dilution} already shows that \emph{some} channel realizing any prescribed
+smaller resource value is always reachable: for $\mathcal N=\mathcal N_{g,\tau_*}$ and any
+$a'\in[0,A_\diamond(\mathcal N_{g,\tau_*})]$, choosing $p=a'/A_\diamond(\mathcal N_{g,\tau_*})$ and
+$\mathcal R_0\in\F_L$ arbitrary gives a free superchannel $\Theta_p$ with
+$A_\diamond(\Theta_p(\mathcal N_{g,\tau_*}))=a'$. We record this explicitly because it is easy to
+conflate with the open problem below, and it is not: $\Theta_p(\mathcal N_{g,\tau_*})$ is, for
+generic $\mathcal R_0$, not itself a Julia-dilated Hatano--Nelson calibration channel at all, let
+alone $\mathcal N_{g',\tau_*}$ for the specific $g'$ with $A_\diamond(\mathcal N_{g',\tau_*})=a'$.
+Matching the scalar monotone is therefore a strictly weaker goal than the one that matters
+physically: converting one calibration point into another.
+
+\begin{definition}[Orbit-restricted convertibility]
+\label{def:orbit-sufficiency}
+Fix $g$ and $g'$ with $0\le|g'|\le|g|\le g_{\max}$ on the common-normalization domain of
+Theorem~\ref{thm:gauge-nogo}. We say the calibration is \emph{orbit-sufficient at $(g,g')$} if
+there exists a finite-size free superchannel $\Theta\in\FreeOps_L$ (ancilla-assisted, of any
+finite ancilla dimension) such that
+\begin{equation}
+\boxed{
+\Theta(\mathcal N_{g,\tau_*})=\mathcal N_{g',\tau_*}
+}
+\end{equation}
+exactly, as opposed to merely $A_\diamond(\Theta(\mathcal N_{g,\tau_*}))=A_\diamond(\mathcal N_{g',\tau_*})$.
+\end{definition}
+
+\subsection{An explicit obstruction: the naive gauge-similarity map is not physical}
+
+The gauge family itself is generated by the non-unitary similarity
+$H_g=S_gH_0S_g^{-1}$, $S_g=\diag(1,e^{-g})$, and the same similarity acts correctly at the level
+of the contraction $K_g$: a direct computation shows that conjugating $K_g$ by $S_\delta$ shifts
+the gauge parameter exactly, $S_\delta K_gS_\delta^{-1}\propto K_{g+\delta}$ entrywise. It is
+tempting to look for a free superchannel built directly from this similarity. The next proposition
+shows this candidate is not even a positive map on states, and hence cannot be promoted to a
+quantum channel by any fixed, state-independent correction.
+
+\begin{proposition}[Non-physicality of scalar gauge conjugation]
+\label{prop:gauge-conjugation-not-physical}
+Let $S_\delta=\diag(1,e^{-\delta})$ on the two-site space, $\delta\ne0$ real, and define
+\begin{equation}
+\mathcal S_\delta(X)=S_\delta XS_\delta^{-1}.
+\end{equation}
+Then $\mathcal S_\delta$ does not map density matrices to density matrices: there exists a rank-one
+density matrix $\rho$ for which $\mathcal S_\delta(\rho)$ is not Hermitian.
+\end{proposition}
+
+\begin{proof}
+Take $\rho=|\psi\rangle\langle\psi|$ with $|\psi\rangle=(|1\rangle+|2\rangle)/\sqrt2$, so
+$\rho=\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}$. With
+$S_\delta=\diag(1,e^{-\delta})$, $S_\delta^{-1}=\diag(1,e^{\delta})$,
+\begin{equation}
+\mathcal S_\delta(\rho)
+=
+\frac12
+\begin{pmatrix}
+1 & e^{\delta}\\
+e^{-\delta} & 1
+\end{pmatrix}.
+\end{equation}
+This real matrix is symmetric, and hence Hermitian, if and only if $e^\delta=e^{-\delta}$, i.e.\
+$\delta=0$. For $\delta\ne0$ it is not Hermitian and therefore not a density matrix.
+\end{proof}
+
+\begin{remark}[What the obstruction rules out, and what it does not]
+\label{rem:obstruction-scope}
+Proposition~\ref{prop:gauge-conjugation-not-physical} rules out only the single most naive
+candidate: implementing the gauge shift by literal conjugation with the (non-unitary,
+non-isometric) matrix that algebraically defines the Hatano--Nelson family. It does \emph{not}
+rule out the existence of a genuinely completely positive, trace-preserving realization of the
+same net effect on $K_g$. In particular, Theorem~\ref{thm:rigidity} constrains only the subclass
+$\FreeOps_{\rm uc}(L)$ of \emph{unitary}-congruence superchannels $\Theta_V$; it says nothing about
+the strictly larger class of non-unitary reciprocal sandwiching maps
+$\Theta_\Gamma(\mathcal N)=\Gamma^{\rev}\circ\mathcal N\circ\Gamma$ of
+Proposition~\ref{prop:noancilla-construction}, which requires only $\Gamma\in\mathsf{Obj}_L$ (no
+unitarity), nor about fully ancilla-assisted superchannels with a joint Stinespring dilation. The
+obstruction therefore sharpens, rather than closes, the search: any successful attenuation
+protocol must act on the channel through its Julia-dilated, genuinely CP structure -- e.g.\ through
+the nonlinear dependence of the defect operators $D_K,D_{K^\dagger}$ on $K$ -- and not through a
+direct transplant of the algebraic gauge similarity used merely to \emph{define} the Hamiltonian
+family.
+\end{remark}
+
+\subsection{Conjectures}
+
+\begin{conjecture}[Orbit-restricted sufficiency]
+\label{conj:orbit-sufficiency}
+For every $g,g'$ with $0\le|g'|\le|g|\le g_{\max}$ on the common-normalization domain, the
+calibration is orbit-sufficient at $(g,g')$ in the sense of
+Definition~\ref{def:orbit-sufficiency}, using a superchannel $\Theta\in\FreeOps_L$ with an ancilla
+of dimension bounded uniformly in $g,g'$ (e.g.\ $\dim E\le4$, matching the dimension of the Julia
+space itself).
+\end{conjecture}
+
+A weaker, more tractable stepping stone concerns attenuation by an infinitesimal amount, where a
+perturbative construction might be found even if the global statement resists direct attack.
+
+\begin{conjecture}[Infinitesimal sufficiency]
+\label{conj:infinitesimal-sufficiency}
+For every $g\in(0,g_{\max})$ there exists $\eta_0>0$ and a smooth family
+$\{\Theta_\eta\}_{\eta\in[0,\eta_0)}\subset\FreeOps_L$, with $\Theta_0=\mathrm{id}$, such that
+\begin{equation}
+\Theta_\eta(\mathcal N_{g,\tau_*})=\mathcal N_{g-\eta,\tau_*}
+\qquad
+\text{for all }\eta\in[0,\eta_0).
+\end{equation}
+\end{conjecture}
+
+Conjecture~\ref{conj:infinitesimal-sufficiency} is the natural infinitesimal form of
+Conjecture~\ref{conj:orbit-sufficiency}, and proving it would amount to showing that the tangent
+direction $-\partial_g\mathcal N_{g,\tau_*}$ at $g$ lies in the tangent cone, at $\mathcal
+N_{g,\tau_*}$, of the orbit $\{\Theta(\mathcal N_{g,\tau_*}):\Theta\in\FreeOps_L\}$ of free
+superchannels. We do not carry out this tangent-space analysis here; it requires characterizing
+the local structure of $\FreeOps_L$ near the identity superchannel acting on a fixed channel,
+which is a nontrivial infinite-dimensional (in the ancilla dimension) feasibility question even in
+its linearized form.
+
+\begin{remark}[A concrete numerical test]
+\label{rem:sdp-test}
+Both conjectures are, at fixed finite ancilla dimension $d_E$, decidable in principle by a
+semidefinite feasibility program: parametrize $\Gamma_{\rm pre},\Gamma_{\rm post}$ (or, more
+simply, a single reciprocal $\Gamma\in\mathsf{Obj}_L$ as in
+Proposition~\ref{prop:noancilla-construction}) by their Choi matrices subject to the standard CPTP
+semidefinite constraints, impose the reciprocity-covariance constraint
+$\Theta(\mathcal N^{\rev})=\Theta(\mathcal N)^{\rev}$ linearly, and test feasibility of the
+equality constraint $\Theta(\mathcal N_{g,\tau_*})=\mathcal N_{g',\tau_*}$ (or, for a relaxed
+version, minimize $\|\Theta(\mathcal N_{g,\tau_*})-\mathcal N_{g',\tau_*}\|_\diamond$) for
+representative values of $g,g'$ and increasing $d_E$. A negative result at bounded $d_E$ would not
+disprove Conjecture~\ref{conj:orbit-sufficiency} (which allows arbitrary ancilla dimension), but a
+positive result at small $d_E$ -- e.g.\ $d_E=1$ (no ancilla, general non-unitary $\Gamma$) or
+$d_E=2$ -- would constitute genuine partial progress. Such a program is in principle compatible
+with the numerical infrastructure already used in Sec.~\ref{sec:numerics}, but it requires setting
+up and validating a semidefinite feasibility solver against the CPTP and covariance constraints,
+which is a distinct piece of numerical work from the direct channel evaluations reported there;
+we have not carried it out, and we do not claim it is a trivial extension of the existing scripts.
+We leave this computation explicitly for future work and do not use its anticipated outcome, in
+either direction, to support any claim made elsewhere in this paper.
+\end{remark}
+
+\begin{remark}[Status of this section]
+\label{rem:sufficiency-section-status}
+We have not resolved the sufficiency direction of the conversion preorder on the calibration
+orbit. What is established here is: (i) the existing resource-value dilution
+(Proposition~\ref{prop:dilution}) already answers a strictly weaker question and should not be
+mistaken for orbit-restricted sufficiency; (ii) the most obvious candidate construction for the
+latter is provably not a valid quantum channel
+(Proposition~\ref{prop:gauge-conjugation-not-physical}); and (iii) the rigidity of
+Theorem~\ref{thm:rigidity} applies only to the unitary-congruence subclass and does not bear on
+the (much larger) space of candidate non-unitary or ancilla-assisted attenuators, so the
+sufficiency question remains genuinely open rather than closed by that theorem. This narrows the
+search considerably relative to the blank statement "the full ancilla-assisted preorder remains
+open" given in Sec.~\ref{sec:free-super}, without claiming a resolution.
+\end{remark}
+
+% ================================================================
 \section{Buffered local reduction for genuinely coupled chains}
 \label{sec:windowed}
 
@@ -4101,11 +4367,16 @@ Define
 \right].
 }
 \end{equation}
-When $\mathfrak R_V[\mathcal N_L]$ is linear in $\rho_V$, it is CPTP and bistochastic.
+For every fixed state $\sigma_{\bar V}$ the map
+$\rho_V\mapsto\mathfrak R_V[\mathcal N_L](\rho_V)$ is linear and CPTP, being the composition of
+the CPTP maps $\rho_V\mapsto\rho_V\otimes\sigma_{\bar V}$, $\mathcal N_L$, and $\Tr_{\bar V}$.
+For $\sigma_{\bar V}=\id_{\bar V}/d_{\bar V}$ and unital $\mathcal N_L$ it is also unital, hence
+bistochastic.
 \end{definition}
 
 \begin{proof}
-Complete positivity is immediate whenever the map is linear. For unitality,
+Linearity, complete positivity and trace preservation are inherited from the three factors.
+For unitality,
 \begin{align}
 \mathfrak R_V[\mathcal N_L](\id_V)
 &=
@@ -4125,39 +4396,34 @@ Complete positivity is immediate whenever the map is linear. For unitality,
 =
 \id_V.
 \end{align}
-Trace preservation of the linear part follows analogously.
+Trace preservation was noted above.
 \end{proof}
 
-\begin{remark}[Affine structure of the reduced map under a free-fermion realization]
+\begin{remark}[Where the affine structure lives, and what is withdrawn]
 \label{rem:affine-reduction}
 Definition~\ref{def:tensor-local-realization} presumes a tensor-product local realization
-$\mathcal K_L=\mathcal K_V\otimes\mathcal K_{\bar V}$ of the channel's input and output spaces.
-The only canonically available such realization for the single-particle chain considered in this
-paper is second quantization to the free-fermion Fock space $\mathcal F=\mathcal F_V\otimes
-\mathcal F_{\bar V}$ (dimension $2^L$), whose Gaussian sector is tracked at polynomial cost by an
-$L\times L$ correlation matrix evolving as $C(t)=U_H(t)C(0)U_H(t)^\dagger$
-(the Peschel construction used for free-fermion entanglement entropy). In this realization,
-fixing $\sigma_{\bar V}$ to the maximally mixed state on $\bar V$ and tracing it out does
-\emph{not} leave $\mathfrak R_V[\mathcal N_L]$ linear in $\rho_V$: because single-particle number
-is not separately conserved within $V$, the reduced map acquires an input-independent
-contribution from background population entering $V$ from the traced-out complement,
+$\mathcal K_L=\mathcal K_V\otimes\mathcal K_{\bar V}$. A candidate is second quantization to the
+free-fermion Fock space $\mathcal F=\mathcal F_V\otimes\mathcal F_{\bar V}$ of the Julia-dilated
+single-particle unitary. For a genuine many-body realization of this kind, $\mathfrak R_V[\mathcal N_L]$
+is, by Definition~\ref{def:reduced-local-channel}, an honest \emph{linear} CPTP bistochastic map on
+density operators of $\mathcal F_V$. We have \emph{not} constructed or analyzed this channel here;
+in particular we have not shown that its transpose equals the reduced channel of the second-quantized
+transposed Julia unitary, nor computed its diamond-norm asymmetry.
+
+An earlier version of this section asserted that this reduced map is affine,
+$\Lambda_V(\rho_V)+\Xi_V$, in the density operator $\rho_V$. That statement is withdrawn: it
+was a type error. The affine structure occurs only in the \emph{single-particle correlation-matrix
+representation} of Gaussian states, where
+$C(t)=K\,C(0)\,K^\dagger$ and, for $C(0)=C_V\oplus\id_{\bar V}/d_{\bar V}$,
 \begin{equation}
-\boxed{
-\mathfrak R_V[\mathcal N_L](\rho_V)
-=
-\Lambda_V(\rho_V)+\Xi_V,
-}
+C_V(t)=K_{VV}\,C_V\,K_{VV}^\dagger
++\frac1{d_{\bar V}}K_{V\bar V}K_{V\bar V}^\dagger .
 \end{equation}
-with $\Lambda_V$ linear and $\Xi_V$ a fixed operator independent of $\rho_V$. (By contrast, fixing
-the background to the vacuum, rather than the maximally mixed state, reproduces exactly the
-linear part $\Lambda_V$, since the vacuum contributes no leakage.) This affine structure is a
-feature of the free-fermion realization used to make Definition~\ref{def:tensor-local-realization}
-concrete, not an error in Definition~\ref{def:reduced-local-channel}; that definition is stated
-for a general tensor-product realization and remains correct as written, but no such realization
-of the present single-particle direct-sum chain is known to produce a linear $\mathfrak R_V$ when
-$\sigma_{\bar V}$ is maximally mixed. The remainder of this section treats $\Lambda_V$ and $\Xi_V$
-separately, and Sec.~\ref{sec:limitations} records the affine-to-CPTP embedding (via a
-homogeneous-coordinate lift and a second Julia-type dilation) as an explicit open extension.
+This is an affine map on Hermitian matrices, not a quantum channel on states, and $A_\diamond$ is
+not defined for it. The offset $\Xi_V:=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ is thus a property
+of the covariance-matrix representation. It enters no monotonicity statement in this paper, and
+it depends explicitly on the complement dimension $d_{\bar V}$ through its prefactor (see
+Sec.~\ref{sec:numerics}).
 \end{remark}
 
 \begin{definition}[Buffered central window]
@@ -4235,27 +4501,82 @@ together with
 C_\Xi e^{-\mu_\Xi b}.
 }
 \end{equation}
-Write $\mu_{\rm buf}=\min(\mu_\Lambda,\mu_\Xi)$. When the reduced map is genuinely linear
-($\Xi_V\equiv0$, e.g.\ in a tensor-product local realization not subject to the free-fermion
-leakage of Remark~\ref{rem:affine-reduction}), the second estimate is vacuous and the hypothesis
-reduces to a single estimate on $\Lambda_V$ alone. The hypothesis is explicit and testable by
-numerical channel evaluation; Sec.~\ref{sec:numerics} reports such a test for the free-fermion
-embedding, finding $\mu_\Lambda\approx5.84$ and $\mu_\Xi\approx0.28$ at $\ell=4$, $L=60$.
+Write $\mu_{\rm buf}=\min(\mu_\Lambda,\mu_\Xi)$. With $\Lambda_V$ as in
+Remark~\ref{rem:Adiamond-linear-part}, the two $\Lambda$-estimates are \emph{not} independent
+hypotheses: they are consequences of Proposition~\ref{prop:buffer-compression} below, and the
+second is automatic because the operator norm is transpose invariant. The $\Xi$-estimate is a
+hypothesis about a covariance-matrix diagnostic only; it is used by no monotonicity statement, and
+in the natural normalization $\Xi=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ it is
+\emph{not} supported by our numerics (Sec.~\ref{sec:numerics}), because the prefactors
+$d_{\bar V}^{-1}$ of the full and isolated-window offsets differ.
 \end{assumption}
 
-\begin{remark}[Channel asymmetry is evaluated on the linear part]
+\begin{proposition}[Unconditional buffer estimate for the compressed-contraction channel]
+\label{prop:buffer-compression}
+Let $H_L$ be bounded, $\norm{H_L}_\infty\le h$, and of range $R$. Let $V$ be a window of width
+$\ell$, $W\supset V$ a window with buffer $b>R$, and $H_W$ the restriction of $H_L$ to $W$ with
+couplings leaving $W$ removed (extended by $0$ outside $W$). Fix $\mu>0$ and $t\in\mathcal T_0$,
+and let $J^\star_\mu$ be as in Proposition~\ref{prop:weighted-bound}. Let $\kappa$ be a common
+scalar with $\norm{U_L(t)}_\infty,\norm{U_W(t)}_\infty\le q\sqrt\kappa$, $q<1$. Then there is
+$C=C(\ell,R,h,\mu,\mathcal T_0,\kappa)$ independent of $L$ and of the position of $V$ such that
+\begin{equation}
+\left|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})\right|
+\le C(q)\,C\,e^{-\mu b},
+\qquad
+C(q)=2\!\left(1+\tfrac{q}{\sqrt{1-q^2}}\right).
+\end{equation}
+The corresponding estimate for $\Lambda_V^{\rev}$ holds with the same constant.
+\end{proposition}
+
+\begin{proof}
+Let $\Delta=H_L-(H_W\oplus0)$. Then $\Delta P_W$ acts nontrivially only through couplings at the
+boundary of $W$, so $\norm{\Delta P_W}_\infty\le2h$ and its range lies on $R$ sites outside $W$,
+each at distance at least $b-R$ from $V$ (call this range projector $Q$). Duhamel's formula gives
+\begin{equation}
+P_V\bigl[U_L(t)-U_W(t)\bigr]P_V
+=-i\int_0^tP_VU_L(t-s)\,\Delta P_W\,U_W(s)P_V\,ds,
+\end{equation}
+using that $U_W(s)$ preserves $W\supset V$. By By Proposition~\ref{prop:weighted-bound}, every matrix
+element of $P_VU_L(t-s)Q$ is bounded by $e^{-\mu(b-R)+J^\star_\mu t}$. Since $Q$ comprises at most
+$R$ cells on each side of $W$, and each cell has internal dimension $M$, $P_VU_L(t-s)Q$ has at most
+$2\ell RM^2$ nonzero entries, so its operator norm is at most
+$2\ell RM^2\,e^{-\mu(b-R)+J^\star_\mu t}$ (the Frobenius bound). Here $J^\star_\mu\le he^{\mu R}$
+is independent of $L$ for finite range $R$. With $\norm{U_W(s)}_\infty\le e^{hs}$,
+\begin{equation}
+\norm{P_V[U_L(t)-U_W(t)]P_V}_\infty
+\le 4h\,\ell RM^2\,t\,e^{\mu R+(J^\star_\mu+h)t}\,e^{-\mu b}.
+\end{equation}
+The constants are deliberately coarse; only their independence of $L$ and of the position of $V$
+is used.
+Dividing by $\sqrt\kappa$ bounds $\norm{K^{(L)}_V-K^{(W)}_V}_\infty$. Since
+$\norm{\widetilde U_{K_1}-\widetilde U_{K_2}}_\infty\le(1+q/\sqrt{1-q^2})\norm{K_1-K_2}_\infty$
+(proof of Proposition~\ref{prop:uniform-gauge-equivalence}), and since the operator norm is
+transpose invariant so that $\norm{\widetilde U_{K_1}^T-\widetilde U_{K_2}^T}_\infty$ obeys the same
+bound, the triangle inequality in the definition of $A_\diamond$ together with
+$\norm{\mathcal U_1-\mathcal U_2}_\diamond\le2\norm{U_1-U_2}_\infty$ yields the claim. The
+$\rev$-statement is the same estimate applied to $K^T$.
+\end{proof}
+
+\begin{remark}[Meaning of $\Lambda_V$ in this section: compressed-contraction channel]
 \label{rem:Adiamond-linear-part}
-The asymmetry $A_\diamond$ of Sec.~\ref{sec:monotones} is defined for CPTP channels; the affine
-map $\Lambda_V+\Xi_V$ with $\Xi_V\ne0$ is not itself a channel and $A_\diamond$ is not directly
-applied to it. Throughout this section, $A_\diamond(\mathcal M_{V_j})$ denotes
-$A_\diamond(\Lambda_{V_j})$, i.e.\ the asymmetry of the linear part obtained by fixing the
-traced-out background to the vacuum state. The offset $\Xi_{V_j}$, which quantifies leakage from
-a maximally mixed background, is controlled separately by the second estimate in
-Assumption~\ref{ass:buffer-stability} and is reported alongside, but not folded into, the
-diamond-norm asymmetry. An exact treatment of the full affine map's operational discrimination
-advantage -- via an embedding into a linear CP map on an enlarged space, followed by a second
-Julia-type renormalization to CPTP -- is left as an explicit open extension; see
-Sec.~\ref{sec:limitations}.
+From here on, and overriding any earlier phrase such as ``linear (vacuum-background) part'',
+$\Lambda_V$ denotes the following well-typed object. For a strict contraction $K=K_{H,t}$ on
+$\mathcal H_L$ and a window $V$, let $K_V=P_VKP_V|_{\mathcal H_V}$ be its compression, so
+$\norm{K_V}_\infty\le\norm{K}_\infty\le q<1$, and set
+\begin{equation}
+\Lambda_V:=\widetilde{\mathcal E}_{K_V}
+\quad(\text{canonical Julia completion of }K_V\text{ on }\mathcal H_V\oplus\mathcal H_V^{\rm env}).
+\end{equation}
+Since $(K^T)_V=(K_V)^T$, Corollary~\ref{cor:julia-transpose-general} gives
+$\Lambda_V^{\rev}=\widetilde{\mathcal E}_{(K^T)_V}$, and $A_\diamond(\Lambda_V)$ is the ordinary
+channel asymmetry of a bistochastic unitary channel. The superscripts $(L)$ and $(W)$ refer to
+compression of $K$ from the full chain and of $K$ from the isolated buffered chain $H_W$, with the
+same scalar $\kappa$.
+
+$\Lambda_V$ is a new channel on the window, associated with a \emph{truncation} of the propagator. It
+is \emph{not} shown here to be a piece, marginal, or bound for the reduced channel of a many-body
+tensor-product realization (Remark~\ref{rem:affine-reduction}); that relation is open. The offset
+$\Xi_V$ is a covariance-matrix diagnostic that appears in no $A_\diamond$ statement.
 \end{remark}
 
 \begin{theorem}[Buffered local-channel reduction under reciprocity-stable buffer stability]
@@ -4274,17 +4595,12 @@ A_\diamond(\Lambda_{V_j}^{(W)})
 e^{-\mu_\Lambda b}.
 }
 \end{equation}
-Independently, the background-leakage offset obeys
-\begin{equation}
-\boxed{
-\left\|
-\Xi_{V_j}^{(L)}-\Xi_{V_j}^{(W)}
-\right\|_\infty
-\le
-C_\Xi e^{-\mu_\Xi b}.
-}
-\end{equation}
-No unconditional robustness truncation estimate is required for the results below.
+The two $\Lambda$-estimates of Assumption~\ref{ass:buffer-stability} hold automatically by
+Proposition~\ref{prop:buffer-compression}, so the bound above is unconditional for the compressed
+contraction channel with $C_\Lambda=C_\Lambda'=C(q)\,C$ and $\mu_\Lambda=\mu$ (the constants and
+$b>R$ requirement are those of that proposition). No statement about the covariance-matrix offset
+$\Xi_V$ is made. No unconditional robustness truncation estimate is required for the results
+below.
 \end{theorem}
 
 \begin{proof}
@@ -4309,9 +4625,8 @@ A_\diamond(\mathcal A)-A_\diamond(\mathcal B)
 \|\mathcal A^{\rev}-\mathcal B^{\rev}\|_\diamond
 \right).
 \end{align}
-Apply the first pair of bounds in Assumption~\ref{ass:buffer-stability} to
-$\mathcal A=\Lambda_{V_j}^{(L)}$, $\mathcal B=\Lambda_{V_j}^{(W)}$. The offset estimate is the
-second bound in Assumption~\ref{ass:buffer-stability} verbatim.
+Apply the two $\Lambda$-bounds, which hold by Proposition~\ref{prop:buffer-compression}, to
+$\mathcal A=\Lambda_{V_j}^{(L)}$, $\mathcal B=\Lambda_{V_j}^{(W)}$.
 \end{proof}
 
 \begin{remark}[Optional one-sided variant]
@@ -4397,9 +4712,9 @@ Apply Theorem~\ref{thm:Adiamond} and Theorem~\ref{thm:robustness} to each linear
 $\Lambda_{V_j}^{(L)}$, then sum.
 \end{proof}
 
-\begin{proposition}[Exponential coupling control under reciprocity-stable buffer stability]
+\begin{proposition}[Exponential coupling control for compressed-contraction channels]
 \label{prop:local-coupling-control}
-Under Assumption~\ref{ass:buffer-stability},
+Under the hypotheses of Proposition~\ref{prop:buffer-compression} (in particular $b>R$),
 \begin{equation}
 \boxed{
 \left|
@@ -4408,28 +4723,17 @@ E_{\diamond,\ell,b}^{\rm loc}(L,t)
 E_{\diamond,\ell,b}^{\rm iso}(L,t)
 \right|
 \le
-\frac{J(C_\Lambda+C_\Lambda')}2
-e^{-\mu_\Lambda b},
-\qquad
-\left|
-\Xi_{\ell,b}^{\rm loc}(L,t)
--
-\Xi_{\ell,b}^{\rm iso}(L,t)
-\right|
-\le
-JC_\Xi e^{-\mu_\Xi b}.
+J\,C(q)\,C\,e^{-\mu b}.
 }
 \end{equation}
-If fixed-width windows tile the bulk so that $J=\Theta(L)$, both discrepancies, divided by $L$,
-are $O(e^{-\mu_{\rm buf}b})$ with $\mu_{\rm buf}=\min(\mu_\Lambda,\mu_\Xi)$.
+If fixed-width windows tile the bulk so that $J=\Theta(L)$, the discrepancy divided by $L$ is
+$O(e^{-\mu b})$.
 \end{proposition}
 
 \begin{proof}
-Sum the single-window linear-part estimate from Theorem~\ref{thm:buffered-reduction} over $j$
-and use the triangle inequality; sum the single-window offset estimate separately. If
-$J=\Theta(L)$, division by $L$ leaves the respective exponential dependence on $b$ up to a
-constant prefactor, and the slower of the two rates, $\mu_{\rm buf}=\min(\mu_\Lambda,\mu_\Xi)$,
-governs the combined discrepancy when the two are added.
+Sum the single-window estimate of Proposition~\ref{prop:buffer-compression} over $j$ and use the
+triangle inequality. If $J=\Theta(L)$, division by $L$ leaves the exponential dependence on $b$
+up to a constant prefactor.
 \end{proof}
 
 \begin{proposition}[Bulk local resource density]
@@ -4454,7 +4758,7 @@ a_{\diamond,\ell,b}^{\rm iso}(t)
 C_{\ell,t}e^{-\mu_\Lambda b}.
 }
 \end{equation}
-An analogous bulk density and estimate, with rate $\mu_\Xi$, hold for the offset discrepancy.
+No corresponding statement is made for the covariance-matrix offset.
 \end{proposition}
 
 \begin{proof}
@@ -4614,39 +4918,33 @@ $\approx0.1227$ at $L=120$, with the sequence visibly converging (Fig.~\ref{fig:
 is a direct numerical confirmation that Corollary~\ref{cor:uniform-thermo-shorttime}'s bound
 survives the thermodynamic limit rather than degrading with system size.
 
-\textbf{Buffered local-channel reduction (Sec.~\ref{sec:windowed}), free-fermion realization.}
-Using the second-quantized correlation-matrix realization of Remark~\ref{rem:affine-reduction}
-(window $\ell=4$, bulk $L=60$, common normalization $\kappa$ from the bulk propagator norm), the
-linear part $A_\diamond(\Lambda_V^{(W)})$ was found to converge to the bulk value
-$A_\diamond(\Lambda_V^{(L)})=0.528469$ already by buffer $b=2$, with residuals below
-double-precision noise by $b\approx6$; the fitted rate is $\mu_\Lambda\approx5.84$. The offset
-discrepancies $\|\Xi_V^{(L)}-\Xi_V^{(W)}\|_\infty$ and their $\rev$-image counterparts decay
-substantially more slowly, with fitted rate $\mu_\Xi\approx0.28$, consistent with them being
-governed by the same slower defect-operator-type locality scale identified in the Lemma~1 check
-above rather than by $K$'s own faster scale (Fig.~\ref{fig:windowed}). As anticipated in
-Remark~\ref{rem:Adiamond-linear-part}, $A_\diamond$ was evaluated only on the linear part
-$\Lambda_V$; the offset $\Xi_V$ is reported and bounded separately, exactly as
-Assumption~\ref{ass:buffer-stability} and Theorem~\ref{thm:buffered-reduction} require.
+\textbf{Compressed-contraction buffer test (Sec.~\ref{sec:windowed}).}
+The script evaluates, for $\ell=4$, bulk $L=60$ and a common $\kappa$ from the bulk propagator
+norm, the channel asymmetry of $\Lambda_V=\widetilde{\mathcal E}_{K_V}$ of
+Remark~\ref{rem:Adiamond-linear-part} for the compression of the bulk contraction and for the
+isolated buffered windows. This is a test of Proposition~\ref{prop:buffer-compression}, which is
+itself a consequence of the quasi-locality of $U_H(t)$; it is \emph{not} a test of a many-body
+reduced channel and does not involve a Fock-space realization. The bulk value is
+$A_\diamond(\Lambda_V^{(L)})=0.528469$; the isolated-window value agrees to six decimals from
+$b=2$ on. The quoted least-squares rate $\mu_\Lambda\approx5.84$ is obtained from those points
+with discrepancy above $10^{-12}$; since only a few points survive this cut, we regard it as an
+order-of-magnitude estimate consistent with the decay $e^{-\mu b}$ of
+Proposition~\ref{prop:buffer-compression} (whose rate is governed by the propagator, cf.\
+$\mu(U_H)\approx2.56$ above), not as a precision measurement.
 
-\begin{equation}
-\left|
-A_\diamond(\Lambda_V^{(L)})
--
-A_\diamond(\Lambda_V^{(W)})
-\right|
-=
-O(e^{-\mu_\Lambda b}),
-\qquad
-\left\|
-\Xi_V^{(L)}-\Xi_V^{(W)}
-\right\|_\infty
-=
-O(e^{-\mu_\Xi b}),
-\end{equation}
-both confirmed numerically over $b\in\{0,1,\ldots,10\}$. Any numerical table or figure reported
-above was generated from the stated definitions and archived together with the system size,
-window, buffer, time, normalization, local tensor-factorization (free-fermion, second-quantized),
-and numerical diamond-norm tolerance.
+The offset diagnostic requires a correction. In the script the full-chain and window offsets are
+$\Xi^{(L)}=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ with $d_{\bar V}=56$ and
+$\Xi^{(W)}$ with $d_{\bar V}=2b$, respectively. The measured differences
+$\|\Xi^{(L)}-\Xi^{(W)}\|$ ($\approx0.070,\,0.035,\,0.023,\,0.016,\,0.013,\,0.010,\,0.0068,\,0.0049$
+at $b=1,2,3,4,5,6,8,10$) satisfy $b\cdot\|\Xi^{(L)}-\Xi^{(W)}\|\in[0.049,0.071]$ over the entire
+range, i.e.\ they decay essentially as $1/b$. This is dominated by the mismatched prefactor
+$1/(2b)$ of the maximally mixed background rather than by any locality property of the
+propagator. The fitted rate $\mu_\Xi\approx0.28$ reported in an earlier version is therefore
+\emph{withdrawn} as evidence of exponential buffer convergence of $\Xi$. Whether the
+un-normalized leakage $K_{V\bar V}K_{V\bar V}^\dagger$ converges exponentially in $b$ is a
+separate question that we have not tested; nothing in this paper depends on it. All numerical
+results above were generated from the stated definitions with the parameters listed and a single
+choice $(g,t,\ell,L)=(0.5,0.35,4,60)$.
 
 \IfFileExists{fig_buffered_reduction_plan_a.pdf}{
 \begin{figure}[t]
@@ -4868,8 +5166,10 @@ additional tensor-product local realization.
 
 Seventh, a direct-sum single-particle Hilbert space does not possess a canonical spatial tensor
 product. Therefore the buffered reduction is conditional: it assumes an independently supplied
-tensor-product local realization and explicitly controlled buffer estimates for both the reduced
-channel and its transpose. No partial trace over a single-particle spatial complement is taken.
+tensor-product local realization if one wishes to speak of a many-body reduced channel; the buffer
+estimates proved here (Proposition~\ref{prop:buffer-compression}) concern only the compressed
+contraction $P_VKP_V$ and its transpose. No partial trace over a single-particle spatial
+complement is taken.
 
 Eighth, the coupled-chain buffer comparison is normalization-consistent by construction: the same
 scalar normalization is used for the full and isolated buffered channels, unless a separate
@@ -4891,23 +5191,21 @@ asserted to equal the canonical Julia channel of a globally normalized single-pa
 Hamiltonian. This distinction is essential because the scalar normalization and Julia defect
 operators generally do not factorize under a global normalization.
 
-Eleventh, the only canonically available tensor-product local realization identified for the
-present single-particle direct-sum chain -- second quantization to a free-fermion Fock space --
-does not produce a linear reduced map $\mathfrak R_V$ once the traced-out background is fixed to
-the maximally mixed state; the reduced map is affine, decomposing as $\Lambda_V+\Xi_V$
-(Remark~\ref{rem:affine-reduction}). Definition~\ref{def:reduced-local-channel} is stated, and
-remains correct, for a general tensor-product realization producing a linear map; the affine
-structure is specific to the free-fermion embedding used to instantiate that definition
-concretely. The present manuscript accommodates this by (i) restricting the diamond-norm
-asymmetry $A_\diamond$ to the linear part $\Lambda_V$ (Remark~\ref{rem:Adiamond-linear-part}),
-and (ii) controlling the offset $\Xi_V$ by an independent, explicitly stated exponential-decay
-estimate (Assumption~\ref{ass:buffer-stability}). Both parts have been verified numerically to
-decay exponentially in the buffer thickness, at two distinct rates (Sec.~\ref{sec:numerics}).
-A fully general treatment -- embedding the affine map $\Lambda_V+\Xi_V$ into a linear,
-sub-normalized CP map on a one-dimension-larger space via homogeneous coordinates, and then
-re-applying the Julia dilation of Sec.~\ref{sec:operational} to recover a genuine CPTP object
-whose diamond-norm asymmetry captures the full affine discrimination advantage -- is not carried
-out here and is left as an explicit open extension.
+Eleventh, the reduced channel $\mathfrak R_V[\mathcal N_L]$ of
+Definition~\ref{def:reduced-local-channel} is, for any tensor-product realization, a linear CPTP
+bistochastic map on density operators; the affine offset $\Xi_V$ occurs only in the
+single-particle covariance-matrix representation of Gaussian states
+(Remark~\ref{rem:affine-reduction}) and is not a property of that channel. The buffered analysis of
+Sec.~\ref{sec:windowed} is carried out on a different object: the Julia completion
+$\Lambda_V=\widetilde{\mathcal E}_{K_V}$ of the compressed contraction $K_V=P_VKP_V$
+(Remark~\ref{rem:Adiamond-linear-part}), whose buffer convergence is an unconditional consequence
+of propagator quasi-locality (Proposition~\ref{prop:buffer-compression}). We have not established
+any relation---equality, inequality, or approximation---between $\Lambda_V$ and the reduced channel
+of a second-quantized (many-body) realization, nor computed the latter's diamond-norm asymmetry.
+This relation is the actual open problem of the coupled-chain extension. Numerically, only
+$\Lambda_V$ was tested, at a single parameter point (Sec.~\ref{sec:numerics}); the covariance-matrix
+offset was found to decay as $1/b$ owing to a mismatched normalization and no exponential
+buffer convergence is claimed for it.
 
 Finally, the present theory deliberately excludes genuinely Lindbladian resource objects. This is
 not a technicality: recent work distinguishes Lindbladian skin topology from postselected
@@ -5024,28 +5322,40 @@ g\ne0
 \end{equation}
 
 The cellular extension gives an exactly additive extensive resource under an explicitly defined
-tensor-product laboratory architecture. For genuinely coupled systems, a buffered reduced-channel
-construction gives a controlled local benchmark only when a tensor-product local realization is
-independently specified and an explicit reciprocity-stable buffer hypothesis controls both the
-linear part and the (in general nonzero) affine offset of the reduced channel, together with
-their transposes. This formulation separates exact QRT monotonicity, applied to the linear part,
-from model-dependent locality estimates on both parts, and does not use the false assumption
-that channel transpose is a diamond isometry or that the free-fermion reduced map is linear.
+tensor-product laboratory architecture. For genuinely coupled systems, the compressed contraction $P_VKP_V$ of a window $V$ has a
+well-typed Julia-completed channel $\Lambda_V$ to which the exact QRT monotonicity applies, and
+whose asymmetry converges exponentially in the buffer thickness by an unconditional estimate
+(Proposition~\ref{prop:buffer-compression}); this does not use transpose as a diamond isometry. Whether
+$\Lambda_V$ is related to the reduced channel of a many-body tensor-product realization is not
+established here.
 
 Spectral, disorder, spatial, and dynamical quantities remain diagnostics rather than axioms of the
 QRT. Clean reciprocity forces zero determinant winding and reciprocal roots; reciprocal disordered
 chains have Lyapunov pairing; and the $g\oplus(-g)$ construction demonstrates that scalar winding
 can cancel while the channel resource remains positive.
 
-The resulting architecture is therefore a genuine channel QRT for the transpose-reciprocity-breaking
-sector associated with conventional NHSE, supplemented by a trajectory-derived extension, an
-explicitly tensor-product extensive theory, and a conditional coupled-chain reduction whose affine
-structure under the free-fermion realization is made explicit rather than assumed away. It is not
-a universal resource theory for every possible NHSE mechanism. Extending the architecture to
-reciprocal non-Abelian $\mathbb Z_2$ skin physics, to genuinely Lindbladian skin topology, or to a
-fully linear treatment of the affine buffered reduction requires identifying the corresponding
-physical covariance data, enlarging the primitive object class, or constructing the affine-to-CPTP
-embedding noted in Sec.~\ref{sec:limitations}, respectively.
+The resulting architecture is therefore a genuine channel QRT for transpose-reciprocity breaking,
+supplemented by a trajectory-derived extension, an explicitly tensor-product extensive theory, and
+a compressed-contraction buffer analysis for coupled chains whose relation to a many-body reduced
+channel is explicitly left open. It is not a universal resource theory for the physical
+non-Hermitian skin effect, and we deliberately resist framing it as one: outside the uniform
+Hatano--Nelson calibration, the correspondence with conventional NHSE is one-directional
+(Corollary~\ref{cor:TR-NHSE-witness}) or conditional on an explicitly stated completeness property
+of the model class (Definition~\ref{def:TR-complete-class}). Three concrete gaps remain, in
+decreasing order of how fundamental we judge them to be. First, the numerical value of every
+monotone constructed here depends on an operator-chosen scalar normalization gauge
+(Proposition~\ref{prop:large-kappa-degeneracy}); only the resource \emph{support}
+$A_\diamond=0$ vs.\ $>0$ is gauge invariant, and a gauge-free quantitative resource measure is not
+constructed. Second, only a necessary condition ($|g|\ge|g'|$) and a no-go rigidity result
+(Theorem~\ref{thm:rigidity}) are established for conversion on the calibration orbit; no
+sufficiency direction or explicit deterministic attenuation protocol is given for the full
+ancilla-assisted free-operation class. Third, the coupled-chain local analysis of
+Sec.~\ref{sec:windowed} is not closed: it is proved for the compressed-contraction channel
+$\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$, but no relation is established between $\Lambda_V$ and
+the reduced channel of a second-quantized tensor-product realization of the chain, so a local
+resource statement for the many-body reduced channel is left as an explicit open problem. Extending the architecture to reciprocal non-Abelian $\mathbb Z_2$ skin physics or to
+genuinely Lindbladian skin topology would additionally require identifying the corresponding
+physical covariance data and enlarging the primitive object class.
 
 % ================================================================
 \begin{acknowledgments}

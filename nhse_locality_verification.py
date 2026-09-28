@@ -150,8 +150,9 @@ def run_lemma1_check(g=0.5, t_op=0.35, t0=1.0, L=60):
                     ("D_K", DK), ("D_K^dagger", DKd)]:
         r, profile = offdiag_decay_profile(M)
         mu = fit_decay_rate(r, profile, rmin=2, rmax=min(25, L // 2))
+        mu_long = fit_decay_rate(r, profile, rmin=2, rmax=48)
         results[name] = (r, profile, mu)
-        print(f"{name:>18} {mu:12.4f}")
+        print(f"{name:>18} {mu:12.4f}   (rmax=48: {mu_long:12.4f})")
     print()
     return results
 
