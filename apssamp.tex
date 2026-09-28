@@ -54,7 +54,7 @@
 
 \preprint{APS/123-QED}
 
-\title{A Quantum Resource Theory of Transpose-Reciprocity Breaking for Non-Hermitian Channels, with an Exact Witness on the Hatano--Nelson Skin-Effect Orbit}
+\title{A Quantum Resource Theory of Transpose-Reciprocity Breaking from Non-Hermitian Propagators, with an Exact Witness on the Hatano--Nelson Skin-Effect Orbit}
 
 
 \author{Ann Author}
@@ -63,62 +63,53 @@
 \date{\today}
 
 \begin{abstract}
-This is a resource theory of channel transpose-reciprocity breaking, not, in general, a resource
-theory of the non-Hermitian skin effect (NHSE) itself; the two notions are proved equivalent only
-on specific model classes, of which the uniform Hatano--Nelson family is the principal exact
-example established here. We construct a fixed-time channel quantum resource theory for
-transpose-reciprocity breaking, motivated by conventional non-Hermitian skin effect
-(NHSE) physics. The primitive objects are quasi-local CPTP bistochastic channels, with
-non-Hermitian Hamiltonian evolutions entering through normalized propagators and a canonical
-Julia unitary completion. The Julia completion is a representation convention of the present
-QRT, not a uniqueness claim about physical open-system realizations. The free objects are
-transpose-reciprocal channels, and the free transformations are physically realizable quantum
-superchannels that preserve the chosen object class and commute with channel transpose on that
-class. The theory has two faithful resource monotones, the channel asymmetry $A_\diamond$ and
-the generalized robustness $\Rrob$. The asymmetry has the exact operational interpretation
-$A_\diamond=2p_{\rm succ}^{\rm opt}-1$ for discrimination of a channel from its reciprocal
+This work develops a quantum resource theory of channel transpose-reciprocity breaking, motivated
+by conventional non-Hermitian skin-effect (NHSE) physics rather than by NHSE itself as a universal
+resource. The primitive fixed-time objects are CPTP bistochastic channels obtained from normalized
+non-Hermitian propagators through a canonical Julia unitary completion. The Julia completion is a
+representation convention of the present QRT, not a uniqueness claim about physical open-system
+realizations. At finite system size, the present object definition is intentionally a compatibility
+structure: because the locality constants may depend on $L$, the fixed-$L$ object class coincides
+with the CPTP bistochastic class; nontrivial locality enters only through $L$-uniform thermodynamic
+family conditions. The free objects are transpose-reciprocal channels, while the free
+transformations are the physically realizable superchannels that preserve the object class and
+commute with channel transpose on that class. We interpret this covariance requirement as the
+axiomatic resource-neutrality criterion of the present QRT, not as a complete microscopic model of
+fabrication or device cost. The theory has two faithful monotones, the channel asymmetry
+$A_\diamond$ and generalized robustness $\Rrob$, with
+$A_\diamond=2p_{\rm succ}^{\rm opt}-1$ for one-shot discrimination of a channel from its reciprocal
 transpose.
 
 The exactly solvable calibration sector is the uniform Hatano--Nelson gauge orbit. At a fixed
-two-site calibration time, $A_\diamond$ has a closed form and is strictly increasing in $|g|$
-under a common strict normalization. Thus $|g|$ and $A_\diamond$ induce the same ordering on
-that orbit, yielding a rigorous necessary condition for every free conversion. We do not claim
-that the converse deterministic attenuation law holds for the full ancilla-assisted superchannel
-class. For an explicitly defined no-ancilla unitary-congruence subclass, a phase-invariant
-cosquare-trace scalar makes $|g|$ rigid, so neither attenuation nor amplification occurs there.
+two-site calibration time, $A_\diamond$ has a closed form and is strictly increasing in $|g|$ under
+a common strict normalization. Hence $|g|$ and $A_\diamond$ induce the same ordering on that orbit,
+yielding a rigorous necessary condition for every deterministic free conversion. We do not claim
+the converse deterministic attenuation law for the full ancilla-assisted superchannel class. In
+the explicitly defined ancilla-free unitary-congruence subclass, a phase-invariant cosquare-trace
+scalar makes $|g|$ rigid.
 
 Normalization is treated as an operational gauge. The fixed-time resource support,
-$A_\diamond=0$ versus $A_\diamond>0$, is independent of finite strict scalar normalization,
-while quantitative values are uniformly comparable inside a common strict-contraction ball.
-A per-Hamiltonian tight normalization gives an exactly energy-rescaling-invariant
-trajectory-derived quantity $A_\diamond^{\sup}$. A uniform thermodynamic short-time estimate
-with an $L$-independent remainder gives a non-vacuous lower bound for the thermodynamic resource
-on the Hatano--Nelson family.
+$A_\diamond=0$ versus $A_\diamond>0$, is independent of finite strict scalar normalization, while
+quantitative values are gauge dependent and uniformly comparable inside a common strict-contraction
+ball. A per-Hamiltonian tight normalization gives an exactly energy-rescaling-invariant
+trajectory-derived quantity $A_\diamond^{\sup}$. An $L$-uniform short-time estimate yields a
+non-vacuous thermodynamic lower bound for the uniform Hatano--Nelson family.
 
-The thermodynamic locality statement is formulated at the family level. At finite $L$, the
-quasi-locality definition is only a compatibility structure; genuinely non-vacuous locality
-requires $L$-uniform constants. Likewise, the buffered local-channel reduction is explicitly
-restricted to a tensor-product local realization of the channel. This is necessary because the
-single-particle spatial Hilbert space used for the primary QRT is a direct sum over sites and does
-not itself carry a canonical spatial tensor-product factorization. The buffered comparison
-is carried out on the Julia-completed compressed contraction $P_VKP_V$, a well-typed bistochastic
-channel whose buffer convergence follows from propagator quasi-locality; the affine offset that
-appears in the free-fermion covariance-matrix representation is a diagnostic of that representation
-and enters no channel statement.
+For genuinely coupled chains, the paper does not claim a general many-body reduced-channel
+theorem. Instead, the buffered analysis concerns the separately defined compressed-contraction
+Julia channel $\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$, whose buffer convergence follows from
+propagator locality. The covariance-matrix offset arising in a single-particle Gaussian
+representation is treated only as a diagnostic and is not identified with part of that channel.
 
-The exact scope of the NHSE correspondence is class dependent. For any finite-dimensional
-Hamiltonian, positivity of the trajectory-derived asymmetry is equivalent to
-transpose-reciprocity breaking under the stated time-domain and strict-normalization assumptions.
-Consequently, transpose-reciprocity-breaking conventional NHSE always carries positive resource.
-An exact biconditional with conventional NHSE is obtained only on model classes in which
-conventional NHSE is itself equivalent to transpose-reciprocity breaking. The uniform
-Hatano--Nelson family is an explicit exact example. Reciprocal non-Abelian $\mathbb Z_2$ skin
-physics and genuinely Lindbladian skin topology are outside the universal scope of the present
-channel QRT. We emphasize three open problems left by this construction: the residual
-gauge-dependence of numerical resource values under scalar renormalization, the absence of a
-general sufficiency (deterministic attenuation) protocol beyond the explicitly rigid no-ancilla
-subclass, and the absence of a proof that the compressed-contraction channel coincides with, or bounds, the
-reduced channel of a genuine many-body tensor-product realization of the chain.
+The exact scope of the NHSE correspondence is class dependent. Positivity of the
+trajectory-derived resource is universally equivalent, under the stated assumptions, to
+transpose-reciprocity breaking. An exact biconditional with conventional NHSE is obtained only on
+model classes for which conventional NHSE is independently equivalent to transpose-reciprocity
+breaking. The uniform Hatano--Nelson family provides an explicit exact example. Reciprocal
+non-Abelian $\mathbb Z_2$ skin physics and genuinely Lindbladian skin topology are outside the
+universal scope of this channel QRT. The principal open problems are quantitative gauge
+dependence, deterministic attenuation on the full free-superchannel class, and the relation
+between compressed single-particle Julia channels and genuine many-body reduced channels.
 \end{abstract}
 
 \maketitle
@@ -139,22 +130,30 @@ axiomatized. The primitive resource object is a CPTP bistochastic channel at a f
 time $t$. A time-dependent non-Hermitian evolution gives a family of such objects, but the family
 is a derived trajectory rather than a new primitive process tensor or comb object.
 
-\begin{remark}[Physical motivation for reciprocity-covariant free operations]
+\begin{remark}[Physical status of the reciprocity-covariant free-operation choice]
 \label{rem:physical-motivation}
-We adopt covariance under channel transpose, rather than an independently posited physical cost
-functional, as the defining constraint on free superchannels. This choice is motivated by the fact
-that channel transpose in the fixed spatial basis is precisely the operation that exchanges the
-roles of forward and backward hopping amplitudes; physically, transpose-reciprocal Hamiltonians
-correspond to devices built from symmetric (undirected) couplings, e.g.\ reciprocal electrical
-circuit elements, symmetric optical couplers, or Hermitian-coupling lattice implementations with
-only on-site gain/loss. A free superchannel in our sense is therefore any physically realizable
-processing protocol that cannot, by itself, convert a reciprocal-coupling device into a
-non-reciprocal one, nor vice versa introduce spurious asymmetry beyond what covariance already
-permits. This is analogous to the standard resource-theoretic move of declaring symmetric
-operations free relative to a group action (here the $\mathbb Z_2$ action generated by $\rev$),
-rather than assigning an ad hoc cost to individual channels. We do not claim this is the unique
-possible operational grounding; a fully engineering-level justification (e.g.\ in terms of the
-specific fabrication cost of introducing nonreciprocal couplers) is left for future work.
+We adopt covariance under channel transpose as the defining symmetry constraint on the free
+superchannel class. The motivation is that, in the fixed physical reciprocity frame, transpose
+exchanges the roles of forward and backward couplings, while transpose-reciprocal Hamiltonians
+describe devices with symmetric couplings in that frame, including reciprocal circuit elements,
+symmetric optical couplers, and Hermitian-coupling lattice realizations with on-site gain or loss.
+
+The present paper should nevertheless distinguish two statements. First, covariance is an
+axiomatic resource-theoretic choice: it guarantees that free superchannels cannot create
+transpose-reciprocity breaking from a reciprocal channel and yields the monotonicity theorems below.
+Second, covariance alone is not a microscopic model of fabrication cost. In particular, the
+construction
+\begin{equation}
+\Theta_\Gamma(\mathcal N)
+=
+\Gamma^{\rev}\circ\mathcal N\circ\Gamma
+\end{equation}
+of Proposition~\ref{prop:noancilla-construction} allows an arbitrary bistochastic $\Gamma$ from
+the stated finite-size object class as a processing primitive. We therefore do not interpret the
+present $\FreeOps_L$ class as a complete statement that every such implementation is physically
+resource-free in an engineering sense. Rather, it is the symmetry-covariant free-operation class
+of the QRT constructed here. A stricter hardware-level resource theory would require an additional,
+independently specified class of resource-neutral pre- and post-processing devices.
 \end{remark}
 
 A non-Hermitian Hamiltonian by itself does not define a CPTP map. We therefore normalize its
@@ -198,6 +197,18 @@ and let
 be the spatial projector onto the physical and environmental degrees of freedom associated with
 cell $n$. The fixed-time channel QRT below acts on $\widetilde{\mathcal H}_L$.
 \end{definition}
+
+\begin{remark}[Reciprocity frame as operational data]
+\label{rem:reciprocity-frame}
+The transpose operation, and hence the distinction between reciprocal and transpose-reciprocity
+breaking channels, is defined relative to the fixed physical basis specified above. In particular,
+the resource is a property of the pair consisting of the channel and the chosen reciprocity frame,
+not of an abstract Hilbert-space operator under arbitrary unitary changes of basis. A basis change
+is regarded as a mere relabeling only when it preserves the physical reciprocity datum used to
+define transpose. This qualification is essential for internal degrees of freedom, where a local
+unitary change of basis can alter the matrix condition $H^T=H$ without changing the underlying
+laboratory device.
+\end{remark}
 
 \begin{definition}[Admissible normalized propagator]
 \label{def:normcontr}
@@ -444,20 +455,16 @@ operators are generally not finite range even when $K$ is.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig_lemma1_locality.pdf}
-\caption{Numerical verification of Lemma~\ref{lem:quasi-julia} for a finite-range,
+\caption{Numerical consistency check of Lemma~\ref{lem:quasi-julia} for a finite-range,
 uniformly bounded Hamiltonian at fixed $L$ and fixed operational time $t$. The propagator
-$U_H(t)$ and the normalized contraction $K=U_H(t)/\sqrt\kappa$ decay with the same fitted rate
-($\mu\approx2.56$), consistent with $K$ being a fixed rescaling of $U_H(t)$. The defect
-operators $D_K$ and $D_{K^\dagger}$ decay more slowly ($\mu\approx0.66$), confirming
-Remark~\ref{lem:quasi-julia}'s prediction (see the discussion following
-Lemma~\ref{lem:quasi-julia}) that quasi-locality, rather than strict finite range, is the
-operative notion: the defect operators inherit locality from the binomial series but at a
-slower rate than $K$ itself. The $U_H(t)/K$ curves are fit (least-squares, $\log$-linear) on $r\in[2,13]$, before they reach
-double-precision noise. The $D_K/D_{K^\dagger}$ curves remain well above noise out to
-$r\approx48$, but the quoted fitted rate $\mu\approx0.66$ uses only $r\in[2,25]$; we have
-verified that refitting on the full available range $r\in[2,48]$ changes $\mu$ by less than
-$1\%$, confirming that $r\in[2,25]$ already gives a stable estimate and that the shorter fit
-window used to produce the quoted number is not an artifact of truncating informative data.}
+$U_H(t)$ and the normalized contraction $K=U_H(t)/\sqrt\kappa$ give the same fitted rate
+($\mu\approx2.56$), as expected from the scalar relation between them. For the defect operators,
+the fit on $r\in[2,25]$ gives $\mu\approx0.66$, while a fit over the full available range
+$r\in[2,48]$ gives approximately $\mu\approx0.59$. The fit-window dependence is therefore
+non-negligible, and no precision exponent is claimed. The robust numerical observation is
+qualitative exponential decay of the defect operators over the tested range, with visibly slower
+decay and greater fit sensitivity than $K$. The $U_H(t)/K$ curves are fit by least squares on
+$r\in[2,13]$ before reaching double-precision noise.}
 \label{fig:lemma1}
 \end{figure}
 }{}
@@ -514,7 +521,7 @@ The scalar normalization cancels upon conditioning.
 \section{Reciprocity, locality, free channels, and free superchannels}
 \label{sec:free}
 
-\begin{definition}[Finite-size exponentially quasi-local channel class]
+\begin{definition}[Finite-size exponential compatibility class]
 \label{def:qexp-fixed-L}
 For fixed $L$, let $\mathfrak Q_{\exp,L}$ be the set of channels $\mathcal N_L$ on
 $\widetilde{\mathcal H}_L$ for which there exist constants $C,\mu>0$ and a Kraus representation
@@ -530,7 +537,21 @@ satisfying
 C^2e^{-2\mu|n-m|}
 \end{equation}
 for all sites $n,m$. At fixed $L$, the constants may depend on the channel and on $L$.
-Uniformity of $C,\mu$ across a thermodynamic family is imposed separately below.
+
+Because the Hilbert space is finite dimensional, every finite-dimensional channel belongs to
+$\mathfrak Q_{\exp,L}$. Indeed, for any fixed $\mu>0$ and any finite Kraus representation one may
+choose
+\begin{equation}
+C
+=
+\max_{n,m}
+e^{\mu|n-m|}
+\left(
+\sum_a\norm{\widetilde P_nK_{a,L}\widetilde P_m}^2
+\right)^{1/2},
+\end{equation}
+which is finite. Thus the fixed-$L$ condition is retained only as a compatibility notation for
+the thermodynamic locality structure introduced below.
 \end{definition}
 
 \begin{definition}[Bistochastic channel class]
@@ -550,26 +571,29 @@ Because all maps in $\Chan_L^{\rm bi}$ are CPTP by definition, this is precisely
 finite-dimensional class of CPTP bistochastic channels.
 \end{definition}
 
-\begin{definition}[Quasi-local bistochastic object class]
+\begin{definition}[Finite-size object class]
 \label{def:obj-fixed-L}
-For each finite $L$, let
+For each finite $L$, define
 \begin{equation}
 \boxed{
 \mathsf{Obj}_L
 =
-\overline{\mathfrak Q_{\exp,L}\cap\Chan_L^{\rm bi}}^{\|\cdot\|_\diamond}.
+\Chan_L^{\rm bi}.
 }
 \end{equation}
-The primitive QRT objects are elements of $\mathsf{Obj}_L$. Thermodynamic statements refer
-to sequences drawn from these fixed-size classes with additional $L$-uniform locality bounds.
+Equivalently, this is the diamond-norm closure of
+$\mathfrak Q_{\exp,L}\cap\Chan_L^{\rm bi}$, since
+$\mathfrak Q_{\exp,L}$ already contains all finite-dimensional channels at fixed $L$.
+Thermodynamic statements refer to sequences drawn from these fixed-size classes with additional
+$L$-uniform locality bounds.
 \end{definition}
 
-\begin{remark}[Finite-size locality is only a compatibility structure]
-At fixed finite $L$, allowing the locality constants to depend on $L$ makes the quasi-locality
-condition largely a compatibility requirement: finite-dimensional channels can always be bounded
-by sufficiently large constants. The substantive thermodynamic locality restriction is therefore
-imposed at the family level. No thermodynamic locality statement below relies on the finite-size
-condition alone.
+\begin{remark}[Where locality becomes nontrivial]
+At fixed finite $L$, the primitive QRT is therefore a symmetry/covariance resource theory on the
+bistochastic channel class; the exponential locality condition is not a substantive restriction.
+All nontrivial locality content enters through the $L$-uniform family definitions and locality
+certificates used in the thermodynamic layer. This separation is deliberate and will be used
+throughout.
 \end{remark}
 
 \begin{definition}[Thermodynamic object family]
@@ -865,30 +889,36 @@ exactly beyond a finite light cone.
 
 \begin{definition}[Locality certificate for a superchannel family]
 \label{def:locality-certificate}
-A thermodynamic family $\{\Theta_L\}_{L\ge1}$ admits a locality certificate if there are
-ancillary memories $E_L$ decomposed into spatial cells with uniformly bounded local dimension,
-and physical realizations
+A thermodynamic family $\{\Theta_{L,t}\}_{L\ge1,\;t\in\mathcal T_0}$ admits a locality certificate
+on a compact operational time interval $\mathcal T_0$ if there are ancillary memories $E_L$
+decomposed into spatial cells with uniformly bounded local dimension, and physical realizations
 \begin{equation}
-\Theta_L(\mathcal N)
+\Theta_{L,t}(\mathcal N)
 =
-\Gamma_{{\rm post},L}
+\Gamma_{{\rm post},L,t}
 \circ
 (\mathcal N\otimes\id_{E_L})
 \circ
-\Gamma_{{\rm pre},L},
+\Gamma_{{\rm pre},L,t},
 \end{equation}
-for which both $\Gamma_{{\rm pre},L}$ and $\Gamma_{{\rm post},L}$ satisfy the Heisenberg
-quasi-locality condition in Definition~\ref{def:ql-cptp} with constants bounded independently
-of $L$. This certificate is required only at the family level; no covariance is imposed on either
-component separately.
+for which both $\Gamma_{{\rm pre},L,t}$ and $\Gamma_{{\rm post},L,t}$ satisfy the Heisenberg
+quasi-locality condition in Definition~\ref{def:ql-cptp} with constants bounded independently of
+$L$ and $t\in\mathcal T_0$. This certificate is required only at the family level; no covariance
+is imposed on either component separately.
+
+A time-independent superchannel family is included as the special case
+$\Theta_{L,t}=\Theta_L$.
 \end{definition}
 
 \begin{definition}[Thermodynamic free-superchannel family]
 \label{def:thermo-free-superchannels}
-A sequence $\{\Theta_L\}_{L\ge1}$ is a thermodynamically free superchannel family if each
-$\Theta_L\in\FreeOps_L$ and the family admits a locality certificate with constants uniform in
-$L$ on every compact operational time interval. We denote this family class by
-$\FreeOps_\infty$.
+A collection
+\begin{equation}
+\{\Theta_{L,t}\}_{L\ge1,\;t\in\mathcal T_0}
+\end{equation}
+is a thermodynamically free superchannel family on $\mathcal T_0$ if each
+$\Theta_{L,t}\in\FreeOps_L$ and the family admits a locality certificate with constants uniform in
+$L$ and $t\in\mathcal T_0$. We denote the class of such families by $\FreeOps_\infty$.
 \end{definition}
 
 \begin{remark}[Non-vacuous thermodynamic locality]
@@ -1772,11 +1802,11 @@ which gives the first identity. The second follows by the bijection $s=\lambda t
 $(0,\infty)$.
 \end{proof}
 
-\begin{definition}[Trajectory-level free transformation]
+\begin{definition}[Pointwise trajectory-level free transformation]
 \label{def:trajectory-free-map}
 Let $\mathcal T\subset(0,\infty)$ be an operational time domain and let
 $\mathfrak N=\{\mathcal N_t\}_{t\in\mathcal T}$ be a trajectory with
-$\mathcal N_t\in\mathsf{Obj}_L$. A deterministic trajectory-level free transformation is a family
+$\mathcal N_t\in\mathsf{Obj}_L$. A pointwise trajectory-level free transformation is a family
 \begin{equation}
 \boxed{
 \mathfrak\Theta=\{\Theta_t\}_{t\in\mathcal T}
@@ -1790,10 +1820,14 @@ with each $\Theta_t\in\FreeOps_L$ such that
 \qquad
 t\in\mathcal T,
 \end{equation}
-and such that the family preserves the relevant object class and has uniform locality bounds
-on every compact subinterval of $\mathcal T$. No independent time reparametrization is included
-in $\mathfrak\Theta$; time reparametrization is treated separately through the exact scale
-covariance of Lemma~\ref{lem:tight-scale-covariance}.
+and such that the family preserves the relevant object class and has uniform locality bounds on
+every compact subinterval of $\mathcal T$. No independent time reparametrization is included in
+$\mathfrak\Theta$; time reparametrization is treated separately through the exact scale covariance
+of Lemma~\ref{lem:tight-scale-covariance}.
+
+This is deliberately a pointwise derived construction, not a claim of a causal process-supermap
+or process-tensor resource theory. A single physically time-consistent control protocol would
+require additional causal compatibility conditions between the maps at different times.
 \end{definition}
 
 \begin{theorem}[Trajectory-level monotonicity]
@@ -2299,12 +2333,11 @@ Sec.~\ref{sec:limitations}), so no universal equivalence between $A_\diamond^{\s
 correspondence is stated in three layers: a universal statement about transpose-reciprocity
 breaking (unconditional), a one-way witness statement for the sector where conventional NHSE
 happens to coincide with transpose-reciprocity breaking, and a biconditional statement that holds
-only on model classes explicitly shown to satisfy Definition~\ref{def:TR-complete-class}. We are
-aware of only one exact example of the latter, the uniform Hatano--Nelson family
+only on model classes explicitly shown to satisfy Definition~\ref{def:TR-complete-class}. An explicit exact example established here is the uniform Hatano--Nelson family
 (Proposition~\ref{prop:HN-complete-class}), where the equivalence is close to definitional: the
-GBZ radius $\rho_{\GBZ}=|g|/a$ on that orbit is itself parametrized by the same $g$ that controls
-$H_g^T\neq H_g$, so the biconditional there should be read as an exact solved calibration rather
-than as evidence of a broader universal correspondence.
+GBZ radius $\rho_{\GBZ}=|g|/a$ on that orbit is parametrized by the same $g$ that controls
+$H_g^T\neq H_g$. The resulting biconditional should therefore be read as an exact solved
+calibration, not as evidence for a broader universal correspondence.
 
 \begin{definition}[Transpose-reciprocity-breaking class]
 \label{def:TR-breaking-class}
@@ -2467,7 +2500,7 @@ Equivalently, within $\mathcal C$, conventional OBC skin accumulation and transp
 breaking define the same subset.
 \end{definition}
 
-\begin{theorem}[Exact NHSE--resource equivalence on a complete model class]
+\begin{proposition}[Transfer of exact NHSE characterization to complete model classes]
 \label{thm:NHSE-resource-complete}
 Let $\mathcal C$ be a transpose-reciprocity-complete NHSE class in the sense of
 Definition~\ref{def:TR-complete-class}. Suppose its operational time domain contains a sequence
@@ -2486,7 +2519,7 @@ H\in\mathcal C_{\rm NHSE}^{\rm conv}
 \end{equation}
 Thus the channel resource is an exact detector of conventional NHSE within the stated complete
 model class.
-\end{theorem}
+\end{proposition}
 
 \begin{proof}
 By Theorem~\ref{thm:trajectory-TR-characterization},
@@ -3352,7 +3385,8 @@ m_n^T=m_n,
 \qquad
 \sup_n\norm{t_n^{-1}}<\infty.
 \end{equation}
-Then
+Assume, in addition, that the Lyapunov limits in
+Definition~\ref{def:lyapunov} exist. Then
 \begin{equation}
 \boxed{
 \gamma_j(E)
@@ -4194,9 +4228,10 @@ The gauge family itself is generated by the non-unitary similarity
 $H_g=S_gH_0S_g^{-1}$, $S_g=\diag(1,e^{-g})$, and the same similarity acts correctly at the level
 of the contraction $K_g$: a direct computation shows that conjugating $K_g$ by $S_\delta$ shifts
 the gauge parameter exactly, $S_\delta K_gS_\delta^{-1}\propto K_{g+\delta}$ entrywise. It is
-tempting to look for a free superchannel built directly from this similarity. The next proposition
-shows this candidate is not even a positive map on states, and hence cannot be promoted to a
-quantum channel by any fixed, state-independent correction.
+therefore tempting to look for a free superchannel built directly from this similarity. The next
+proposition shows that the literal similarity map itself is not a quantum channel. This rules out
+that direct construction, but does not exclude more elaborate completely positive constructions
+that modify or embed the similarity before producing the desired channel transformation.
 
 \begin{proposition}[Non-physicality of scalar gauge conjugation]
 \label{prop:gauge-conjugation-not-physical}
@@ -4280,24 +4315,27 @@ its linearized form.
 
 \begin{remark}[A concrete numerical test]
 \label{rem:sdp-test}
-Both conjectures are, at fixed finite ancilla dimension $d_E$, decidable in principle by a
-semidefinite feasibility program: parametrize $\Gamma_{\rm pre},\Gamma_{\rm post}$ (or, more
-simply, a single reciprocal $\Gamma\in\mathsf{Obj}_L$ as in
-Proposition~\ref{prop:noancilla-construction}) by their Choi matrices subject to the standard CPTP
-semidefinite constraints, impose the reciprocity-covariance constraint
-$\Theta(\mathcal N^{\rev})=\Theta(\mathcal N)^{\rev}$ linearly, and test feasibility of the
-equality constraint $\Theta(\mathcal N_{g,\tau_*})=\mathcal N_{g',\tau_*}$ (or, for a relaxed
-version, minimize $\|\Theta(\mathcal N_{g,\tau_*})-\mathcal N_{g',\tau_*}\|_\diamond$) for
-representative values of $g,g'$ and increasing $d_E$. A negative result at bounded $d_E$ would not
-disprove Conjecture~\ref{conj:orbit-sufficiency} (which allows arbitrary ancilla dimension), but a
-positive result at small $d_E$ -- e.g.\ $d_E=1$ (no ancilla, general non-unitary $\Gamma$) or
-$d_E=2$ -- would constitute genuine partial progress. Such a program is in principle compatible
-with the numerical infrastructure already used in Sec.~\ref{sec:numerics}, but it requires setting
-up and validating a semidefinite feasibility solver against the CPTP and covariance constraints,
-which is a distinct piece of numerical work from the direct channel evaluations reported there;
-we have not carried it out, and we do not claim it is a trivial extension of the existing scripts.
-We leave this computation explicitly for future work and do not use its anticipated outcome, in
-either direction, to support any claim made elsewhere in this paper.
+At fixed finite ancilla dimension $d_E$, the orbit-conversion problem can in principle be posed as
+a semidefinite feasibility problem using the Choi operator of the \emph{complete superchannel},
+with its linear CPTP/causality constraints, together with the linear covariance constraint
+\begin{equation}
+\Theta(\mathcal N^{\rev})=[\Theta(\mathcal N)]^{\rev}
+\end{equation}
+and the linear output constraint for a fixed input channel
+\begin{equation}
+\Theta(\mathcal N_{g,\tau_*})=\mathcal N_{g',\tau_*}.
+\end{equation}
+By contrast, parametrizing $\Gamma_{\rm pre}$ and $\Gamma_{\rm post}$ independently by Choi
+matrices and then composing them introduces bilinear dependence on those two variables, so that
+parametrization is not itself a standard SDP representation of the general superchannel.
+
+A negative result at bounded $d_E$ would not disprove
+Conjecture~\ref{conj:orbit-sufficiency}, which allows arbitrary finite ancilla dimension. A positive
+feasibility result for a small explicitly defined subclass, such as the single-channel sandwich
+construction of Proposition~\ref{prop:noancilla-construction}, would constitute genuine partial
+progress. Such a computation is distinct from the direct channel-evaluation scripts reported in
+Sec.~\ref{sec:numerics}. We have not carried it out and do not use any anticipated numerical
+outcome in support of the present claims.
 \end{remark}
 
 \begin{remark}[Status of this section]
@@ -4316,7 +4354,7 @@ open" given in Sec.~\ref{sec:free-super}, without claiming a resolution.
 \end{remark}
 
 % ================================================================
-\section{Buffered local reduction for genuinely coupled chains}
+\section{Buffered locality of compressed channels for genuinely coupled chains}
 \label{sec:windowed}
 
 A genuinely coupled single-particle chain does not carry a canonical spatial tensor-product
@@ -4437,19 +4475,15 @@ normalization may be used only when its induced discrepancy is absorbed into exp
 constants below.
 \end{definition}
 
-For a tensor-product local realization, write, as in Remark~\ref{rem:affine-reduction},
+For a tensor-product local realization, the genuine reduced channel is
 \begin{equation}
 \mathcal M_{V_j}^{(L)}
-=
-\Lambda_{V_j}^{(L)}+\Xi_{V_j}^{(L)}
 :=
 \mathfrak R_{V_j}[\mathcal N_{H_L,t}],
 \end{equation}
-and
+and similarly, for the isolated buffered chain,
 \begin{equation}
 \mathcal M_{V_j}^{(W)}
-=
-\Lambda_{V_j}^{(W)}+\Xi_{V_j}^{(W)}
 :=
 \Tr_{W_j\setminus V_j}
 \left[
@@ -4458,38 +4492,36 @@ and
 \rho\otimes
 \frac{\id_{W_j\setminus V_j}}{d_{W_j\setminus V_j}}
 \right)
-\right],
+\right].
 \end{equation}
-with $\Lambda_{V_j}^{(L)}$, $\Lambda_{V_j}^{(W)}$ the linear (vacuum-background) parts and
-$\Xi_{V_j}^{(L)}$, $\Xi_{V_j}^{(W)}$ the corresponding maximally-mixed-background offsets.
+These maps are honest linear CPTP bistochastic channels on the tensor-product local Hilbert
+space. We do not decompose them as $\Lambda+\Xi$.
 
-\begin{assumption}[Reciprocity-stable buffer hypothesis]
+For the separate single-particle covariance-matrix diagnostic, define
+\begin{equation}
+\Xi_{V_j}^{(L)}
+=
+\frac{1}{d_{\bar V_j}}
+K_{V_j\bar V_j}^{(L)}
+\left(K_{V_j\bar V_j}^{(L)}\right)^\dagger,
+\end{equation}
+and define $\Xi_{V_j}^{(W)}$ analogously with the complement inside the isolated window.
+These offsets belong only to the covariance-matrix representation discussed in
+Remark~\ref{rem:affine-reduction}. They are not components of the reduced channel
+$\mathcal M_{V_j}^{(L)}$ or $\mathcal M_{V_j}^{(W)}$.
+
+The symbol $\Lambda_{V_j}$ is reserved below for the separately defined compressed-contraction
+Julia channel of Remark~\ref{rem:Adiamond-linear-part}. No equality, decomposition, or approximation
+between $\Lambda_{V_j}$ and the genuine reduced channel $\mathcal M_{V_j}$ is assumed.
+
+\begin{assumption}[Optional offset-buffer diagnostic]
 \label{ass:buffer-stability}
 Fix a compact operational time interval $\mathcal T_0$ and a class of finite-range, uniformly
 bounded chains with a common strict-contraction bound
-$\norm{K_{H_L,t}}_\infty\le q<1$. Assume that there exist constants
-$C_\Lambda,C_\Lambda',C_\Xi,\mu_\Lambda,\mu_\Xi>0$, independent of bulk position, system size,
-and $t\in\mathcal T_0$, such that
-\begin{equation}
-\boxed{
-\left\|
-\Lambda_{V_j}^{(L)}
--
-\Lambda_{V_j}^{(W)}
-\right\|_\diamond
-\le
-C_\Lambda e^{-\mu_\Lambda b},
-\qquad
-\left\|
-(\Lambda_{V_j}^{(L)})^{\rev}
--
-(\Lambda_{V_j}^{(W)})^{\rev}
-\right\|_\diamond
-\le
-C_\Lambda' e^{-\mu_\Lambda b},
-}
-\end{equation}
-together with
+$\norm{K_{H_L,t}}_\infty\le q<1$. If one wishes to formulate a separate locality hypothesis for
+the covariance-matrix offset, assume that there are constants
+$C_\Xi,\mu_\Xi>0$, independent of bulk position, system size, and
+$t\in\mathcal T_0$, such that
 \begin{equation}
 \boxed{
 \left\|
@@ -4501,24 +4533,28 @@ together with
 C_\Xi e^{-\mu_\Xi b}.
 }
 \end{equation}
-Write $\mu_{\rm buf}=\min(\mu_\Lambda,\mu_\Xi)$. With $\Lambda_V$ as in
-Remark~\ref{rem:Adiamond-linear-part}, the two $\Lambda$-estimates are \emph{not} independent
-hypotheses: they are consequences of Proposition~\ref{prop:buffer-compression} below, and the
-second is automatic because the operator norm is transpose invariant. The $\Xi$-estimate is a
-hypothesis about a covariance-matrix diagnostic only; it is used by no monotonicity statement, and
-in the natural normalization $\Xi=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ it is
-\emph{not} supported by our numerics (Sec.~\ref{sec:numerics}), because the prefactors
-$d_{\bar V}^{-1}$ of the full and isolated-window offsets differ.
+This assumption concerns only the covariance-matrix diagnostic $\Xi_V$. It is not used in any
+channel monotonicity statement or in Proposition~\ref{prop:buffer-compression}. In particular,
+the numerical results of Sec.~\ref{sec:numerics} do not support an exponential estimate for the
+normalized offset in the form above.
 \end{assumption}
 
 \begin{proposition}[Unconditional buffer estimate for the compressed-contraction channel]
 \label{prop:buffer-compression}
 Let $H_L$ be bounded, $\norm{H_L}_\infty\le h$, and of range $R$. Let $V$ be a window of width
-$\ell$, $W\supset V$ a window with buffer $b>R$, and $H_W$ the restriction of $H_L$ to $W$ with
-couplings leaving $W$ removed (extended by $0$ outside $W$). Fix $\mu>0$ and $t\in\mathcal T_0$,
-and let $J^\star_\mu$ be as in Proposition~\ref{prop:weighted-bound}. Let $\kappa$ be a common
-scalar with $\norm{U_L(t)}_\infty,\norm{U_W(t)}_\infty\le q\sqrt\kappa$, $q<1$. Then there is
-$C=C(\ell,R,h,\mu,\mathcal T_0,\kappa)$ independent of $L$ and of the position of $V$ such that
+$\ell$, $W\supset V$ a window with buffer $b>R$, and $H_W=P_WH_LP_W$ the restriction of $H_L$ to
+$W$, extended by $0$ outside $W$. Fix a compact operational-time interval
+$\mathcal T_0\subset[0,\infty)$ and assume that the full and buffered propagators use the same scalar
+normalization $\kappa(t)$ with
+\begin{equation}
+\norm{U_L(t)}_\infty,\,
+\norm{U_W(t)}_\infty
+\le q\sqrt{\kappa(t)},
+\qquad
+q<1,
+\end{equation}
+and with $\inf_{t\in\mathcal T_0}\kappa(t)>0$. Then, for every fixed $\mu>0$, there is a constant
+$C=C(\ell,R,M,h,\mu,\mathcal T_0,\kappa)$ independent of $L$ and of the position of $V$ such that
 \begin{equation}
 \left|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})\right|
 \le C(q)\,C\,e^{-\mu b},
@@ -4529,32 +4565,103 @@ The corresponding estimate for $\Lambda_V^{\rev}$ holds with the same constant.
 \end{proposition}
 
 \begin{proof}
-Let $\Delta=H_L-(H_W\oplus0)$. Then $\Delta P_W$ acts nontrivially only through couplings at the
-boundary of $W$, so $\norm{\Delta P_W}_\infty\le2h$ and its range lies on $R$ sites outside $W$,
-each at distance at least $b-R$ from $V$ (call this range projector $Q$). Duhamel's formula gives
+Write the finite-range Hamiltonian as a sum of spatial displacement bands,
 \begin{equation}
-P_V\bigl[U_L(t)-U_W(t)\bigr]P_V
-=-i\int_0^tP_VU_L(t-s)\,\Delta P_W\,U_W(s)P_V\,ds,
+H_L=\sum_{r=-R}^{R}H_L^{(r)}.
 \end{equation}
-using that $U_W(s)$ preserves $W\supset V$. By By Proposition~\ref{prop:weighted-bound}, every matrix
-element of $P_VU_L(t-s)Q$ is bounded by $e^{-\mu(b-R)+J^\star_\mu t}$. Since $Q$ comprises at most
-$R$ cells on each side of $W$, and each cell has internal dimension $M$, $P_VU_L(t-s)Q$ has at most
-$2\ell RM^2$ nonzero entries, so its operator norm is at most
-$2\ell RM^2\,e^{-\mu(b-R)+J^\star_\mu t}$ (the Frobenius bound). Here $J^\star_\mu\le he^{\mu R}$
-is independent of $L$ for finite range $R$. With $\norm{U_W(s)}_\infty\le e^{hs}$,
+Each band can be obtained by Fourier averaging of the on-site phase rotations generated by the
+position operator $X$ and therefore obeys
+\begin{equation}
+\norm{H_L^{(r)}}_\infty\le\norm{H_L}_\infty\le h.
+\end{equation}
+Consequently, the weighted Hamiltonian norms of Proposition~\ref{prop:weighted-bound} satisfy
+\begin{equation}
+J^\star_\mu
+\le
+\sum_{r=-R}^{R}e^{\mu|r|}\norm{H_L^{(r)}}_\infty
+\le
+(2R+1)h e^{\mu R}
+=: \widehat J_\mu,
+\end{equation}
+which is independent of $L$.
+
+Let
+\begin{equation}
+\Delta=H_L-(H_W\oplus0).
+\end{equation}
+Since $H_W=P_WH_LP_W$,
+\begin{equation}
+\Delta P_W=(\id-P_W)H_LP_W,
+\qquad
+\norm{\Delta P_W}_\infty\le h.
+\end{equation}
+Moreover, $\Delta P_W$ has support only on the $R$ cells outside each boundary of $W$. Let $Q$
+be the projector onto those cells. Every matrix element connecting $V$ to $Q$ has separation at
+least $b-R$, so Proposition~\ref{prop:weighted-bound} gives, for $0\le s\le t$,
+\begin{equation}
+\left|
+\left(P_VU_L(t-s)Q\right)_{\alpha\beta}
+\right|
+\le
+e^{-\mu(b-R)+\widehat J_\mu t}.
+\end{equation}
+The matrix $P_VU_L(t-s)Q$ has dimensions $(\ell M)\times(2RM)$, and hence its Frobenius norm is
+bounded by
+\begin{equation}
+\norm{P_VU_L(t-s)Q}_\infty
+\le
+\norm{P_VU_L(t-s)Q}_{\rm F}
+\le
+M\sqrt{2\ell R}\,
+e^{-\mu(b-R)+\widehat J_\mu t}.
+\end{equation}
+
+Duhamel's formula gives
+\begin{equation}
+P_V[U_L(t)-U_W(t)]P_V
+=
+-i\int_0^t
+P_VU_L(t-s)\Delta P_WU_W(s)P_V\,ds,
+\end{equation}
+and $\norm{U_W(s)}_\infty\le e^{hs}$. Therefore
 \begin{equation}
 \norm{P_V[U_L(t)-U_W(t)]P_V}_\infty
-\le 4h\,\ell RM^2\,t\,e^{\mu R+(J^\star_\mu+h)t}\,e^{-\mu b}.
+\le
+h\,t\,M\sqrt{2\ell R}\,
+e^{\mu R+(\widehat J_\mu+h)t}
+e^{-\mu b}.
 \end{equation}
-The constants are deliberately coarse; only their independence of $L$ and of the position of $V$
-is used.
-Dividing by $\sqrt\kappa$ bounds $\norm{K^{(L)}_V-K^{(W)}_V}_\infty$. Since
-$\norm{\widetilde U_{K_1}-\widetilde U_{K_2}}_\infty\le(1+q/\sqrt{1-q^2})\norm{K_1-K_2}_\infty$
-(proof of Proposition~\ref{prop:uniform-gauge-equivalence}), and since the operator norm is
-transpose invariant so that $\norm{\widetilde U_{K_1}^T-\widetilde U_{K_2}^T}_\infty$ obeys the same
-bound, the triangle inequality in the definition of $A_\diamond$ together with
-$\norm{\mathcal U_1-\mathcal U_2}_\diamond\le2\norm{U_1-U_2}_\infty$ yields the claim. The
-$\rev$-statement is the same estimate applied to $K^T$.
+Dividing by $\sqrt{\kappa(t)}$ yields
+\begin{equation}
+\norm{K_V^{(L)}-K_V^{(W)}}_\infty
+\le
+C_U(\ell,R,M,h,\mu,\mathcal T_0,\kappa)\,
+e^{-\mu b},
+\end{equation}
+with a constant uniform on $\mathcal T_0$ because $\kappa(t)$ is bounded away from zero there.
+
+By the Lipschitz estimate used in Proposition~\ref{prop:uniform-gauge-equivalence},
+\begin{equation}
+\norm{\widetilde U_{K_1}-\widetilde U_{K_2}}_\infty
+\le
+\left(1+\frac{q}{\sqrt{1-q^2}}\right)
+\norm{K_1-K_2}_\infty.
+\end{equation}
+The same estimate holds after transpose because the operator norm is invariant under matrix
+transpose. Using
+\begin{equation}
+\norm{\mathcal U_1-\mathcal U_2}_\diamond
+\le
+2\norm{U_1-U_2}_\infty
+\end{equation}
+for unitary channels and the triangle inequality in the definition of $A_\diamond$, we obtain
+\begin{equation}
+\left|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})\right|
+\le
+C(q)\,C_U\,e^{-\mu b}.
+\end{equation}
+The $\rev$-estimate follows by applying the same argument to the transposed contractions
+$(K^{(L)})^T$ and $(K^{(W)})^T$.
 \end{proof}
 
 \begin{remark}[Meaning of $\Lambda_V$ in this section: compressed-contraction channel]
@@ -4579,9 +4686,9 @@ tensor-product realization (Remark~\ref{rem:affine-reduction}); that relation is
 $\Xi_V$ is a covariance-matrix diagnostic that appears in no $A_\diamond$ statement.
 \end{remark}
 
-\begin{theorem}[Buffered local-channel reduction under reciprocity-stable buffer stability]
+\begin{theorem}[Buffered asymmetry bound for the compressed-contraction Julia channel]
 \label{thm:buffered-reduction}
-Under Assumption~\ref{ass:buffer-stability} and Remark~\ref{rem:Adiamond-linear-part}, for every
+Under the hypotheses of Proposition~\ref{prop:buffer-compression}, for every
 $t\in\mathcal T_0$,
 \begin{equation}
 \boxed{
@@ -4595,12 +4702,12 @@ A_\diamond(\Lambda_{V_j}^{(W)})
 e^{-\mu_\Lambda b}.
 }
 \end{equation}
-The two $\Lambda$-estimates of Assumption~\ref{ass:buffer-stability} hold automatically by
-Proposition~\ref{prop:buffer-compression}, so the bound above is unconditional for the compressed
-contraction channel with $C_\Lambda=C_\Lambda'=C(q)\,C$ and $\mu_\Lambda=\mu$ (the constants and
-$b>R$ requirement are those of that proposition). No statement about the covariance-matrix offset
-$\Xi_V$ is made. No unconditional robustness truncation estimate is required for the results
-below.
+In the unconditional formulation of Proposition~\ref{prop:buffer-compression}, one may take
+$C_\Lambda=C_\Lambda'=C(q)\,C$ and $\mu_\Lambda=\mu$. This theorem concerns only the separately
+defined compressed-contraction channels $\Lambda_{V_j}^{(L)}$ and $\Lambda_{V_j}^{(W)}$. No
+statement is made that either channel is the reduced channel of a tensor-product many-body
+realization, nor that the covariance-matrix offset $\Xi_V$ obeys the same estimate. No
+unconditional robustness truncation estimate is required for the results below.
 \end{theorem}
 
 \begin{proof}
@@ -4643,19 +4750,19 @@ preferable because it is directly testable and avoids importing a non-intrinsic 
 constant.
 \end{remark}
 
-\begin{remark}[How the buffer hypothesis is to be used]
-The operational content of the coupled-chain extension is separated into two levels. The exact QRT
-monotonicity applies to the linear part $\Lambda_V$ of the reduced channel whenever a
-tensor-product local realization is specified and the affine decomposition of
-Remark~\ref{rem:affine-reduction} is carried out. The approximation of that linear part, and
-separately of the offset $\Xi_V$, by their isolated-buffered-window counterparts is an additional,
-explicitly testable locality hypothesis. This avoids promoting a proof sketch for a nonlinear
-Julia completion into an unconditional theorem, and avoids silently treating the affine reduced
-map as though it were linear.
+\begin{remark}[How the buffer analysis is to be used]
+The operational content of the coupled-chain extension is separated into two distinct objects.
+The exact QRT monotonicity applies to the compressed-contraction Julia channel
+$\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$ defined in
+Remark~\ref{rem:Adiamond-linear-part}. Its approximation by the isolated buffered-window channel
+is controlled by Proposition~\ref{prop:buffer-compression}. Separately, the quantity $\Xi_V$ belongs
+only to the single-particle covariance-matrix representation and is not a component of the
+reduced CPTP channel $\mathfrak R_V[\mathcal N_L]$. No relation between $\Lambda_V$ and
+$\mathfrak R_V[\mathcal N_L]$ is used or claimed in the present theorem.
 \end{remark}
 
-\begin{definition}[Local reduced-channel resource]
-For disjoint windows $V_1,\ldots,V_J$ in a tensor-product local realization,
+\begin{definition}[Local compressed-channel resource]
+For disjoint windows $V_1,\ldots,V_J$,
 \begin{equation}
 \boxed{
 E_{\diamond,\ell,b}^{\rm loc}(L,t)
@@ -4673,7 +4780,7 @@ E_{\diamond,\ell,b}^{\rm iso}(L,t)
 A_\diamond(\Lambda_{V_j}^{(W)}).
 }
 \end{equation}
-Analogously, define the aggregate offset discrepancy
+For the separate covariance-matrix diagnostic, define the aggregate offset sizes
 \begin{equation}
 \boxed{
 \Xi_{\ell,b}^{\rm loc}(L,t)
@@ -4687,15 +4794,16 @@ Analogously, define the aggregate offset discrepancy
 \left\|\Xi_{V_j}^{(W)}\right\|_\infty.
 }
 \end{equation}
-\end{definition}
+These quantities are not identified with the channel resource $E_{\diamond,\ell,b}^{\rm loc}$.
 
-\begin{proposition}[Exact local monotonicity]
+\begin{proposition}[Exact local monotonicity for compressed channels]
 \label{prop:local-reduced-monotone}
 Let
 \begin{equation}
 \Theta_j:\mathsf{Obj}(V_j)\to\mathsf{Obj}(V_j)
 \end{equation}
-be free superchannels acting independently on the linear parts of the reduced channels. Then
+be free superchannels acting independently on the compressed-contraction channels
+$\Lambda_{V_j}^{(L)}$. Then
 \begin{equation}
 \boxed{
 \sum_{j=1}^{J}
@@ -4704,7 +4812,8 @@ A_\diamond(\Theta_j(\Lambda_{V_j}^{(L)}))
 E_{\diamond,\ell,b}^{\rm loc}(L,t).
 }
 \end{equation}
-The same statement holds for $\Rrob$.
+No robustness aggregate is introduced in this section, so no corresponding local
+$R_{\rm rob}$ statement is used below.
 \end{proposition}
 
 \begin{proof}
@@ -4790,10 +4899,15 @@ satisfying
 \item $r^2=\mathrm{id}$;
 \item $r$ is convex-linear;
 \item $r(\mathsf{Obj}_L)\subseteq\mathsf{Obj}_L$;
-\item $r$ acts cellwise on tensor-product arrays;
-\item free superchannels satisfy $\Theta\circ r=r\circ\Theta$.
+\item $r$ acts cellwise on tensor-product arrays.
 \end{enumerate}
-Transpose $r(\mathcal N)=\mathcal N^{\rev}$ is an example.
+Transpose, $r(\mathcal N)=\mathcal N^{\rev}$, is an example. Given a finite family
+$\mathscr G$ of covariance data, a superchannel is called $\mathscr G$-covariant if
+\begin{equation}
+\Theta\circ r=r\circ\Theta
+\qquad
+\forall r\in\mathscr G.
+\end{equation}
 \end{definition}
 
 \begin{definition}[Symmetry-extended free set and asymmetry]
@@ -4897,68 +5011,71 @@ A_\diamond
 \sqrt{1-c(g)^2}.
 \end{equation}
 
-Beyond the analytic calibration, three independent numerical checks were carried out and are
-reported here in full; no fabricated values are used, and each figure was produced directly from
-the definitions above.
+Beyond the analytic calibration, three numerical checks are reported. They should be understood
+as consistency checks of the analytic statements rather than as independent proofs.
 
-\textbf{Lemma~\ref{lem:quasi-julia} (quasi-locality).} At $L=60$ and fixed $t$, the fitted
-exponential decay rates are $\mu(U_H(t))=\mu(K)\approx2.56$ and
-$\mu(D_K)=\mu(D_{K^\dagger})\approx0.66$ (Fig.~\ref{fig:lemma1}). The clear separation between
-these two rates confirms the qualitative prediction that the defect operators are generically
-less local than $K$ itself, even when $K$ is finite range. The $U_H(t)/K$ fit is based on a
-narrower window ($\lesssim13$ points before reaching double-precision noise) than the $D_K/
-D_{K^\dagger}$ fit ($\approx48$ points, no observed truncation), so the latter rate is the more
-reliably constrained of the two.
+\textbf{Lemma~\ref{lem:quasi-julia} (quasi-locality).} At $L=60$ and fixed $t$, the propagator and
+normalized contraction give the same fitted rate, $\mu(U_H(t))=\mu(K)\approx2.5648$ over the
+short range before reaching double-precision noise. For the defect operators, the quoted fit on
+$r\in[2,25]$ gives $\mu(D_K)=\mu(D_{K^\dagger})\approx0.6625$, while refitting over the full
+available range gives approximately $0.5938$. The visible dependence on the fit window is therefore
+non-negligible, and the numerical data should not be used to claim a unique precision exponent for
+the defect operators. The robust numerical conclusion is qualitative: the defect operators are
+exponentially decaying over the tested range but display a slower and more fit-sensitive decay than
+$K$ itself.
 
 \textbf{Proposition~\ref{prop:uniform-shorttime-bridge} (thermodynamic persistence).} For the
 uniform Hatano--Nelson family at fixed $g\ne0$ and the tight gauge of
-Remark~\ref{rem:HN-tight-thermo}, the short-time lower bound on $A_\diamond$ was evaluated for
-$L=4,8,12,20,30,45,60,90,120$. The bound decreases monotonically from $0.1376$ at $L=4$ to
-$\approx0.1227$ at $L=120$, with the sequence visibly converging (Fig.~\ref{fig:prop23}). This
-is a direct numerical confirmation that Corollary~\ref{cor:uniform-thermo-shorttime}'s bound
-survives the thermodynamic limit rather than degrading with system size.
+Remark~\ref{rem:HN-tight-thermo}, the concrete finite-size lower-bound expression was evaluated
+for $L=4,8,12,20,30,45,60,90,120$. The reported values decrease from approximately $0.1376$ at
+$L=4$ to $0.122676$ at $L=120$. This numerical sequence is consistent with the analytic
+$L$-uniform short-time estimate and illustrates that the finite-size expression does not visibly
+degrade with system size; it is not itself a proof of the thermodynamic bound.
 
 \textbf{Compressed-contraction buffer test (Sec.~\ref{sec:windowed}).}
-The script evaluates, for $\ell=4$, bulk $L=60$ and a common $\kappa$ from the bulk propagator
-norm, the channel asymmetry of $\Lambda_V=\widetilde{\mathcal E}_{K_V}$ of
-Remark~\ref{rem:Adiamond-linear-part} for the compression of the bulk contraction and for the
-isolated buffered windows. This is a test of Proposition~\ref{prop:buffer-compression}, which is
-itself a consequence of the quasi-locality of $U_H(t)$; it is \emph{not} a test of a many-body
-reduced channel and does not involve a Fock-space realization. The bulk value is
-$A_\diamond(\Lambda_V^{(L)})=0.528469$; the isolated-window value agrees to six decimals from
-$b=2$ on. The quoted least-squares rate $\mu_\Lambda\approx5.84$ is obtained from those points
-with discrepancy above $10^{-12}$; since only a few points survive this cut, we regard it as an
-order-of-magnitude estimate consistent with the decay $e^{-\mu b}$ of
-Proposition~\ref{prop:buffer-compression} (whose rate is governed by the propagator, cf.\
-$\mu(U_H)\approx2.56$ above), not as a precision measurement.
+For $\ell=4$, bulk $L=60$, and a common normalization inferred from the bulk propagator norm, the
+script evaluates the asymmetry of the compressed-contraction Julia channel
+$\Lambda_V=\widetilde{\mathcal E}_{K_V}$ for the full chain and for isolated buffered windows.
+This is a test of Proposition~\ref{prop:buffer-compression}, not of a many-body reduced channel.
+The bulk value is
+$A_\diamond(\Lambda_V^{(L)})=0.528469$, and the isolated-window value agrees to the displayed
+precision from $b=2$ onward. The reported exponential fits are strongly dependent on the fitting
+range: using $b=1,2,3,4$ gives $\mu\approx6.1525$, whereas using $b=1,\ldots,6$ gives
+$\mu\approx4.2686$. Because only a few points remain above numerical precision, these values should
+not be interpreted as reliable estimates of the analytic decay rate. We therefore use the numerical
+data only to demonstrate rapid convergence to the numerical floor, consistent with the analytic
+exponential buffer bound.
 
-The offset diagnostic requires a correction. In the script the full-chain and window offsets are
-$\Xi^{(L)}=d_{\bar V}^{-1}K_{V\bar V}K_{V\bar V}^\dagger$ with $d_{\bar V}=56$ and
-$\Xi^{(W)}$ with $d_{\bar V}=2b$, respectively. The measured differences
-$\|\Xi^{(L)}-\Xi^{(W)}\|$ ($\approx0.070,\,0.035,\,0.023,\,0.016,\,0.013,\,0.010,\,0.0068,\,0.0049$
-at $b=1,2,3,4,5,6,8,10$) satisfy $b\cdot\|\Xi^{(L)}-\Xi^{(W)}\|\in[0.049,0.071]$ over the entire
-range, i.e.\ they decay essentially as $1/b$. This is dominated by the mismatched prefactor
-$1/(2b)$ of the maximally mixed background rather than by any locality property of the
-propagator. The fitted rate $\mu_\Xi\approx0.28$ reported in an earlier version is therefore
-\emph{withdrawn} as evidence of exponential buffer convergence of $\Xi$. Whether the
-un-normalized leakage $K_{V\bar V}K_{V\bar V}^\dagger$ converges exponentially in $b$ is a
-separate question that we have not tested; nothing in this paper depends on it. All numerical
-results above were generated from the stated definitions with the parameters listed and a single
-choice $(g,t,\ell,L)=(0.5,0.35,4,60)$.
+The offset diagnostic has a different behavior. The full-chain and window offsets use different
+maximally-mixed complement dimensions, $d_{\bar V}=56$ and $d_{\bar V}=2b$, respectively. The
+reported differences
+$\|\Xi^{(L)}-\Xi^{(W)}\|\approx0.070,\,0.035,\,0.023,\,0.016,\,0.013,\,0.010,\,0.0068,\,0.0049$
+for $b=1,2,3,4,5,6,8,10$ satisfy
+\[
+b\,\|\Xi^{(L)}-\Xi^{(W)}\|\in[0.049,0.071],
+\]
+which is consistent with approximately $1/b$ decay over the tested range. This behavior is
+dominated by the mismatched complement-dimension prefactor rather than by a demonstrated
+nonlocality of the propagator. Accordingly, no exponential fit is quoted for the normalized
+offset, and the earlier value $\mu_\Xi\approx0.28$ is withdrawn as a locality exponent. Whether
+the un-normalized leakage $K_{V\bar V}K_{V\bar V}^\dagger$ has an independent exponential buffer
+limit remains untested and plays no role in the present channel results. The numerical study uses
+the single parameter point $(g,t,\ell,L)=(0.5,0.35,4,60)$.
 
 \IfFileExists{fig_buffered_reduction_plan_a.pdf}{
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig_buffered_reduction_plan_a.pdf}
-\caption{Buffered local-channel convergence for the free-fermion realization of
-Remark~\ref{rem:affine-reduction} (window $\ell=4$, bulk $L=60$). The linear-part discrepancy
-$|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})|$ decays with fitted rate
-$\mu_\Lambda\approx5.84$, reaching double-precision noise by $b\approx6$. The offset
-discrepancies $\|\Xi_V^{(L)}-\Xi_V^{(W)}\|$ and $\|\Xi_V^{(L),\rev}-\Xi_V^{(W),\rev}\|$ decay
-more slowly, with fitted rate $\mu_\Xi\approx0.28$, and remain visibly above machine precision
-throughout the tested range. Both curves decay exponentially, as required by
-Assumption~\ref{ass:buffer-stability} and Theorem~\ref{thm:buffered-reduction}, with the linear
-and offset parts governed by two distinct, well-separated rates.}
+\caption{Buffered convergence of the compressed-contraction Julia channel
+$\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$ for $\ell=4$ and bulk $L=60$. The asymmetry
+discrepancy $|A_\diamond(\Lambda_V^{(L)})-A_\diamond(\Lambda_V^{(W)})|$ falls to the numerical
+floor rapidly; because the fitted exponent depends strongly on the fitting range, no precision
+value of $\mu_\Lambda$ is claimed. The covariance-matrix offset diagnostic behaves differently:
+over the tested range its discrepancy is consistent with approximately $1/b$ decay, attributable
+to the different maximally-mixed complement dimensions used in the full and isolated constructions.
+Accordingly, the offset is not presented as evidence for exponential buffer convergence. The
+figure concerns the compressed-contraction channel and the separate covariance diagnostic; it is
+not a test of a genuine many-body reduced channel.}
 \label{fig:windowed}
 \end{figure}
 }{}
@@ -4986,7 +5103,7 @@ A_{\diamond,\infty},R_{{\rm rob},\infty}),
 \\[1mm]
 \text{trajectory-derived extension}
 &:&
-(A_\diamond^\sup,R_{\rm rob}^\sup),
+(A_\diamond^{\sup},R_{\rm rob}^{\sup}),
 \\[1mm]
 \text{trajectory-level free maps}
 &:&
@@ -4998,7 +5115,7 @@ A_{\diamond,\infty},R_{{\rm rob},\infty}),
 \\[1mm]
 \text{trajectory-derived extensive extension}
 &:&
-(E_\diamond^\sup,E_{\rm rob}^\sup),
+(E_\diamond^{\sup},E_{\rm rob}^{\sup}),
 \\[1mm]
 \text{tensor-local coupled-chain extension}
 &:&
@@ -5059,8 +5176,9 @@ E_\diamond^{\sup}(\mathfrak\Theta\mathfrak N)
 E_\diamond^{\sup}(\mathfrak N).
 \end{equation}
 
-For genuinely coupled chains with a tensor-product local realization, the correct local statement
-is on the linear part $\Lambda_V$ of the reduced channel,
+For genuinely coupled chains, the correct local statement in the present paper is on the
+separately defined compressed-contraction Julia channels
+$\Lambda_{V_j}^{(L)}=\widetilde{\mathcal E}_{P_{V_j}K P_{V_j}}$,
 \begin{equation}
 \sum_j
 A_\diamond(\Theta_j(\Lambda_{V_j}^{(L)}))
@@ -5068,7 +5186,7 @@ A_\diamond(\Theta_j(\Lambda_{V_j}^{(L)}))
 \sum_j
 A_\diamond(\Lambda_{V_j}^{(L)}),
 \end{equation}
-together with the conditional buffer estimates
+together with the unconditional buffer estimate
 \begin{equation}
 \left|
 A_\diamond(\Lambda_{V_j}^{(L)})
@@ -5108,13 +5226,17 @@ The full ancilla-assisted conversion problem remains distinct from this witness 
 \section{Scope and limitations}
 \label{sec:limitations}
 
-The primitive theory is finite-time and operational. Its objects are quasi-local CPTP
-bistochastic channels, its free channels are transpose reciprocal, and its free operations are
-covariance-constrained quantum superchannels that preserve the object class. Covariance is imposed
-on the stated object class; no stronger covariance on a larger space is silently assumed. The
-Julia dilation is a canonical representation choice for the normalized propagator, not a
-uniqueness theorem for physical dilations. The only no-ancilla rigidity statement proved here
-uses the explicitly defined unitary-congruence subclass $\FreeOps_{\rm uc}(L)$.
+The primitive theory is finite-time and operational. At fixed finite $L$, its objects are the CPTP
+bistochastic channels on the doubled Hilbert space; the finite-$L$ exponential locality notation is
+a compatibility structure, while nontrivial locality enters through $L$-uniform thermodynamic
+family conditions. The free channels are transpose reciprocal, and the free operations are
+covariance-constrained quantum superchannels that preserve the object class. We interpret this
+covariance condition as the axiomatic symmetry-free choice of the present QRT rather than as a
+complete microscopic model of engineering cost. Covariance is imposed on the stated object class;
+no stronger covariance on a larger space is silently assumed. The Julia dilation is a canonical
+representation choice for the normalized propagator, not a uniqueness theorem for physical
+dilations. The only no-ancilla rigidity statement proved here uses the explicitly defined
+unitary-congruence subclass $\FreeOps_{\rm uc}(L)$.
 
 Several clarifications are central.
 
@@ -5270,9 +5392,9 @@ A_\diamond^{\sup}(\lambda H)
 A_\diamond^{\sup}(H).
 \end{equation}
 
-The trajectory-derived extension is a genuine time-indexed free-operation construction: fixed-time
-monotonicity holds pointwise in $t$, so both the trajectory-derived asymmetry and robustness are
-monotone under trajectory-level free maps.
+The trajectory-derived extension is a pointwise derived construction: fixed-time monotonicity holds
+at each $t$, and taking the supremum yields monotonicity under families of pointwise free
+superchannels. This construction is not claimed to be a causal process-supermap resource theory.
 
 The thermodynamic short-time theorem uses an explicitly $L$-uniform propagator remainder and an
 $L$-uniform transition-intensity estimate, numerically confirmed to converge cleanly with system
@@ -5322,12 +5444,13 @@ g\ne0
 \end{equation}
 
 The cellular extension gives an exactly additive extensive resource under an explicitly defined
-tensor-product laboratory architecture. For genuinely coupled systems, the compressed contraction $P_VKP_V$ of a window $V$ has a
-well-typed Julia-completed channel $\Lambda_V$ to which the exact QRT monotonicity applies, and
-whose asymmetry converges exponentially in the buffer thickness by an unconditional estimate
-(Proposition~\ref{prop:buffer-compression}); this does not use transpose as a diamond isometry. Whether
-$\Lambda_V$ is related to the reduced channel of a many-body tensor-product realization is not
-established here.
+tensor-product laboratory architecture. For genuinely coupled systems, the present buffered theorem
+concerns only the compressed-contraction Julia channel
+$\Lambda_V=\widetilde{\mathcal E}_{P_VKP_V}$. Its asymmetry obeys an unconditional exponential
+buffer estimate derived from propagator locality (Proposition~\ref{prop:buffer-compression}).
+This result does not identify $\Lambda_V$ with the reduced channel of a many-body tensor-product
+realization, nor does it provide such a reduced-channel approximation theorem. The covariance-matrix
+offset remains a separate representation-dependent diagnostic.
 
 Spectral, disorder, spatial, and dynamical quantities remain diagnostics rather than axioms of the
 QRT. Clean reciprocity forces zero determinant winding and reciprocal roots; reciprocal disordered
