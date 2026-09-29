@@ -1,0 +1,338 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,tabularx,array}
+\usepackage[most]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\one}{\mathbb{1}}
+\newcommand{\dF}{d_F}
+\newcommand{\RL}{\mathrm{RL}}
+\DeclareMathOperator{\dist}{dist}
+
+\title{A Resource Theory of the Non-Hermitian Skin Effect:\\
+Generator-Anchored Objects, Intrinsic Free Operations,\\
+Proved Monotones, and an Explicit Status Ledger\\[2pt]\large V29 working manuscript}
+\author{Marcelo Group}
+\date{September 29, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+V28 declared universality but rested on definitions that did not single out the skin effect: any family of response states with boundary weight qualified, Hermitian systems included, and the ``equivalence'' between the physical predicate and the resource spectrum was a re-writing of one inequality. V29 replaces that construction.
+Objects are \emph{ensembles of right/left response states with boundary collars}, anchored to non-Hermitian generators. Free operations are defined intrinsically (a common CPTP map on the classical--quantum ensemble register together with a stochastic relabelling, subject to \emph{collar non-expansion}) and form a symmetric monoidal category. We prove:
+(i) a \emph{reciprocity no-go}: every object with $\rho^R=\rho^L$ and disjoint dual collars has bounded skin score, so Hermitian and any reciprocal system is excluded;
+(ii) skin accumulation forces R/L non-normality, but not conversely (with an explicit bound and a counterexample);
+(iii) an infinite family of monotones (all coordinatewise convex non-increasing functionals of the leakage profile) plus an additive fidelity monotone, and exact rate-level monotonicity;
+(iv) a canonical free object reachable from every object, and a non-trivial conversion (``dilution'') that lowers the skin rate to any prescribed value;
+(v) a two-sided, mode-uniform Hatano--Nelson (HN) calibration with explicit constants;
+(vi) exact and robust one-shot conversion as a branch-free compact-convex problem with a complete dual.
+\textbf{What is not established} is stated in the Status ledger at the end: the equivalence of the physical predicate with the standard spectral definition beyond imported Toeplitz results, a complete monotone family for the full conversion preorder, exact conversion between different HN couplings, and any non-trivial vanishing-error asymptotic rate. The manuscript does not claim these.
+\end{abstract}
+
+%======================================================================
+\section{Scope and corrections to V28}
+\label{sec:scope}
+
+The target remains a universal quantum resource theory of the non-Hermitian skin effect (NHSE). V29 makes ``universal'' precise as follows: universal over the class $\mathfrak{O}$ of \emph{skin data} (Definition~\ref{def:object}) that any finite-dimensional generator with a boundary measurement produces (Definition~\ref{def:generator}); \emph{not} over ``all physical experiments''. The following V28 statements are withdrawn.
+\begin{itemize}
+\item The physical predicate with $\tau=R$ alone (right states near one boundary) is satisfied by a Hermitian system; V28's ``no-go'' was therefore not a no-go for its own predicate. V29 uses the \emph{paired} score (Definition~\ref{def:leak}), for which Theorem~\ref{thm:nogo} holds.
+\item ``Physical NHSE $\Leftrightarrow$ non-trivial resource spectrum'' was a re-writing of the identity $\tfrac12[-\log Q]_+=\Delta$. V29 does not count this as a theorem (Remark~\ref{rem:tauto}).
+\item V28's ``exact rigidity'' (Proposition~10) came from a control non-degradation constraint that froze the collar survival probability. V29 has no such constraint; free operations may dilute skin.
+\item The claim that the POVM embedding is a free isomorphism is dropped; it is an isometric data-reduction only (Proposition~\ref{prop:naimark}).
+\item V28's branch-wise duality (Theorems~14--15) ignored that a union of convex sets is not convex. V29 removes discrete branches by convexifying label bijections into stochastic kernels (Section~\ref{sec:conv}).
+\item V28's tensor-product score additivity used a non-collar event. With the correct product collar (Definition~\ref{def:tensor}) the skin score is \emph{not} additive; only the fidelity monotone is.
+\end{itemize}
+
+%======================================================================
+\section{Objects}
+\label{sec:objects}
+
+\begin{definition}[Skin datum]\label{def:object}
+A skin datum $X$ consists of a finite-dimensional Hilbert space $H_X$; a finite response set $[M_X]$ with probability weights $\pi^X$; two families of density operators $\rho^R_m,\rho^L_m$ on $H_X$ (right/left responses); and a \emph{collar family}: projectors $\Pi_{\sigma,w}$, $\sigma\in\Sigma=\{-,+\}$, $w\in[W]$, nested in $w$. Write $\iota(\mp)=\pm$ and $\Lambda_{\sigma,w}=\one-\Pi_{\sigma,w}$. $X$ is \emph{boundary-separated} if $\Pi_{\sigma,w}\Pi_{\iota\sigma,w}=0$ for all $\sigma,w$.
+The classical--quantum (cq) operators are $\omega^h_X=\sum_m\pi_m\,|m\rangle\!\langle m|\otimes\rho^h_m$, $h\in\{R,L\}$.
+\end{definition}
+
+\begin{definition}[Generator datum]\label{def:generator}
+A generator datum is a matrix $G$ on $\ell^2(\text{cells})\otimes\mathbb{C}^d$ (open boundary), with simple spectrum, a cell-position measurement (projective, or a POVM reduced by Proposition~\ref{prop:naimark}), right and left eigenvectors $R_m,L_m$ of $G$ normalised to unit vectors, and $\rho^R_m=|R_m\rangle\!\langle R_m|$, $\rho^L_m=|L_m\rangle\!\langle L_m|$, uniform weights, and $\Pi_{\pm,w}$ the projectors onto the $w$ outermost cells at the right/left end. This is boundary-separated when $2w\le$ number of cells. Liouvillian, Floquet and scattering generators enter the same way once a finite matrix with left/right eigen-responses is specified.
+\end{definition}
+
+\begin{proposition}[POVM reduction]\label{prop:naimark}
+For a finite POVM $\{E_x\}$ on $H$, $V\psi=\sum_x\sqrt{E_x}\psi\otimes|x\rangle$ is an isometry, $\Tr[(\one\otimes|x\rangle\!\langle x|)V\rho V^\dagger]=\Tr[E_x\rho]$, and the root fidelity is preserved: $F(V\rho V^\dagger,V\sigma V^\dagger)=F(\rho,\sigma)$. Hence a POVM-based skin datum is replaced by a projective one with identical boundary statistics and identical $\Phi_Q$.
+\end{proposition}
+\begin{proof}
+$V^\dagger V=\sum_xE_x=\one$. The probability identity is direct. Fidelity is invariant under a common isometry.
+\end{proof}
+\noindent The map $X\mapsto\tilde X$ is a data reduction; no claim is made that it is invertible or a free isomorphism.
+
+%======================================================================
+\section{Leakage, the skin score, and the physical predicate}
+\label{sec:leak}
+
+\begin{definition}[Paired leakage and score]\label{def:leak}
+For response $m$, boundary label $\sigma$ and width $w$,
+\[
+\lambda^R_m(\sigma,w)=\Tr[\Lambda_{\sigma,w}\rho^R_m],\quad
+\lambda^L_m(\sigma,w)=\Tr[\Lambda_{\iota\sigma,w}\rho^L_m],\quad
+\lambda^\Sigma_m=\tfrac12(\lambda^R_m+\lambda^L_m),\quad
+g_m(\sigma,w)=-\tfrac12\log\lambda^\Sigma_m\in[0,\infty].
+\]
+The right response is tested at boundary $\sigma$ and the left response at the \emph{dual} boundary $\iota\sigma$. The resource at scale $w$ is $\mathcal R_\sigma(w)=\E_\pi g_m(\sigma,w)$.
+\end{definition}
+
+\begin{definition}[Physical directed skin effect]\label{def:phys}
+A sequence $X_L$ of skin data exhibits \emph{directed skin accumulation} if there exist $\sigma$, widths $w_L\to\infty$, a scale $a(w)\to\infty$ and $\kappa>0$ with $\mathcal R_\sigma(w_L)\ge\kappa\,a(w_L)$ for all large $L$. It exhibits \emph{extensive} directed skin accumulation if moreover $\pi\{m:g_m\ge\kappa a(w_L)\}\ge f>0$. Extensive implies directed (as $g\ge0$, $\mathcal R\ge f\kappa a$); the converse fails when a vanishing fraction of responses carries huge scores, which is why both are kept.
+Rates: $r^{\pm}_\sigma[a]=\limsup/\liminf\ \mathcal R_\sigma(w_L)/a(w_L)$.
+\end{definition}
+The predicate contains no control experiment and no resource coordinate; the ``control'' is the intrinsic bound of Theorem~\ref{thm:nogo}.
+
+\begin{theorem}[Reciprocity no-go]\label{thm:nogo}
+If $\rho^R_m=\rho^L_m$ for all $m$ and $X$ is boundary-separated, then $g_m(\sigma,w)\le\tfrac12\log2$ for all $m,\sigma,w$. Hence every reciprocal object, in particular every Hermitian generator, has all rates $r^\pm_\sigma[a]=0$.
+\end{theorem}
+\begin{proof}
+$\lambda^\Sigma_m=1-\tfrac12\Tr[(\Pi_{\sigma,w}+\Pi_{\iota\sigma,w})\rho_m]$, and $\Pi_{\sigma,w}+\Pi_{\iota\sigma,w}$ is a projector, so $\lambda^\Sigma_m\ge\tfrac12$.
+\end{proof}
+
+\begin{theorem}[Skin implies non-normality]\label{thm:B}
+Let $X$ be boundary-separated. Then for every $m,\sigma,w$
+\[
+-\log F(\rho^R_m,\rho^L_m)\ \ge\ g_m(\sigma,w)-\log3,
+\]
+and consequently $\Phi_Q:=-\log\sum_m\pi_mF(\rho^R_m,\rho^L_m)\ \ge\ G_\sigma(w)-\log3$ with $G_\sigma(w):=-\log\E_\pi e^{-g_m(\sigma,w)}$.
+\end{theorem}
+\begin{proof}
+Measure the three-outcome projective measurement $\{\Pi_{\sigma,w},\Pi_{\iota\sigma,w},\one-\Pi_{\sigma,w}-\Pi_{\iota\sigma,w}\}$; root fidelity is non-increasing under measurement, so $F\le\sum_i\sqrt{p_iq_i}$ with $p,q$ the outcome laws of $\rho^R,\rho^L$. Write $\lambda^R,\lambda^L$ as in Definition~\ref{def:leak}. Outcome $\Pi_\sigma$: $\sqrt{p_1q_1}\le\sqrt{q_1}\le\sqrt{1-q_2}=\sqrt{\lambda^L}$. Outcome $\Pi_{\iota\sigma}$: $\sqrt{p_2q_2}\le\sqrt{p_2}\le\sqrt{\lambda^R}$. Third outcome: $p_3\le\lambda^R$, $q_3\le\lambda^L$, so $\sqrt{p_3q_3}\le\lambda^\Sigma\le\sqrt{\lambda^\Sigma}$. Since $\sqrt{\lambda^R}+\sqrt{\lambda^L}\le2\sqrt{\lambda^\Sigma}$, $F\le3\sqrt{\lambda^\Sigma}=3e^{-g}$. The aggregate bound follows from $\sum_m\pi_mF_m\le3\E e^{-g_m}$.
+\end{proof}
+
+\begin{remark}[The converse is false]
+Non-normality without skin exists: a Hermitian chain with a strong non-reciprocal bulk defect has $\rho^R\neq\rho^L$ and $\Phi_Q>0$ but $g_m$ bounded (check V29-06). Thus the theory separates a \emph{skin sector} from a broader \emph{non-normality sector}; Theorem~\ref{thm:B} is the one-way bridge.
+\end{remark}
+
+\begin{proposition}[Hatano--Nelson calibration, explicit]\label{prop:HN}
+Let $G$ be the open HN chain on $L$ sites with $G_{n+1,n}=e^{g}$, $G_{n,n+1}=e^{-g}$, $g>0$, boundary label $\sigma=+$ (right end), width $1\le w\le L-2$. Then $G=SH_0S^{-1}$ with $S=\mathrm{diag}(e^{gn})$ and $H_0$ the symmetric hopping matrix, so for mode $j$, with $k=\pi j/(L+1)$,
+\[
+|R_j(n)|^2\propto e^{2g(n-1)}\sin^2(kn),\qquad |L_j(n)|^2\propto e^{-2g(n-1)}\sin^2(kn),
+\]
+and uniformly in $j$,
+\[
+\bigl|g_j(+,w)-g\,w\bigr|\ \le\ \log(L+1)+g+\tfrac12\log\frac1{1-e^{-2g}}.
+\]
+Hence for widths with $w_L/\log L\to\infty$ and $a(w)=w$: $r^-_+[w]=r^+_+[w]=g$, and the sequence has extensive directed skin accumulation with $f=1$.
+\end{proposition}
+\begin{proof}
+Similarity gives the laws. Let $Z_R=\sum_ne^{2g(n-1)}\sin^2(kn)$. Since $\sin(kL)^2=\sin^2k\ge4/(L+1)^2$ (as $k\in[\pi/(L+1),\pi L/(L+1)]$), $Z_R\ge e^{2g(L-1)}\cdot4/(L+1)^2$, while $\sum_{n\le L-w}e^{2g(n-1)}\le e^{2g(L-w-1)}/(1-e^{-2g})$. So $\lambda^R\le e^{-2gw}(L+1)^2/[4(1-e^{-2g})]$; the same bound holds for $\lambda^L$ (mirror), whence $\lambda^\Sigma\le\max$ and the lower bound on $g$. For the upper bound, $Z_R\le e^{2g(L-1)}/(1-e^{-2g})$ and
+$p(L-w)+p(L-w-1)\ge e^{-2g(w+1)}(1-e^{-2g})\bigl[\sin^2(kn)+\sin^2(k(n+1))\bigr]$ with $n=L-w-1$; the bracket equals $1-\cos k\cos(2kn+k)\ge\sin^2k/2\ge2/(L+1)^2$. Then $\lambda^\Sigma\ge\tfrac12\lambda^R\ge e^{-2g(w+1)}(1-e^{-2g})/(L+1)^2$.
+\end{proof}
+\noindent The condition $w_L/\log L\to\infty$ is an honest extra hypothesis: at $w=O(\log L)$ the $O(\log L)$ error is of the size of the signal.
+
+\begin{remark}[Spectrum and the tautology]\label{rem:tauto}
+Taking $a=\mathcal R_\sigma(w_L)$ gives rate $1$ whenever $\mathcal R\to\infty$. So the all-scale spectrum $\{(a,r^-,r^+)\}$ carries exactly the information of the \emph{growth class} of the single function $w\mapsto\mathcal R_\sigma(w)$ (exponential, stretched, logarithmic, \dots). ``Directed skin accumulation $\Leftrightarrow$ non-trivial spectrum'' is therefore true by construction (Definition~\ref{def:phys}), and it is \emph{not} listed as a theorem. The theorem content is: Theorem~\ref{thm:nogo}, Theorem~\ref{thm:B}, Proposition~\ref{prop:HN}, the monotones below, and the imported link to spectral winding (Section~\ref{sec:import}).
+\end{remark}
+
+%======================================================================
+\section{Free operations, category, monotones}
+\label{sec:rt}
+
+\begin{definition}[Free morphism]\label{def:mor}
+A free morphism $\Theta=(\Xi,\kappa):X\to Y$ consists of a CPTP map $\Xi:B(\mathbb{C}^{M_X}\!\otimes H_X)\to B(\mathbb{C}^{M_Y}\!\otimes H_Y)$ and a column-stochastic $\kappa\in[0,1]^{M_Y\times M_X}$ such that
+\begin{enumerate}
+\item[(M1)] $\Xi(\omega^h_X)=\omega^h_Y$ for $h=R,L$;
+\item[(M2)] $\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\one)=\sum_m\kappa_{m'm}|m\rangle\!\langle m|\otimes\one$ for all $m'$;
+\item[(M3)] (collar non-expansion) $0\le\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\Pi^Y_{\sigma,w})\le\sum_m\kappa_{m'm}|m\rangle\!\langle m|\otimes\Pi^X_{\sigma,w}$ for all $m',\sigma,w$.
+\end{enumerate}
+\end{definition}
+(M1) and (M2) give $\pi^Y=\kappa\pi^X$. (M3) says: weight entering a target collar can only come from the same collar of the source; $\kappa$ is the randomised relabelling of responses. Label bijections are the extreme points of $\kappa$.
+
+\begin{lemma}[Leakage domination]\label{lem:dom}
+For every free morphism, all $m'$ with $\pi'_{m'}>0$, $h\in\{R,L\}$, $\sigma,w$:
+$\lambda^{h,Y}_{m'}(\sigma,w)\ \ge\ \sum_m\beta_{mm'}\lambda^{h,X}_m(\sigma,w)$ with $\beta_{mm'}=\kappa_{m'm}\pi_m/\pi'_{m'}$ a probability vector in $m$.
+\end{lemma}
+\begin{proof}
+By (M2),(M3), $\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\Lambda^Y)=\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\one)-\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\Pi^Y)\ge\sum_m\kappa_{m'm}|m\rangle\!\langle m|\otimes\Lambda^X$. Take the trace against $\omega^h_X$ and use (M1); apply with $\iota\sigma$ for $h=L$.
+\end{proof}
+
+\begin{proposition}[Symmetric monoidal category]\label{prop:cat}
+Skin data and free morphisms form a category (identity $=(\mathrm{id},\mathbb 1)$). With the product below it is symmetric monoidal.
+\end{proposition}
+\begin{definition}[Tensor product]\label{def:tensor}
+$X\otimes Y$ has $H_X\otimes H_Y$, responses $(m,n)$ with weights $\pi_m\pi_n$, states $\rho^h_m\otimes\rho^h_n$, and \emph{intersection collars} $\Pi^{X\otimes Y}_{\sigma,w}=\Pi^X_{\sigma,w}\otimes\Pi^Y_{\sigma,w}$ (both subsystems in the collar). Unit: $\mathbb C$, one response, $\Pi_{\sigma,w}=1$.
+\end{definition}
+\begin{proof}[Proof of Proposition~\ref{prop:cat}]
+Composition: for $\Theta_1:X\to Y$, $\Theta_2:Y\to Z$, (M1),(M2) compose with $\kappa=\kappa_2\kappa_1$; for (M3), positivity of $\Xi_1^\dagger$ gives $\Xi_1^\dagger\Xi_2^\dagger(|m''\rangle\!\langle m''|\otimes\Pi^Z)\le\sum_{m'}\kappa^{(2)}_{m''m'}\,\Xi_1^\dagger(|m'\rangle\!\langle m'|\otimes\Pi^Y)\le\sum_m(\kappa_2\kappa_1)_{m''m}|m\rangle\!\langle m|\otimes\Pi^X$.
+Tensor: $\Xi_1\otimes\Xi_2$ and $\kappa_1\otimes\kappa_2$ satisfy (M1),(M2) directly. For (M3), $0\le A\le A'$, $0\le B\le B'$ imply $A\otimes B\le A'\otimes B'$, applied to $A=\Xi_1^\dagger(\cdot\otimes\Pi^Y)$, etc. Associators and swap are the standard unitaries and commute with (M1)--(M3). The unit acts trivially. Boundary-separated data are closed under $\otimes$ (products of orthogonal projectors are orthogonal) but do not contain the unit.
+\end{proof}
+\begin{remark}
+The unit has $\lambda=0$, i.e.\ infinite score: it is the \emph{top} element (there is a morphism $\mathbb 1\to X$ for every $X$ and none back). It is not a free object. This is a feature of intersection collars and is stated rather than hidden.
+\end{remark}
+
+\begin{definition}[Free objects]
+$\mathcal F$ is the class of boundary-separated skin data with $\rho^R_m=\rho^L_m$ for all $m$ (reciprocal).
+\end{definition}
+
+\begin{theorem}[Monotones]\label{thm:mono}
+Let $\Theta:X\to Y$ be free.
+\begin{enumerate}
+\item For every coordinatewise non-increasing convex lower semicontinuous $\psi:[0,1]^d\to(-\infty,\infty]$ applied to the leakage vector $\Lambda_m=(\lambda^R_m(\sigma,w),\lambda^L_m(\sigma,w))_{\sigma,w}$: $\ \Psi_\psi(Y):=\sum_{m'}\pi'_{m'}\psi(\Lambda'_{m'})\le\Psi_\psi(X)$. In particular $\mathcal R_\sigma(w)$, $G_\sigma(w)$ and $\sup_{w'\le w}$, $\sup_\sigma$ of these are non-increasing, and all rates $r^\pm_\sigma[a]$ are non-increasing.
+\item $\Phi_Q$ is non-increasing under \emph{every} CPTP $\Xi$ satisfying (M1) (no collar condition needed), and $\Phi_Q(X\otimes Y)=\Phi_Q(X)+\Phi_Q(Y)$.
+\item Free objects have $\Phi_Q=0$ and all rates $0$; hence if $X\in\mathcal F$ and $X\to Y$ then $Y$ has all rates $0$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1) By Lemma~\ref{lem:dom} and monotonicity then Jensen, $\psi(\Lambda'_{m'})\le\psi(\sum_m\beta_{mm'}\Lambda_m)\le\sum_m\beta_{mm'}\psi(\Lambda_m)$. Multiplying by $\pi'_{m'}$ and summing, $\sum_{m'}\kappa_{m'm}\pi_m=\pi_m$ (column-stochasticity) gives $\Psi_\psi(Y)\le\Psi_\psi(X)$. The score $g=-\tfrac12\log\frac12(\lambda^R+\lambda^L)$ is a convex non-increasing function of $\Lambda$, and $e^{-g}=\sqrt{\lambda^\Sigma}$ has $-\sqrt{\cdot}$ convex non-increasing, so $G_\sigma$ is monotone. Rate monotonicity: the inequality holds for each $L$ and $w$.
+(2) For cq states with equal classical part, $F(\omega^R,\omega^L)=\sum_m\pi_mF(\rho^R_m,\rho^L_m)$. Uhlmann monotonicity under $\Xi$ gives $F$ non-decreasing, hence $\Phi_Q$ non-increasing. Additivity: root fidelity is multiplicative on tensor products of ensembles.
+(3) Theorem~\ref{thm:nogo} and $F(\rho,\rho)=1$.
+\end{proof}
+
+\begin{proposition}[Canonical free object and erasure]\label{prop:erase}
+Assume a state $\omega$ on $H_X$ with $\Tr[\Pi^X_{\sigma,w}\omega]=0$ for all $\sigma,w$ (a bulk state). Let $O_X=(H_X,\{1\},\rho^R=\rho^L=\omega,\text{collars of }X)$. Then $O_X\in\mathcal F$ and $\Xi(A)=\Tr(A)\,|1\rangle\!\langle1|\otimes\omega$ with $\kappa=(1,\dots,1)$ is a free morphism $X\to O_X$.
+\end{proposition}
+\begin{proof}
+(M1),(M2) are direct. (M3): $\Xi^\dagger(|1\rangle\!\langle1|\otimes\Pi)=\Tr[\Pi\omega]\one=0$, and $0\le0\le\sum_m|m\rangle\!\langle m|\otimes\Pi^X$.
+\end{proof}
+
+\begin{proposition}[Dilution: non-trivial conversion lowering the rate]\label{prop:dil}
+For $t\in[0,1]$, let $X_t$ have responses $\rho^h_m\mapsto(1-t)\rho^h_m+t\omega$ (bulk $\omega$ as above), same weights and collars. Then $\Xi_t=(1-t)\mathrm{id}+t\,\Xi_{\mathrm{er}}$, with $\Xi_{\mathrm{er}}(A)=\sum_m|m\rangle\!\langle m|\otimes\Tr[(\langle m|\otimes\one)A(|m\rangle\otimes\one)]\,\omega$ and $\kappa=\mathbb 1$, is a free morphism $X\to X_t$, and $\lambda^\Sigma_m(X_t)=(1-t)\lambda^\Sigma_m(X)+t$. For $t\le\tfrac12$,
+\[
+\bigl|g_m(X_t)-\min\{g_m(X),\tfrac12\log(1/t)\}\bigr|\le\tfrac12\log2.
+\]
+Consequently, with $t_L=e^{-2c\,a(w_L)}$, $r^\pm_\sigma[a](X_t)\le\min\{r^\pm_\sigma[a](X),c\}$, with equality when $g_m/a\to r$ uniformly in $m$ (as for HN).
+\end{proposition}
+\begin{proof}
+(M1),(M2) are direct. (M3): $\Xi_t^\dagger(|m'\rangle\!\langle m'|\otimes\Pi)=(1-t)|m'\rangle\!\langle m'|\otimes\Pi\le|m'\rangle\!\langle m'|\otimes\Pi$. The band: $(1-t)\lambda+t\le2\max(\lambda,t)$ and $\ge\tfrac12\max(\lambda,t)$ for $t\le\tfrac12$.
+\end{proof}
+\noindent So every rate below that of $X$ is reachable from $X$ by a free operation, and none above by Theorem~\ref{thm:mono}.
+
+\begin{theorem}[Complete monotone family for the leakage preorder]\label{thm:strassen}
+For finite skin data $X,Y$ the following are equivalent:
+(i) there is a column-stochastic $\kappa$ with $\pi^Y=\kappa\pi^X$ and $\Lambda^Y_{m'}\ge\sum_m\beta_{mm'}\Lambda^X_m$ coordinatewise (the conclusion of Lemma~\ref{lem:dom});
+(ii) $\Psi_\psi(Y)\le\Psi_\psi(X)$ for all coordinatewise non-increasing convex $\psi$.
+\end{theorem}
+\begin{proof}
+(i)$\Rightarrow$(ii) is the proof of Theorem~\ref{thm:mono}(1). (ii)$\Rightarrow$(i) is Strassen's theorem for the decreasing convex order (Strassen 1965; M\"uller--Stoyan 2002): (ii) yields a coupling of the two leakage measures with $\E[\Lambda\mid\Lambda']\le\Lambda'$, which lifts to a coupling of responses and defines $\kappa$. (Imported result; checked numerically in one dimension, V29-07.)
+\end{proof}
+\begin{remark}
+This is complete for the \emph{leakage preorder}, which is implied by conversion but is coarser than it. A complete single-object monotone family for the full conversion preorder is not established.
+\end{remark}
+
+%======================================================================
+\section{Exact and robust one-shot conversion}
+\label{sec:conv}
+
+Fix $X,Y$. Let $\mathcal K_0$ be the set of triples $(J,\kappa,\{S_{m'\sigma w}\})$ with $J$ the Choi operator of a CPTP $\Xi$, $\kappa$ column-stochastic, and $0\le S_{m'\sigma w}\le\one$. Define the affine residual map
+\begin{align*}
+\mathcal F(J,\kappa,S)=\bigl(&\Xi(\omega^h_X)-\omega^h_Y\ (h=R,L),\ \ \Xi^\dagger(|m'\rangle\!\langle m'|\otimes\one)-\textstyle\sum_m\kappa_{m'm}|m\rangle\!\langle m|\otimes\one,\\
+&\textstyle\sum_m\kappa_{m'm}|m\rangle\!\langle m|\otimes\Pi^X_{\sigma w}-\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\Pi^Y_{\sigma w})-S_{m'\sigma w}\bigr).
+\end{align*}
+Let $\mathcal S_{X\to Y}=\mathcal F(\mathcal K_0)$. Slack variables turn the operator inequalities (M3) into equalities; boundedness of $S$ is automatic since $\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\Pi^Y)\le\Xi^\dagger(|m'\rangle\!\langle m'|\otimes\one)\le\one$.
+
+\begin{lemma}\label{lem:S}
+$\mathcal S_{X\to Y}$ is compact and convex, and there is no discrete branch: relabellings are absorbed in $\kappa$.
+\end{lemma}
+\begin{theorem}[Exact and robust conversion]\label{thm:conv}
+(a) $X\to Y$ iff $0\in\mathcal S_{X\to Y}$; otherwise a strictly separating affine functional exists.
+(b) For any norm on the residual space, $\dist(0,\mathcal S_{X\to Y})=\sup_{\|y\|_*\le1}\bigl[-\sup_{s\in\mathcal S_{X\to Y}}y\cdot s\bigr]_+$.
+\end{theorem}
+\begin{proof}
+(a) is definition-chasing plus finite-dimensional separation of a point from a compact convex set. (b) is the minimax identity $\inf_s\sup_yy\cdot s=\sup_y\inf_sy\cdot s$ on a compact convex set.
+\end{proof}
+\begin{remark}
+Exact feasibility is an SDP. The theorem is standard convex duality applied to a correctly convexified problem; it is stated for completeness and is not presented as a physical result. The ``$\varepsilon$'' is residual norm: the first block bounds the state error in the chosen norm, the other blocks bound the violation of the free-operation constraints. The witnesses $y$ depend on the pair $(X,Y)$ and are not single-object monotones.
+\end{remark}
+
+\begin{proposition}[What exact conversion between HN objects looks like]
+By Theorem~\ref{thm:mono}, $\mathrm{HN}(g)\to\mathrm{HN}(g')$ requires $g'\le g$ at the level of rates. In the active orientation, leakage of $\mathrm{HN}(g)$ is pointwise smaller than that of $\mathrm{HN}(g')$ for $g>g'\ge0$ (monotone likelihood ratio), and in the opposite orientation the order is reversed (V29-08(i)). Since (M3) constrains both orientations, exact conversion $\mathrm{HN}(g)\to\mathrm{HN}(g')$ is generally obstructed; a numerical feasibility test found it in only $4/24$ small cases (V29-08(ii), exploratory). The reachable set from $\mathrm{HN}(g)$ is described by Proposition~\ref{prop:dil} (dilution), not by a change of coupling. A characterisation of exact HN-to-HN conversion is open.
+\end{proposition}
+
+%======================================================================
+\section{Tensor powers and asymptotics}
+\label{sec:asym}
+
+\begin{definition}[Vanishing-error rate]
+$R_0(X\to Y)=\sup\{r:\exists n_k,m_k,\ m_k/n_k\to r,\ \varepsilon_k\to0,\ X^{\otimes n_k}\xrightarrow{\varepsilon_k}Y^{\otimes m_k}\}$, with $\xrightarrow{\varepsilon}$ the residual-norm relation of Theorem~\ref{thm:conv}(b), where the pair $(n,m)$ uses $\mathcal S^{(n,m)}_{X\to Y}$.
+\end{definition}
+By Theorem~\ref{thm:conv}(b), $\varepsilon$-convertibility at $(n,m)$ is $\dist(0,\mathcal S^{(n,m)}_{X\to Y})\le\varepsilon$, so ``$R_0$ is represented by the tensor-power dual witnesses'' is a restatement of the definition, and V29 does not present it as a theorem.
+
+\begin{proposition}[Zero-error converse]\label{prop:conv0}
+If $X^{\otimes n}\to Y^{\otimes m}$ exactly and $\Phi_Q(Y)>0$, then $m/n\le\Phi_Q(X)/\Phi_Q(Y)$.
+\end{proposition}
+\begin{proof}
+Theorem~\ref{thm:mono}(2): $m\Phi_Q(Y)=\Phi_Q(Y^{\otimes m})\le\Phi_Q(X^{\otimes n})=n\Phi_Q(X)$.
+\end{proof}
+\begin{remark}[Why the skin score does not tensorize, and what is open]
+With intersection collars, $\lambda^R(X^{\otimes n})=1-\mu^n$, so a unit-skin object loses skin only logarithmically in $n$ but does not accumulate it: the skin sector is not additive, whereas $\Phi_Q$ is. A vanishing-error converse based on $\Phi_Q$ fails as stated: fidelity error $\epsilon$ is incompatible with the exponentially small fidelities $e^{-n\Phi_Q}$, so an exponent-level (large-deviation) error criterion is needed. No non-trivial vanishing-error rate is computed here, and no reversibility, equipartition or scalar-charge claim is made.
+\end{remark}
+
+%======================================================================
+\section{Imported input: spectral winding}
+\label{sec:import}
+
+The standard definition of NHSE ties boundary accumulation to OBC/PBC spectral sensitivity and point-gap winding. For banded (block-)Toeplitz generators with non-zero winding of the symbol about OBC eigenvalues it is known that a macroscopic fraction of OBC eigenvectors is exponentially localised at a boundary (Okuma--Kawabata--Shiozaki--Sato 2020; Zhang--Yang--Fang 2022; Trefethen--Embree 2005 for the underlying Toeplitz theory). Via Proposition~\ref{prop:HN}-type estimates this places these generators in the directed skin class of Definition~\ref{def:phys} with $a=w$. V29 \emph{imports} this and does not re-prove it, and does not claim an equivalence for non-Toeplitz generators (disorder, quasiperiodic, many-body, nonlinear, exceptional-point sectors). For those, only the following holds: if a finite generator datum has right/left eigen-responses, it is a skin datum and Theorems~\ref{thm:nogo}--\ref{thm:strassen} apply to it.
+
+%======================================================================
+\section{Numerical support}
+\label{sec:num}
+
+The companion script \texttt{nhse\_qrt\_v29\_checks.py} tests load-bearing statements only; its output is \texttt{nhse\_qrt\_v29\_checks\_output.txt}. V29-01: reciprocal objects (random mixed states, boundary-concentrated) never exceed $\tfrac12\log2$ (maximum attained: $0.3466$). V29-02: Theorem~\ref{thm:B} on random pure and mixed states, minimum slack $0.44$. V29-03: $5400$ monotone tests over random collar-non-expanding shadow maps with random response mixing, no violation. V29-04: $\Phi_Q$ monotonicity under random quantum channels with mixing, and additivity to $10^{-14}$. V29-05: analytic HN law agrees with eigen-decomposition ($4\times10^{-14}$ at small $L$); the bound of Proposition~\ref{prop:HN} holds up to $L=400$ (numerical eigensolvers are unstable at large $L$ because of pseudospectral sensitivity $\sim e^{gL}$, so the analytic law is used). V29-06: Hermitian and periodic HN controls have bounded score; a bulk non-reciprocal defect has $\Phi_Q>0$ with bounded score. V29-07: hinge-test equivalence with coupling existence, $400/400$. V29-08: leakage order (active/reversed orientation), dilution is a valid free map and satisfies the band, and the exploratory HN$\to$HN feasibility count.
+\textbf{Not tested independently:} Proposition~\ref{prop:cat} beyond the structure of the proof, Theorem~\ref{thm:conv} on non-trivial quantum instances, Theorem~\ref{thm:strassen} in dimension $d>1$, and everything in the Status ledger marked Open or Imported.
+
+%======================================================================
+\section{Conclusion}
+
+V29 supplies a resource-theoretic core that is specific to the skin effect: paired boundary leakage of right/left responses, an intrinsic no-go for reciprocal objects, intrinsic collar-non-expanding free operations forming a symmetric monoidal category, a rich proved family of monotones, a canonical free object, a non-trivial conversion, an explicit HN calibration, and a branch-free exact/robust conversion criterion. The universal claim is proved only for the class $\mathfrak O$ of skin data and is conditional, through an imported theorem, on the standard spectral definition. The ledger below states the remaining gaps.
+
+%======================================================================
+\begin{thebibliography}{9}
+\bibitem{ZYF} K. Zhang, Z. Yang, C. Fang, Nat. Commun. \textbf{13}, 2496 (2022).
+\bibitem{OKSS} N. Okuma, K. Kawabata, K. Shiozaki, M. Sato, Phys. Rev. Lett. \textbf{124}, 086801 (2020).
+\bibitem{TE} L. N. Trefethen, M. Embree, \emph{Spectra and Pseudospectra}, Princeton Univ. Press (2005).
+\bibitem{Str} V. Strassen, Ann. Math. Statist. \textbf{36}, 423 (1965).
+\bibitem{MS} A. M\"uller, D. Stoyan, \emph{Comparison Methods for Stochastic Models and Risks}, Wiley (2002).
+\bibitem{Uhl} A. Uhlmann, Rep. Math. Phys. \textbf{9}, 273 (1976).
+\end{thebibliography}
+
+%======================================================================
+\clearpage
+\begin{tcolorbox}[breakable,enhanced,colback=gray!4,colframe=black!70,
+  title={\textbf{Status of the universal construction}},fonttitle=\large,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt]
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Statement} & \textbf{Status} & \textbf{Role}\\
+\midrule
+Skin datum and generator datum (Defs.~\ref{def:object},\ref{def:generator}) & Definition & Fixes the domain $\mathfrak O$: generator + boundary measurement + right/left responses. Replaces V28's ``all physical experiments''.\\
+POVM reduction (Prop.~\ref{prop:naimark}) & Proved (elementary) & Removes the projective-cell assumption at the data level; not a free isomorphism.\\
+Reciprocity no-go (Thm.~\ref{thm:nogo}) & Proved; V29-01 & Intrinsic null sector: Hermitian and all reciprocal objects have zero rate.\\
+Skin $\Rightarrow$ non-normality (Thm.~\ref{thm:B}) & Proved; V29-02. Converse \emph{false} (V29-06) & One-way bridge between the skin sector and R/L non-orthogonality.\\
+HN calibration, explicit constants (Prop.~\ref{prop:HN}) & Proved; V29-05 & Anchors the exponential sector: $g_j=gw+O(\log L)$ uniformly in $j$; needs $w_L/\log L\to\infty$.\\
+Free morphisms; symmetric monoidal category (Def.~\ref{def:mor}, Prop.~\ref{prop:cat}) & Proved (closure); structure not independently tested & The arena. Unit is the top element, not a free object.\\
+Monotone family $\Psi_\psi$, $\Phi_Q$, rate monotonicity (Thm.~\ref{thm:mono}) & Proved; V29-03, V29-04 & Resource measures for single objects; $\Phi_Q$ is tensor-additive, skin score is not.\\
+Canonical free object and erasure (Prop.~\ref{prop:erase}) & Proved & Free set is reachable from every object.\\
+Dilution lowers any rate to any smaller value (Prop.~\ref{prop:dil}) & Proved; V29-08(iii). Equality of rates only under uniform scaling & First non-trivial conversion; shows the order is not trivial.\\
+Leakage-preorder completeness (Thm.~\ref{thm:strassen}) & Imported (Strassen); 1D verified V29-07; $d>1$ not tested & Complete only for the leakage preorder, which is coarser than conversion.\\
+Exact/robust conversion duality (Thm.~\ref{thm:conv}) & Proved (standard convex duality) & Branch-free, SDP-level criterion. No new physics; witnesses are pair-dependent.\\
+Physical predicate (Def.~\ref{def:phys}) & Definition; extensive $\Rightarrow$ average proved, converse false & Resource-independent, control-free skin predicate.\\
+``Physical NHSE $\Leftrightarrow$ non-trivial spectrum'' & True by construction; \emph{not a theorem} & Restatement; the spectrum encodes the growth class of $\mathcal R_\sigma(w)$.\\
+Link to OBC/PBC sensitivity and point-gap winding (Sec.~\ref{sec:import}) & Imported for banded Toeplitz; not re-proved. \textbf{Open} beyond Toeplitz & Ties the predicate to the standard NHSE definition. Largest remaining conceptual gap.\\
+Exact conversion HN$(g)\to$HN$(g')$ & \textbf{Open}; obstructed in tests (4/24 feasible) & Would give an explicit non-trivial order inside the exponential sector.\\
+Complete single-object monotones for the full conversion preorder & \textbf{Open} & Needed to call the ordering fully characterised.\\
+Vanishing-error tensor-power rates & \textbf{Open}; only zero-error converse (Prop.~\ref{prop:conv0}) proved; dual-witness form is definitional & Needed for a genuine asymptotic theory; requires exponent-level error criterion.\\
+Reversible distillation, equipartition, scalar NHSE charge & Not claimed & Outside the present theory.\\
+Universality over all finite boundary experiments & Withdrawn; replaced by universality over $\mathfrak O$, conditional on the imported link & States exactly what has been shown.\\
+\bottomrule
+\end{tabularx}
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,9 @@
+V29-01 reciprocal no-go: max g^Sigma=0.346574 <= 0.346574; passed=True
+V29-02 skin => non-normal: min slack=0.4448; passed=True
+V29-03 convex-decreasing leakage monotones: tests=5400; violations=0; T collar-nonexpanding=600/600; passed=True
+V29-04 Phi_Q monotone(violations=0) & additive(err=1.02e-14); passed=True
+V29-05 HN: analytic-vs-eig dev=4.0e-14; g^Sigma - g w in [-C,+C]: lo slack=3.340, hi slack=4.459; passed=True
+V29-06 controls: Hermitian max g=0.184; periodic HN max g=0.144; bulk-defect mean Phi_Q=0.676, max g=0.334; passed=True
+V29-07 Strassen (1D) hinge<=>coupling: agree=400/400; nontrivial positives=276; passed=True
+V29-08 (i) active-orientation order violations=0, reversed-orientation violations=0; (ii) exact shadow morphism HN(g)->HN(g') feasible in 4/24 (exploratory); (iii) dilution collar-nonexpanding failures=0, band excess=0.00e+00; passed=True
+SUMMARY: 8/8 V29 checks passed
