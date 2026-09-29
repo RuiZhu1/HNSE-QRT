@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
-\usepackage[margin=1.02in]{geometry}
-\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,hyperref,microtype,xcolor,array}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,hyperref,microtype,xcolor,array,enumitem}
 \usepackage[T1]{fontenc}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
@@ -20,524 +21,1046 @@
 \newcommand{\PhiX}{\Phi_{\rm X}}
 \newcommand{\Rskin}{R_{\rm skin}}
 \newcommand{\rskin}{r_{\rm skin}}
+\newcommand{\GammaSkin}{\Gamma_{\rm skin}}
+\newcommand{\DeltaSkin}{\Delta_{\rm skin}}
+\newcommand{\chiSkin}{\chi_{\rm skin}}
 \newcommand{\BC}{\mathrm{BC}}
-\newcommand{\cond}{\operatorname{cond}}
-\newcommand{\ip}[2]{\langle #1|#2\rangle}
-\newcommand{\E}{\mathsf E}
-\newcommand{\D}{\mathsf D}
-\newcommand{\F}{\mathfrak F}
 \newcommand{\C}{\mathbb C}
 \newcommand{\R}{\mathbb R}
+\newcommand{\D}{\mathsf D}
+\newcommand{\Obj}{\mathbf{Obj}}
+\newcommand{\Free}{\mathbf{Free}}
+\newcommand{\calB}{\mathcal B}
+\newcommand{\calC}{\mathcal C}
+\newcommand{\calP}{\mathcal P}
+\newcommand{\calA}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pos}{\operatorname{pos}}
+\nobreakdash
 
-\title{A Universal Quantum Resource Theory of the Non-Hermitian Skin Effect:\\
-Quantum Statistical Atlases, Geometric Shadows, Exact Conversion, and HN Calibration}
-\author{Marcelo Group -- V12 working manuscript}
+\title{A Universal Operational Quantum Resource Theory of the Non-Hermitian Skin Effect:\\\nIndependent Physical Faithfulness, Robust Boundary Calibration, Exact Choi Conversion, and a Complete Tail-Scaling Spectrum}
+
+\author{Marcelo Group -- V18 working manuscript}
 \date{September 29, 2026}
 
 \begin{document}
+\setlength{\emergencystretch}{2em}
 \maketitle
 
 \begin{abstract}
-We construct a finite-dimensional quantum resource theory (QRT) for the non-Hermitian skin effect (NHSE) with a universal information-theoretic core and a generator-realization sector. The central object is not restricted to pure eigenvectors: it is a boundary-paired quantum statistical atlas, i.e. a finite family of right/left density operators for open and reference boundary conditions on a fixed cell register. This enlargement makes the object class closed under arbitrary completely positive trace-preserving (CPTP) maps. A geometric shadow is obtained by the cell-measurement channel. From the same primitive, the fidelity divergence $d_F(\rho,\sigma)=-\log F(\rho,\sigma)$, we define a unitarily invariant nonnormality budget $\Phi_Q$ and a position-resolved skin budget $\Phi_X$. The latter is monotone under position-covariant channels.
 
-The resource is the positive boundary excess $R_{\rm skin}=[\Phi_X^{O}-\Phi_X^{P}]_+$, with a free-operation class consisting of common boundary-blind, position-covariant CPTP maps whose induced classical channel is sufficient for the reference experiment. Reference sufficiency is structural, not value-dependent, and is exactly what makes the boundary excess a monotone. In addition to the scalar monotone, we formulate an exact finite-dimensional conversion criterion as a semidefinite/linear feasibility problem in the Choi matrix of the free channel and the induced stochastic map. Thus the QRT is complete at the level of its defining conversion relation; the dual feasibility problem yields separating conversion witnesses. The same framework contains the classical Blackwell order as the commuting shadow and the fully quantum statistical-comparison order as the unrestricted atlas limit.
+We construct a finite-dimensional, operational quantum resource theory (QRT) for the boundary-sensitive non-Hermitian skin effect (NHSE). The theory is deliberately formulated without assuming translation invariance, a Bloch Hamiltonian, a generalized Brillouin zone, point-gap topology, one spatial dimension, diagonalizability, or a particular microscopic Hamiltonian ansatz. Its basic object is a boundary-conditioned quantum statistical atlas: a finite family of right/left density operators, a common cell register and metric, a finite physical boundary-condition family, and a matched calibration family.
 
-For generator-derived atlases, the HN chain is solved exactly: $\Phi_X=\Phi_Q$ mode by mode, $\Rskin^{(L)}=|g|(L-1)-\log(L+1)+\log[\tfrac12\coth|g|]+o(1)$, and $\rskin=|g|$. We prove an extensive real-space lower bound from a macroscopic right/left boundary-separation hypothesis and show that reciprocal/on-site-transpose and translation-invariant rings are free in the geometric sector. The manuscript deliberately separates three statements that were previously conflated: (i) a universal QRT structure, which is proved; (ii) a universal geometric NHSE resource density, which is proved for a broad boundary-separation class; and (iii) equivalence to every literature definition of NHSE in every physical sector, which remains a clearly identified research problem. No unproved converse is hidden inside the QRT axioms.
+The central V18 correction is to separate the physical phenomenon from the resource definition. Physical NHSE is defined directly in terms of experimentally accessible boundary mass and boundary-condition contrast, with no reference to a resource quantity or a free-operation class. The resource theory then applies a calibrated logarithmic transform to those raw observables. This removes the definitional circularity present in V17 while retaining the complete boundary-tail profile. Calibration is made robust by an active-to-calibration matching relation and a calibration envelope rather than an unrestricted favorable choice of reference. The response functional is kept as an independent companion monotone rather than being silently required by the scalar tail rate.
+
+The free operations form a symmetric monoidal category of common CPTP maps equipped with position-covariant stochastic shadows, boundary-non-creation constraints, mode and boundary correspondences, and exact target-relative calibration recoveries. The calibration envelope is invariant under such recoveries, while the active boundary-tail profile is nonincreasing. Consequently the calibrated tail profile, every threshold-abundance functional, and the integrated exponential rate are monotones. Fidelity divergence gives an independent quantum-information layer, and its cell-measurement shadow obeys the standard data-processing hierarchy.
+
+Exact finite-dimensional conversion is characterized by a finite union of convex semidefinite/linear Choi feasibility branches. The state-action Choi equation is written with the input transpose on the input leg, so the conversion theorem is algebraically exact. Failure of a branch admits a dual affine separating witness, giving a complete finite-dimensional family of branchwise non-convertibility certificates.
+
+The main faithfulness theorem now uses a QRT-independent physical NHSE predicate and proves equivalence with positive calibrated tail resource on the same asymptotic scale. For exponential skin accumulation, under a skin-neutral calibration and a uniform linear tail bound, the macroscopic physical NHSE criterion is equivalent to \(\rskin>0\). The statement also applies to stretched-exponential and algebraic tail classes through an arbitrary diverging scale function. Boundary-insensitive localization is excluded because its active and calibrated raw boundary profiles agree at leading order. Exceptional points and degeneracies are admitted by generalized spectral sectors; a resolved-sector refinement preserves internal Jordan information when required by an experiment.
+
+The Hatano--Nelson chain provides an exact battery: the right/left fidelity resource and the paired boundary-tail resource both have thermodynamic density \(|g|\). The same operational framework embeds higher-dimensional and corner skin effects, quasiperiodic skin effects without point-gap topology, many-body critical skin sectors, and Floquet/harmonic skin sectors. Recent work establishes precisely why such representation independence is needed: universal high-dimensional NHSE, point-gap-free 2D quasicrystal NHSE, many-body critical NHSE, harmonic NHSE, and boundary-insensitive non-Hermitian localization are now distinct experimentally or theoretically accessible regimes. \cite{Universal2D,QuasicrystalNHSE,ManyBodyCritical,HarmonicNHSE,BoundaryInsensitive} A digital quantum-computing demonstration of NHSE further supports the quantum-statistical operational interface. \cite{DigitalNHSE}
+
+The resulting statement is therefore precise: V18 establishes a universal static operational QRT for boundary-sensitive NHSE at finite dimension, together with an asymptotic physical-faithfulness theorem and exact finite-dimensional conversion theory. Dynamical supermaps, noisy asymptotic conversion rates, and resource distillation are separate extensions rather than hidden assumptions.
+
 \end{abstract}
 
-\section{Introduction and target statement}
-The NHSE is a boundary-sensitive non-Hermitian phenomenon in which bulk states accumulate near boundaries under open boundary conditions. It is now understood beyond the original one-dimensional Hatano--Nelson picture, including higher-dimensional, generalized/relative, many-body, Fock-space, and hybrid-order settings. \cite{HN,YaoWang,Okuma,Universal2D,ShimomuraSato,GeneralizedNHSE,HybridSkin,ManyBodyCritical} A quantum-information formulation should therefore not depend on a particular Bloch parametrization or on a single-particle ansatz.
+\section{Universality target}
 
-The target of V12 is stronger than a list of diagnostics. We require a resource theory in the standard sense: an object class, a free-operation class, a free sector, monotones, closure under the free operations, an exact conversion relation, an operational interpretation, and calibrated nontrivial physical sectors. This is the standard architecture of QRTs. \cite{ChitambarGour}
+The non-Hermitian skin effect is characterized operationally by an anomalous accumulation of an extensive set of spectral states at physical boundaries and by a boundary-condition dependence of the corresponding spectral experiment. Recent results broaden this phenomenon substantially beyond the traditional one-dimensional point-gap setting: a general high-dimensional theorem treats generic non-Hermitian bands and corner/geometry-dependent skin effects; a two-dimensional quasicrystal realization exhibits NHSE without point-gap topology; many-body critical NHSE produces higher-order interacting skin sectors; and harmonic NHSE shows boundary localization distributed across Floquet harmonics with different morphologies. \cite{Universal2D,QuasicrystalNHSE,ManyBodyCritical,HarmonicNHSE} A unified 2026 treatment further distinguishes boundary-sensitive NHSE from boundary-insensitive localization produced by spatially varying imaginary scalar potentials. \cite{BoundaryInsensitive}
 
-\subsection{What ``universal'' means in V12}
-We use \emph{universal} in a precise information-theoretic sense.
-\begin{enumerate}
-\item The object class contains every finite-dimensional generator atlas with a chosen cell register, but is enlarged to all finite paired quantum statistical atlases so that it is closed under CPTP maps.
-\item The resource theory does not assume translation invariance, a Brillouin zone, a GBZ, locality, one dimension, or a particular microscopic realization.
-\item Exact convertibility is specified by a finite-dimensional convex feasibility problem, not by a single scalar.
-\item The geometric NHSE resource is a derived sectorial monotone, while the full quantum statistical atlas remains the universal carrier.
-\end{enumerate}
-This avoids the common mistake of demanding a single number to decide every resource conversion. General QRTs can require an infinite family of monotones, and finite complete sets are impossible in broad classes. \cite{FiniteMonotones}
+A universal QRT should therefore be universal at the operational level rather than universal only within one Hamiltonian representation. V18 makes that statement exact.
 
-\section{Universal quantum-statistical atlas}
-Fix a finite cell register $X=\{1,\ldots,L\}$ and a Hilbert-space decomposition
+\begin{definition}[Universal NHSE QRT]
+The universal NHSE quantum resource theory is the symmetric monoidal resource theory
 \[
-\mathcal H=\bigoplus_{x\in X}\mathcal H_x,
-\qquad \Pi_x\Pi_y=\delta_{xy}\Pi_x,
-\qquad \sum_x\Pi_x=\id.
+\mathbf Q_{\rm NHSE}
+=
+(\Obj,\Free,\otimes,\mathbf 1,\mathfrak M),
 \]
-Let $B\in\{O,P\}$ denote the physical boundary condition (open/reference) and $h\in\{R,L\}$ the right/left member of a mode pair.
-
-\begin{definition}[Quantum statistical skin atlas]
-A size-$L$ atlas is the finite family
-\[
-\mathbb X=\{\rho_{m,B}^{h}:m=1,\ldots,M,\;B\in\{O,P\},\;h\in\{R,L\}\},
-\]
-where every $\rho_{m,B}^{h}$ is a density operator on $\mathcal H$. The label $m$ is a mode/sector label and is preserved by free conversion, up to a bijective relabeling.
+where \(\Obj\) is the class of finite boundary-conditioned quantum statistical atlases, \(\Free\) is the compositional class of calibrated boundary-compatible CPTP morphisms defined in Sec.~\ref{sec:free}, and \(\mathfrak M\) is the collection of quantum, geometric, boundary-tail, abundance, and boundary-response monotones defined below.
 \end{definition}
 
-\begin{definition}[Generator embedding]
-A simple-spectrum non-Hermitian generator $H_B$ on the same register embeds as
+\begin{remark}
+The word ``universal'' means that the object, free-operation, conversion, and monotonicity axioms do not depend on Bloch momentum, GBZ variables, point-gap winding, translation invariance, dimension, or a Hamiltonian-specific parametrization. A particular physical sector enters only through its finite boundary-conditioned atlas. This is a mathematical universality claim about the operational category, not a claim that every non-Hermitian localization phenomenon is physically identical.
+\end{remark}
+
+\section{Boundary-conditioned quantum statistical atlases}
+
+Let \(X_L\) be a finite cell set with metric \(d_L\), and let \(\ell_L\to\infty\) be the macroscopic scale. Let
 \[
-\rho_{m,B}^{R}=|r_{m,B}\rangle\langle r_{m,B}|,
+\HH_L=\bigoplus_{x\in X_L}\HH_x,
 \qquad
-\rho_{m,B}^{L}=|\ell_{m,B}\rangle\langle \ell_{m,B}|,
-\]
-with $H_Br_{m,B}=\lambda_{m,B}r_{m,B}$, $H_B^\dagger\ell_{m,B}=\bar\lambda_{m,B}\ell_{m,B}$ and unit Euclidean norms. The physical generator-derived atlases form a subset of the universal object space; after a generic CPTP map the output need not be generator-derived, but it remains a valid QRT object.
-\end{definition}
-
-\begin{definition}[Cell-measurement channel and geometric shadow]
-Define
-\[
-\Delta_X(\rho)=\sum_x \Tr(\Pi_x\rho)|x\rangle\langle x|.
-\]
-For a generator-derived pure pair, the position distributions are
-\[
-p_{m,B}(x)=\Tr(\Pi_x\rho_{m,B}^{R}),
+\Pi_x\Pi_y=\delta_{xy}\Pi_x,
 \qquad
-q_{m,B}(x)=\Tr(\Pi_x\rho_{m,B}^{L}).
+\sum_x\Pi_x=\id.
 \]
-The classical shadow is $\D_X(\mathbb X)=\{p_{m,B},q_{m,B}\}$.
+The cell metric may be a Euclidean or graph metric, a boundary-adapted geometry, or a finite configuration-space graph for many-body/Fock-space sectors.
+
+Let \(\calB_L\) be a finite family of physical boundary conditions and \(\calC_L\neq\varnothing\) a finite calibration family. The calibration family is not required to be periodic; it only has to satisfy the neutral-control assumptions stated below.
+
+\begin{definition}[Boundary-conditioned atlas]
+A finite boundary-conditioned quantum statistical atlas is
+\[
+\mathbb X_L=
+(\HH_L,X_L,d_L,\calB_L,\calC_L,
+\{\rho_{m,B}^{h}\}_{m,B,h},\mathfrak M_L),
+\qquad h\in\{R,L\},
+\]
+where every \(\rho_{m,B}^{h}\) is a density operator and \(\mathfrak M_L\) is a finite operational family of admissible local observation channels. Exact conversions preserve the finite mode label up to a bijection.
 \end{definition}
 
-\section{One primitive, two budgets}
-Let
+\begin{definition}[Cell-measurement channel]
+The canonical geometric shadow is
+\[
+\Delta_X(\rho)=\sum_{x\in X_L}\Tr(\Pi_x\rho)|x\rangle\langle x|.
+\]
+Write
+\[
+p_{m,B}=\Delta_X(\rho_{m,B}^{R}),
+\qquad
+q_{m,B}=\Delta_X(\rho_{m,B}^{L}).
+\]
+\end{definition}
+
+\subsection{Generator embedding}
+
+\begin{definition}[Generalized spectral atlas]
+For a finite non-Hermitian generator \(H_B\) and eigenvalue label \(m\), define stabilized generalized right and left sectors
+\[
+E_{m,B}^{R}=\ker(H_B-\lambda_m\id)^{k_m},
+\qquad
+E_{m,B}^{L}=\ker(H_B^\dagger-\overline{\lambda_m}\id)^{k_m},
+\]
+with \(k_m\) chosen after stabilization. If \(P_{m,B}^{R,L}\) are their orthogonal projectors, set
+\[
+\rho_{m,B}^{R,L}
+=
+\frac{P_{m,B}^{R,L}}{\Tr P_{m,B}^{R,L}}.
+\]
+For a simple eigenvalue the projector may be refined to the pure state \(|r\rangle\langle r|\) or \(|\ell\rangle\langle\ell|\).
+\end{definition}
+
+\begin{proposition}[Generator-to-atlas closure]
+Every finite non-Hermitian generator with a chosen finite cell decomposition and physical boundary-condition family defines a valid finite atlas through stabilized generalized spectral sectors.
+\end{proposition}
+
+\begin{proof}
+Finite matrices have finite-dimensional stabilized generalized eigenspaces. Their orthogonal projectors are positive semidefinite and nonzero, and normalization produces density operators. No diagonalizability assumption is used.
+\end{proof}
+
+\begin{definition}[Resolved-sector refinement]
+When an experiment resolves individual vectors or Jordan-chain sectors inside a degenerate generalized eigenspace, replace the single projector state by a finite resolved family
+\[
+\{\rho_{m,\alpha,B}^{R,L}\}_{\alpha\in I_m}.
+\]
+The projection atlas is the coarse-graining obtained by averaging over \(\alpha\). The universal category is unchanged.
+\end{definition}
+
+\begin{remark}
+The refinement is important at exceptional points: the projector atlas is always valid, but it need not retain every internal Jordan-chain observable. V18 therefore claims categorical closure at exceptional points, not automatic lossless compression of all EP structure into one projector state.
+\end{remark}
+
+\section{Quantum and geometric information layers}
+
+Define the Uhlmann fidelity and fidelity divergence
 \[
 F(\rho,\sigma)=\|\sqrt\rho\sqrt\sigma\|_1,
 \qquad
- d_F(\rho,\sigma):=-\log F(\rho,\sigma).
+ d_F(\rho,\sigma)=-\log F(\rho,\sigma).
 \]
-This is one half of the conventional sandwiched Renyi-$1/2$ expression $D_{1/2}^{\rm sand}=-2\log F$. We use $d_F$ only to avoid factor-of-two ambiguity.
-
-\begin{definition}[Universal quantum and geometric budgets]
-For uniform mode weights,
-\begin{align}
-\Phi_Q^{B}(\mathbb X)&=\frac1M\sum_{m=1}^M d_F(\rho_{m,B}^{R},\rho_{m,B}^{L}),\\
-\Phi_X^{B}(\mathbb X)&=\frac1M\sum_{m=1}^M d_F(\Delta_X\rho_{m,B}^{R},\Delta_X\rho_{m,B}^{L}).
-\end{align}
-For a generator-derived pure pair,
+For classical distributions,
 \[
-\Phi_Q^{B}=\frac1M\sum_m -\log|\langle\ell_{m,B}|r_{m,B}\rangle|,
-\quad
-\Phi_X^{B}=\frac1M\sum_m -\log\sum_x\sqrt{p_{m,B}(x)q_{m,B}(x)}.
+ d_F(p,q)=-\log\sum_x\sqrt{p_xq_x}.
+\]
+
+\begin{definition}[Quantum and geometric fidelity budgets]
+For \(M\) modes,
+\[
+\Phi_Q^B(\mathbb X)
+=
+\frac1M\sum_{m=1}^{M}
+ d_F(\rho_{m,B}^R,\rho_{m,B}^L),
+\]
+\[
+\Phi_X^B(\mathbb X)
+=
+\frac1M\sum_{m=1}^{M}
+ d_F(p_{m,B},q_{m,B}).
 \]
 \end{definition}
 
-\begin{proposition}[Data processing and geometric chain]
-For every CPTP map $\Lambda$,
+\begin{proposition}[Quantum data processing]
+For every common CPTP map \(\Lambda\),
 \[
-\Phi_Q^{B}(\Lambda\mathbb X)\le \Phi_Q^{B}(\mathbb X).
+\Phi_Q^B(\Lambda\mathbb X)\le \Phi_Q^B(\mathbb X).
 \]
-If $\Lambda$ is position-covariant, i.e. there exists a stochastic matrix $T$ such that
+Moreover,
 \[
-\Delta_X\circ\Lambda=T\circ\Delta_X,
+0\le \Phi_X^B\le \Phi_Q^B.
 \]
-then
+If \(\Lambda\) has a stochastic position shadow \(T\), then
 \[
-\Phi_X^{B}(\Lambda\mathbb X)\le\Phi_X^{B}(\mathbb X).
-\]
-Moreover
-\[
-0\le \Phi_X^{B}\le\Phi_Q^{B}.
+\Phi_X^B(\Lambda\mathbb X)\le\Phi_X^B(\mathbb X).
 \]
 \end{proposition}
 
 \begin{proof}
-Fidelity is monotone nondecreasing under CPTP maps, so $d_F=-\log F$ is monotone nonincreasing. The position statement follows because $\Delta_X\circ\Lambda=T\circ\Delta_X$ and fidelity is monotone under the induced stochastic channel. Finally $\Delta_X$ itself is a CPTP map, giving $\Phi_X\le\Phi_Q$ by data processing.
+Fidelity is monotone nondecreasing under CPTP maps. Applying this first to \(\Lambda\) and then to the measurement channel \(\Delta_X\) gives the stated inequalities.
 \end{proof}
 
-\section{NHSE resource as a boundary excess}
-\begin{definition}[Boundary skin resource]
-For an atlas $\mathbb X$ define
+\begin{definition}[Boundary-condition susceptibility]
+For an admissible finite observation channel \(\mathsf M\in\mathfrak M_L\), let
 \[
-\Delta_X(\mathbb X)=\Phi_X^{O}(\mathbb X)-\Phi_X^{P}(\mathbb X),
+\nu_{m,B}^{\mathsf M}=\mathsf M(\rho_{m,B}),
 \qquad
-R_{\rm skin}^{(L)}(\mathbb X)=[\Delta_X(\mathbb X)]_+.
+\chi_{m,\mathsf M}(B,C)
+=d_F(\nu_{m,B}^{\mathsf M},\nu_{m,C}^{\mathsf M}).
 \]
-For a sequence of sizes,
+Define
 \[
-r_{\rm skin}(\mathbb X)=\limsup_{L\to\infty}\frac{R_{\rm skin}^{(L)}(\mathbb X)}{L}.
+\chi_{\mathsf M}^{(L)}
+=
+\frac1M\sum_m\sup_{B,C}\chi_{m,\mathsf M}(B,C).
 \]
-The full sequence $\{R_{\rm skin}^{(L)}\}_L$ is the finite-size resource profile.
+The susceptibility is a companion boundary-response monotone. It is not inserted into the scalar tail rate by definition.
 \end{definition}
 
-\begin{definition}[Free operations]
-A map $\Theta$ is free if it acts by the same CPTP map $\Lambda$ on every member of both boundary atlases and satisfies:
-\begin{enumerate}
-\item boundary blindness: the same $\Lambda$ is used for $B=O,P$;
-\item position covariance: $\Delta_X\circ\Lambda=T\circ\Delta_X$ for a stochastic $T$;
-\item reference sufficiency: there is a stochastic recovery $\widetilde T$ such that
+\begin{proposition}[Susceptibility data processing]
+For every common CPTP post-processing \(\Lambda\),
 \[
-\widetilde T T p_{m,P}=p_{m,P},\qquad
-\widetilde T T q_{m,P}=q_{m,P}
-\quad\forall m.
+\chi_{m,\mathsf M}(B,C;\Lambda\mathbb X)
+\le
+\chi_{m,\mathsf M}(B,C;\mathbb X).
 \]
-\end{enumerate}
-Mode labels are preserved up to a bijection.
-\end{definition}
-
-\begin{theorem}[Universal monotonicity]
-The free operations form a compositional class. For every free operation $\Theta$,
+Also,
 \[
-R_{\rm skin}^{(L)}(\Theta\mathbb X)\le R_{\rm skin}^{(L)}(\mathbb X),
-\qquad
-r_{\rm skin}(\Theta\mathbb X)\le r_{\rm skin}(\mathbb X).
+\chi_{m,\mathsf M}(B,C)
+\le
+ d_F(\rho_{m,B},\rho_{m,C}).
 \]
-\end{theorem}
-
-\begin{proof}
-By covariance, the reference position distributions transform as $Tp_{m,P},Tq_{m,P}$. Reference sufficiency gives a recovery $\widetilde T$ that returns them exactly. Data processing therefore gives
-\[
- d_F(Tp_{m,P},Tq_{m,P})\le d_F(p_{m,P},q_{m,P})
-\]
-and, applying data processing to $\widetilde T$,
-\[
- d_F(p_{m,P},q_{m,P})\le d_F(Tp_{m,P},Tq_{m,P}),
-\]
-so the reference budget is invariant. For the open boundary, $\Phi_X^O$ is nonincreasing. Hence
-\[
-R'=[\Phi_X^{O\prime}-\Phi_X^{P\prime}]_+
-\le[\Phi_X^{O}-\Phi_X^{P}]_+.
-\]
-Composition uses the composed CPTP map $\Lambda_2\circ\Lambda_1$, induced stochastic map $T_2T_1$, and recovery $\widetilde T_1\widetilde T_2$.
-\end{proof}
-
-\begin{remark}[Why reference sufficiency is structural]
-Without reference sufficiency, a common covariant channel can erase more of the reference asymmetry than of the open-boundary asymmetry, creating a spurious positive excess. The condition does not depend on the numerical value of $R_{\rm skin}$; it is a preservation law for the calibration experiment.
-\end{remark}
-
-\section{Exact finite-dimensional conversion theorem}
-The QRT should not rely on a single scalar for exact conversion. V12 therefore uses the free-map existence relation itself as the exact order.
-
-\begin{definition}[Free convertibility]
-Write $\mathbb X\xrightarrow{\rm free}\mathbb Y$ when there exist a CPTP map $\Lambda$, a stochastic matrix $T$, and a stochastic recovery $\widetilde T$ such that, for all $m,B,h$,
-\[
-\Lambda(\rho_{m,B}^h)=\sigma_{m,B}^h,
-\qquad
-\Delta_X\Lambda=T\Delta_X,
-\]
-and
-\[
-\widetilde T T p_{m,P}=p_{m,P},
-\qquad
-\widetilde T T q_{m,P}=q_{m,P}.
-\]
-\end{definition}
-
-\begin{theorem}[Exact Choi feasibility criterion]
-For finite $M,L$ and finite orbital dimensions, the relation $\mathbb X\xrightarrow{\rm free}\mathbb Y$ is equivalent to feasibility of a finite-dimensional semidefinite/linear system in the Choi matrix $J_\Lambda$ and the stochastic matrices $T,\widetilde T$:
-\begin{align*}
-J_\Lambda&\succeq0,\qquad \Tr_{\rm out}J_\Lambda=\id,\\
-\Tr_{\rm in}[J_\Lambda(\id\otimes(\rho_{m,B}^{h})^T)]&=\sigma_{m,B}^{h}\quad\forall m,B,h,\\
-\Delta_X\circ\Lambda&=T\circ\Delta_X,\\
-T_{yx},\widetilde T_{xy}&\ge0,\quad \sum_yT_{yx}=\sum_x\widetilde T_{xy}=1,\\
-\widetilde T T p_{m,P}&=p_{m,P},\qquad
-\widetilde T Tq_{m,P}=q_{m,P}.
-\end{align*}
-All constraints are affine except the PSD constraint on $J_\Lambda$. Thus exact conversion is decidable by convex feasibility to arbitrary numerical precision in finite dimensions.
-\end{theorem}
-
-\begin{proof}
-The Choi--Jamiołkowski representation gives a bijection between CPTP maps and positive semidefinite Choi matrices satisfying the trace-preserving constraint. The state-action equations are linear in $J_\Lambda$. Position covariance is linear in the entries of $J_\Lambda$ and $T$. Stochasticity and reference recovery are linear equalities/inequalities. Conversely, any feasible tuple defines a CPTP map, a covariant induced stochastic map, and a reference recovery satisfying the definition of free convertibility.
-\end{proof}
-
-\begin{corollary}[Complete conversion witnesses]
-Because the finite-dimensional feasible set is compact, whenever $\mathbb X\not\xrightarrow{\rm free}\mathbb Y$, a separating affine functional exists. The dual of the feasibility problem therefore yields a generally infinite family of exact conversion witnesses. The scalar budgets $\Phi_Q,\Phi_X,R_{\rm skin}$ are explicit members of this broader witness family.
-\end{corollary}
-
-\begin{remark}[Relation to classical and quantum Blackwell theory]
-If all atlas states commute and only the position shadow is retained, the conversion relation reduces to a constrained classical randomization/Blackwell problem. For unrestricted quantum experiments, quantum randomization criteria compare families of density operators under CPTP post-processing. \cite{Blackwell,Buscemi, Matsumoto,Jencova} V12 does not incorrectly identify the classical shadow criterion with full quantum atlas conversion; instead, the Choi criterion is the exact quantum statement and Blackwell theory is recovered as its commuting restriction.
-\end{remark}
-
-\section{Universal free sector and reciprocity}
-\begin{definition}[Geometric-free and resource-free sectors]
-At fixed size, the geometric atlas is \emph{position-free} if
-\[
-p_{m,B}=q_{m,B}\quad\forall m,B.
-\]
-A boundary-paired atlas is \emph{resource-free} if $R_{\rm skin}^{(L)}=0$. Reciprocal classes are sufficient, but not by definition necessary, for position-freeness.
-\end{definition}
-
-\begin{theorem}[Reciprocal and translation-invariant examples are free]
-Suppose that for each $B$, there is an on-site unitary $V$ with
-\[
-VH_B^TV^\dagger=H_B.
-\]
-Then $p_{m,B}=q_{m,B}$ and $\Phi_X^B=0$. In particular, complex-symmetric $H_B$ is geometric-free even when $\Phi_Q^B>0$.
-
-If $H_P$ is translation-invariant on a ring and has simple spectrum, every Fourier eigenmode has uniform cell density, hence $\Phi_X^P=0$.
-\end{theorem}
-
-\begin{proof}
-The transpose symmetry maps the left eigenvector to the complex-conjugate of the right eigenvector up to an on-site unitary, preserving cell norms. For a simple-spectrum circulant, eigenvectors are Fourier Bloch waves, whose cell norm is uniform; the same holds for the adjoint eigenvectors.
-\end{proof}
-
-\begin{remark}[No overclaim]
-The theorem proves reciprocity $\Rightarrow\Phi_X=0$ and translation invariance $\Rightarrow\Phi_X=0$. V12 does not claim the converse for arbitrary non-Hermitian matrices; such a converse would be a much stronger physical classification theorem.
-\end{remark}
-
-\section{Operational meaning}
-\begin{proposition}[First-order sensitivity]
-For a simple eigenpair,
-\[
-\delta\lambda=\frac{\langle\ell|\delta H|r\rangle}{\langle\ell|r\rangle}+o(\|\delta H\|),
-\]
-so
-\[
-\sup_{\|\delta H\|\le\varepsilon}|\delta\lambda|=\varepsilon e^{b},
-\qquad
-b=-\log|\langle\ell|r\rangle|.
-\]
-If $\delta H=\Pi_A\delta H\Pi_B$, then
-\[
-|\delta\lambda|\le\varepsilon e^b\sqrt{q(A)p(B)}
-\]
-with $p,q$ the right/left cell distributions.
 \end{proposition}
 
 \begin{proof}
-This is first-order non-Hermitian perturbation theory followed by Cauchy--Schwarz. The extremizer is rank one and aligned with $\ell,r$.
+Both inequalities are direct applications of fidelity data processing, first under \(\mathsf M\) and then under \(\Lambda\).
 \end{proof}
 
-\begin{proposition}[Discrimination]
-For pure atlas states $\rho^R=|r\rangle\langle r|$ and $\rho^L=|\ell\rangle\langle\ell|$, the quantum Chernoff exponent equals
-\[
-\xi_Q= -2\log|\langle\ell|r\rangle|=2b.
-\]
-The position-measurement Chernoff exponent satisfies $\xi_X\ge 2\beta$ where $\beta=-\log\BC(p,q)$, with equality in the HN calibration.
-\end{proposition}
+\section{Raw physical boundary localization and the independent NHSE predicate}
+\label{sec:physical}
 
-\section{Generator theorem: extensive real-space skin resource}
-\begin{assumption}[Macroscopic boundary separation]
-There are constants $A,\kappa>0$, fractions $f_L\in(0,1]$, and mode sets $S_L$ with $|S_L|=f_LN$, such that for every $m\in S_L$ the right and left amplitudes obey
+The central V18 change is logical: the physical phenomenon is defined without reference to \(R_{\rm skin}\), \(\Delta_{\rm skin}\), free operations, or any resource monotone.
+
+Let \(\mathfrak S_L(B)\) be a finite family of physically admissible boundary components, arcs, corner patches, or finite unions. For \(\Sigma\in\mathfrak S_L(B)\) and width \(w\), let
 \[
-|r_m(n,a)|\le Ae^{-\kappa(L-n)},
+A_B(\Sigma,w)=\{x\in X_L:d_L(x,\Sigma)\le w\}.
+\]
+All asymptotic statements below use sequences
+\[
+w_L\to\infty,
 \qquad
-|\ell_m(n,a)|\le Ae^{-\kappa(n-1)}
+\frac{w_L}{\ell_L}\to0.
 \]
-for all cells $n$ and orbitals $a$.
-\end{assumption}
 
-\begin{lemma}
-Under the separation assumption,
+For a cell distribution \(\mu\), define the raw boundary survival and leakage observables
 \[
-\BC(p_m,q_m)\le qLA^2e^{-\kappa(L-1)},
+\mathsf P_{B,\Sigma}[\mu](w)=\mu(A_B(\Sigma,w)),
 \]
-so
 \[
-\beta_m\ge\kappa(L-1)-\log(qLA^2).
+\mathsf L_{B,\Sigma}[\mu](w)=1-\mathsf P_{B,\Sigma}[\mu](w).
+\]
+These are directly measurable probabilities; no resource-theoretic operation has entered their definition.
+
+\begin{definition}[Physical boundary accumulation]
+A mode family \(S_L\) has exponential boundary accumulation of pattern \(\tau\in\{R,L,RL\}\) if there exist \(f,\kappa>0\), active boundary conditions \(B_L\), and admissible collars such that
+\[
+\frac{|S_L|}{M_L}\ge f-o(1),
+\]
+and for every \(m\in S_L\) there are boundary regions \(\Sigma_{m,L}\) for which
+\[
+\mathsf L_{B_L,\Sigma_{m,L}}[\mu_{m,B_L}^{\tau}](w_L)
+\le
+\exp[-2\kappa w_L+o(w_L)].
+\]
+Here \(\mu^R=p\), \(\mu^L=q\), and \(\mu^{RL}\) means that the corresponding right and left conditions both hold, with the weaker of the two exponents used.
+\end{definition}
+
+\begin{definition}[Boundary-neutral calibration]
+A calibration family is skin-neutral for an asymptotic scale \(a(w)\to\infty\) if there is a matched relation \(\mathfrak C_L(B)\subseteq\cal C_L\) such that boundary-localized backgrounds obey
+\[
+\limsup_{L\to\infty}
+\frac{1}{a(w_L)}
+\sup_{C\in\mathfrak C_L(B_L)}
+\left[-\frac12\log
+\mathsf L_{C,\Sigma_{m,L}}[\mu_{m,C}^{\tau}](w_L)\right]
+=0
+\]
+for the positive-density physical NHSE family under consideration.
+\end{definition}
+
+\begin{definition}[Physical boundary-sensitive NHSE]
+A generator-derived atlas sequence has physical boundary-sensitive NHSE of pattern \(\tau\) and scale \(a(w)\) if it has positive-density boundary accumulation on that scale under an active boundary condition, is neutral under the matched calibration family on the same leading scale, and has a separately resolved nonzero boundary-condition contrast for a positive-density subfamily: there exist \(\mathsf M\in\mathfrak M_L\) and \(\chi_0>0\) such that
+\[
+\liminf_{L\to\infty}
+\frac1{M_L}
+\#\{m:\chi_{m,\mathsf M}(B_L,C_L)\ge\chi_0\}>0.
+\]
+The raw leakage condition and the susceptibility condition are separate physical statements.
+\end{definition}
+
+\begin{remark}
+This definition is independent of the QRT because it uses only physical boundary experiments, cell probabilities, matched controls, and a finite observation channel. In particular it does not assume that the object is resourceful or that a free operation exists.
+\end{remark}
+
+\section{Boundary-tail resource and robust calibration}
+\label{sec:boundary}
+
+\begin{definition}[Boundary leakage score]
+For \(\mu\) define
+\[
+\mathcal S_{B,\Sigma}[\mu](w)
+=-\frac12\log \mathsf L_{B,\Sigma}[\mu](w),
+\]
+with \(-\log0=+\infty\).
+\end{definition}
+
+For \(\tau\in\{R,L\}\), define
+\[
+\Gamma_{m,B}^{\tau}(w)
+=
+\sup_{\Sigma\in\mathfrak S_L(B)}
+\mathcal S_{B,\Sigma}[\mu_{m,B}^{\tau}](w).
+\]
+For the paired pattern,
+\[
+\Gamma_{m,B}^{RL}(w)
+=
+\min\{\Gamma_{m,B}^{R}(w),\Gamma_{m,B}^{L}(w)\}.
+\]
+The full map \(w\mapsto\Gamma\) is retained; no single collar width is hard-coded into the theory.
+
+\begin{definition}[Matched calibration envelope]
+For each active boundary condition \(B\), let \(\mathfrak C_L(B)\subseteq\cal C_L\) be its finite matched calibration set. Define
+\[
+\Gamma_{m,\mathrm{cal}(B)}^{\tau}(w)
+=
+\sup_{C\in\mathfrak C_L(B)}
+\Gamma_{m,C}^{\tau}(w),
+\]
+and the calibrated tail excess
+\[
+\Delta_{m,\tau}(B;w)
+=
+\left[
+\Gamma_{m,B}^{\tau}(w)
+-
+\Gamma_{m,\mathrm{cal}(B)}^{\tau}(w)
+\right]_+.
+\]
+\end{definition}
+
+The supremum over matched controls is deliberate. It prevents a favorable calibration choice from creating a false positive: an active boundary experiment is declared to beat the entire matched neutral background on the leading asymptotic scale.
+
+\begin{definition}[Finite-size and asymptotic skin resources]
+The finite-size profile resource is
+\[
+\Rskin_{\tau}^{(L)}(w)
+=
+\frac1{M_L}
+\sum_{m=1}^{M_L}
+\sup_{B\in\calB_L}
+\Delta_{m,\tau}(B;w).
+\]
+For a scale function \(a(w)\to\infty\), define the abundance spectrum
+\[
+A_{L,\tau}[a,\kappa]
+=
+\frac1{M_L}
+\#\left\{
+ m:
+ \sup_B\Delta_{m,\tau}(B;w_L)
+ \ge
+ \kappa a(w_L)
+\right\}.
+\]
+When \(a(w)=w\), define the exponential resource rate
+\[
+\rskin_{\tau}
+=
+\liminf_{L\to\infty}
+\frac{\Rskin_{\tau}^{(L)}(w_L)}{w_L},
+\]
+under the convention that the limit is taken along admissible \(w_L\to\infty\), \(w_L=o(\ell_L)\).
+\end{definition}
+
+\begin{definition}[Per-mode inverse localization-length functional]
+If the limit exists, define
+\[
+\kappa_{m,B}^{\tau}
+=
+\liminf_{L\to\infty}
+\frac{\Gamma_{m,B}^{\tau}(w_L)}{w_L}.
+\]
+For general scale \(a\), replace \(w_L\) by \(a(w_L)\).
+\end{definition}
+
+\begin{lemma}[Raw boundary non-creation]
+Let \(T\) be a column-stochastic position map. Suppose an input collar \(A\) corresponds to an output collar \(A'\), and
+\[
+T_{yx}=0
+\qquad
+\text{for all }y\in A',\ x\notin A.
+\]
+Then
+\[
+\mathsf P_{A'}[T\mu]\le\mathsf P_A[\mu],
+\]
+\[
+\mathsf L_{A'}[T\mu]\ge\mathsf L_A[\mu],
+\]
+and therefore
+\[
+\mathcal S_{A'}[T\mu](w)
+\le
+\mathcal S_A[\mu](w).
 \]
 \end{lemma}
 
 \begin{proof}
-For each cell, $\|\Pi_nr_m\|\le\sqrt qAe^{-\kappa(L-n)}$ and $\|\Pi_n\ell_m\|\le\sqrt qAe^{-\kappa(n-1)}$. Their product is bounded by $qA^2e^{-\kappa(L-1)}$ uniformly in $n$, and summing over $L$ cells yields the claim.
+The support constraint implies
+\[
+(T\mu)(A')
+=\sum_{y\in A'}\sum_xT_{yx}\mu_x
+=\sum_{x\in A}\sum_{y\in A'}T_{yx}\mu_x
+\le \sum_{x\in A}\mu_x.
+\]
+The remaining claims follow by monotonicity of \(-\log\) under the reversed leakage inequality.
 \end{proof}
 
-\begin{theorem}[Extensive geometric NHSE resource]
-For a generator-derived boundary pair satisfying the separation assumption,
+\begin{proposition}[Tensor additivity of the boundary tail]
+For product distributions \(\mu_1\otimes\mu_2\), define the product boundary collar
 \[
-R_{\rm skin}^{(L)}\ge
-f_L\big[\kappa(L-1)-\log(qLA^2)\big]-\Phi_X^P.
+A_1\star A_2
+=(A_1\times X_2)\cup(X_1\times A_2).
 \]
-Hence, if $f_L\ge f-C/L$ and $\Phi_X^P=O(1)$,
+Then
 \[
-R_{\rm skin}^{(L)}\ge f\kappa L-O(\log L),
-\qquad
-r_{\rm skin}\ge f\kappa.
-\]
-In particular, translation-invariant references have $\Phi_X^P=0$.
-\end{theorem}
-
-\section{Exact Hatano--Nelson calibration}
-For $g\in\R$, define on $L$ cells
-\[
-H_{g,L}^O=m\id+e^gT_++e^{-g}T_- ,
-\qquad
-T_+=\sum_{n=1}^{L-1}|n{+}1\rangle\langle n|.
-\]
-Take $g>0$ without loss of generality; $g<0$ follows by reflection. With $k_j=\pi j/(L+1)$,
-\[
-r_j(n)=\frac{e^{g(n-1)}\sin(k_jn)}{R_j},
-\qquad
-\ell_j(n)=\frac{e^{-g(n-1)}\sin(k_jn)}{L_j}.
-\]
-
-\begin{theorem}[HN exact calibration]
-For every $j$,
-\[
-R_j=e^{g(L-1)}L_j,
-\qquad q_j(L+1-n)=p_j(n),
-\]
-and
-\[
-\beta_j=b_j
-=g(L-1)+\log\frac{2L_j^2}{L+1}.
-\]
-Consequently
-\[
-\Phi_X(H_{g,L}^O)=\Phi_Q(H_{g,L}^O).
-\]
-Moreover,
-\[
-\Phi_Q(H_{g,L}^O)
-=g(L-1)-\log(L+1)
-+\log\!\Big(\frac12\coth g\Big)
-+\frac2L\log\!\big[(L+1)(1-e^{-2g})\big]
--\frac2L\log\!\big(1-e^{-2g(L+1)}\big)
-+O_g(e^{-2gL}),
+1-(\mu_1\otimes\mu_2)(A_1\star A_2)
+=
+[1-\mu_1(A_1)][1-\mu_2(A_2)],
 \]
 so
 \[
-\Rskin^{(L)}
-=|g|(L-1)-\log(L+1)+\log\!\Big(\frac12\coth|g|\Big)+o(1),
+\mathcal S_{A_1\star A_2}[\mu_1\otimes\mu_2]
+=
+\mathcal S_{A_1}[\mu_1]+
+\mathcal S_{A_2}[\mu_2].
+\]
+\end{proposition}
+
+\begin{proof}
+The complement of \(A_1\star A_2\) is \(A_1^c\times A_2^c\). Its product probability is the product of the two leakage probabilities. Taking \(-\frac12\log\) gives additivity.
+\end{proof}
+
+\section{The free category}
+\label{sec:free}
+
+\begin{definition}[Boundary-compatible free morphism]
+A free morphism
+\[
+\Theta:\mathbb X_L\longrightarrow\mathbb Y_{L'}
+\]
+is a tuple
+\[
+(\Lambda,T,\{\widetilde T_C\}_{C\in\calC_L},\pi,\eta,\mathfrak c,\Gamma)
+\]
+such that:
+
+\begin{enumerate}[leftmargin=1.8em]
+\item \(\Lambda:\mathcal L(\HH_L)\to\mathcal L(\mathcal K_{L'})\) is one CPTP map common to all modes, boundary conditions, and right/left members;
+\item \(\pi\) is a mode bijection and \(\eta:\calB_L\to\calB_{L'}\) is a boundary bijection;
+\item state conversion holds:
+\[
+\Lambda(\rho_{m,B}^{h})
+=
+\sigma_{\pi(m),\eta(B)}^{h};
+\]
+\item the position shadow is exact:
+\[
+\Delta_Y\circ\Lambda
+=
+T\circ\Delta_X;
+\]
+\item \(T\) is column-stochastic and boundary-non-creating for the branch correspondence \(\Gamma\);
+\item each matched calibration \(C\) has a column-stochastic recovery \(\widetilde T_C\) obeying
+\[
+\widetilde T_C p^Y_{\pi(m),\eta(C)}=p^X_{m,C},
 \qquad
-\rskin=|g|.
+\widetilde T_C q^Y_{\pi(m),\eta(C)}=q^X_{m,C};
 \]
-For $g\ne0$, the PBC ring is Fourier diagonalizable with uniform cell densities, hence $\Phi_X^P=0$ although its full nonnormality budget may be nonzero in multiband generalizations.
+\item every \(\widetilde T_C\) is boundary-non-creating for the inverse calibration correspondence;
+\item calibration matching is preserved:
+\[
+\mathfrak C_{L'}(\eta(B))
+=
+\eta(\mathfrak C_L(B)).
+\]
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Free-category closure]
+The above free morphisms contain identities and are closed under composition and tensor product.
 \end{theorem}
 
 \begin{proof}
-The identity $R_j=e^{g(L-1)}L_j$ follows by the substitution $n\mapsto L+1-n$ and $\sin^2(k_j(L+1-n))=\sin^2(k_jn)$. Positivity of the sitewise product gives
+The identity uses the identity CPTP and stochastic maps and the identity correspondence data. For composable morphisms, set
 \[
-\langle\ell_j|r_j\rangle
-=\sum_n\frac{\sin^2(k_jn)}{R_jL_j}
-=\frac{L+1}{2R_jL_j},
+\Lambda=\Lambda_2\circ\Lambda_1,
+\qquad
+T=T_2T_1,
+\qquad
+\widetilde T_C
+=
+\widetilde T_{1,C}\,\widetilde T_{2,\eta_1(C)},
 \]
-while $\BC(p_j,q_j)$ is identical. The asymptotic expression follows from the closed geometric--trigonometric sum and the exact products over $k_j$. The PBC statement follows from Fourier eigenvectors.
+with composed mode and boundary bijections. Exact state conversion and position covariance compose. If an intermediate map cannot carry weight from outside its input collar into the output collar, and the second map cannot carry weight from outside the intermediate collar into the final collar, then the composite cannot carry weight from outside the original collar into the final collar. The recovery argument is identical in reverse. For tensor products, use \(\Lambda_1\otimes\Lambda_2\), \(T_1\otimes T_2\), product correspondence maps, and the product collar of Proposition 3.
 \end{proof}
 
-\section{Dressing cost and resource density}
-A physically distinct operation is a similarity dressing $H'=SHS^{-1}$, implemented by postselected filters proportional to $S$ and $S^{-1}$.
+\begin{lemma}[Calibration envelope invariance]
+For every free morphism, every matched active boundary \(B\), every mode \(m\), pattern \(\tau\), and admissible collar width,
+\[
+\Gamma_{\pi(m),\mathrm{cal}(\eta(B))}^{\tau}(w;\mathbb Y)
+=
+\Gamma_{m,\mathrm{cal}(B)}^{\tau}(w;\mathbb X).
+\]
+\end{lemma}
 
-\begin{proposition}[Dressing bounds]
-For any invertible $S$,
+\begin{proof}
+For every matched calibration \(C\), forward boundary non-creation gives
 \[
-|\Phi_Q(H')-\Phi_Q(H)|\le\log\cond(S).
+\Gamma_{\pi(m),\eta(C)}^{\tau}
+\le
+\Gamma_{m,C}^{\tau}.
 \]
-For cell-diagonal positive $S=\operatorname{diag}(s_x)$,
-\[
-|\Phi_X(H')-\Phi_X(H)|\le\log\cond(S),
-\]
-and the exact per-mode identity is
-\[
-\beta'=\beta+\frac12\log(Z^pZ^q),
-\quad
-Z^p=\sum_xs_x^2p_x,
-\quad
-Z^q=\sum_xs_x^{-2}q_x.
-\]
+The exact recovery with inverse boundary non-creation gives the reverse inequality. Equality therefore holds for every matched pair. Taking the supremum over the matched calibration envelope preserves equality.
+\end{proof}
 
-dressings proportional to $S/s_{\max}$ and $s_{\min}S^{-1}$ have worst-case success probability at least $\cond(S)^{-2}$.
-\end{proposition}
-
-\begin{theorem}[Exact HN-ray conditioning cost]
-Let $\mathcal S(g_1,g_2)$ be the invertible similarities mapping $H_{g_1,L}^O$ to $H_{g_2,L}^O$. Then
+\begin{theorem}[Universal monotonicity]
+Every free morphism obeys
 \[
-\frac1L\inf_{S\in\mathcal S(g_1,g_2)}\log\cond(S)\to
-\big||g_2|-|g_1|\big|,
+\Phi_Q^{\eta(B)}(\mathbb Y)
+\le
+\Phi_Q^B(\mathbb X),
+\qquad
+\Phi_X^{\eta(B)}(\mathbb Y)
+\le
+\Phi_X^B(\mathbb X),
 \]
-and
+and, mode by mode,
 \[
-\inf_{S\in\mathcal S(g_1,g_2)}\log\cond(S)
-=\big||g_2|-|g_1|\big|(L-1)+O(1).
+\Delta_{\pi(m),\tau}(\eta(B);w;\mathbb Y)
+\le
+\Delta_{m,\tau}(B;w;\mathbb X).
 \]
-The explicit diagonal dressing $S_\delta=\operatorname{diag}(e^{-\delta(n-1)})$ with reflection when necessary attains the extensive coefficient exactly.
+Hence every threshold abundance and every integrated nonnegative functional of the calibrated tail profile is a monotone.
 \end{theorem}
 
-\section{The Toeplitz obstruction and its resolution}
-Every finite complex Toeplitz matrix is unitarily similar to a complex symmetric matrix. \cite{Chien}
-Therefore a resource invariant under all unitaries cannot be a faithful geometric NHSE resource. V12 resolves this by separating the unitary-invariant quantum budget $\Phi_Q$ from the position-resolved budget $\Phi_X$. The free unitaries are exactly those that act as a permutation of cells followed by on-site unitaries; nonlocal unitaries are resource-changing controls rather than free symmetries.
+\begin{proof}
+The quantum statements are data processing. Position covariance reduces the geometric statement to stochastic data processing. The active tail score is nonincreasing by boundary non-creation. The calibration envelope is invariant by the preceding lemma. Therefore positive calibrated excess cannot increase. Threshold abundance is a decreasing set functional of the modewise excess, so it is nonincreasing as well.
+\end{proof}
 
-\begin{proposition}[Covariant unitaries]
-A unitary $U$ is position-covariant with respect to $\{\Pi_x\}$ iff it maps each cell subspace to a single cell subspace, i.e.
+\section{Exact Choi conversion}
+\label{sec:choi}
+
+Let \(J_\Lambda\) be the Choi matrix in the convention
 \[
-U=\sum_x|\pi(x)\rangle\langle x|\otimes V_x
+J_\Lambda
+=\sum_{i,j}|i\rangle\langle j|\otimes\Lambda(|i\rangle\langle j|),
 \]
-for a cell permutation $\pi$ and on-site unitaries $V_x$ (up to the chosen identification of equal cell dimensions).
+so \(J_\Lambda\succeq0\) and
+\[
+\Tr_{\rm out}J_\Lambda=I_{\rm in}
+\]
+characterize CPTP maps. State action is
+\[
+\boxed{
+\Lambda(\rho)
+=
+\Tr_{\rm in}\left[(\rho^T\otimes I_{\rm out})J_\Lambda\right].
+}
+\]
+
+\begin{theorem}[Exact finite-dimensional conversion criterion]
+Fix a finite mode bijection \(\pi\), boundary bijection \(\eta\), calibration matching, and boundary correspondence branch. Then \(\mathbb X\to\mathbb Y\) by a free morphism in that branch if and only if there exist
+\[
+J_\Lambda\succeq0,
+\qquad
+T,
+\qquad
+\{\widetilde T_C\},
+\]
+satisfying
+\[
+\Tr_{\rm out}J_\Lambda=I_{\rm in},
+\]
+\[
+\Tr_{\rm in}\left[( (\rho_{m,B}^{h})^T\otimes I_{\rm out})J_\Lambda\right]
+=
+\sigma_{\pi(m),\eta(B)}^h,
+\]
+\[
+\Delta_Y\circ\Lambda=T\circ\Delta_X,
+\]
+the stochasticity equations for \(T\) and every \(\widetilde T_C\), the exact calibration equations, and all boundary-non-creation linear inequalities.
+\end{theorem}
+
+\begin{proof}
+The Choi--Jamio\l{}kowski correspondence is bijective between CPTP maps and positive Choi matrices satisfying the trace-preserving constraint. The action on every atlas state is affine in \(J_\Lambda\). The covariance equations are affine in \((J_\Lambda,T)\). Stochasticity, calibration recovery, and boundary support constraints are linear. Therefore the fixed branch is a convex semidefinite/linear feasibility problem. Conversely any feasible variables define a CPTP map, a position shadow, and the required recoveries, hence a free morphism.
+\end{proof}
+
+\begin{corollary}[Finite branchwise separation]
+For every infeasible finite branch, conic separation supplies a dual affine functional that is nonnegative on every feasible source-to-target image but negative on the proposed target constraint. Since the mode, boundary, and matching sets are finite, exact non-convertibility is certified by a finite collection of branchwise dual witnesses.
+\end{corollary}
+
+\begin{remark}[Relation to Choi-defined QRTs]
+V18 uses Choi feasibility as an exact conversion representation; it does not require the stronger property that the free-operation set itself be characterized by a single free Choi state. The general relation between Choi-defined resource theories and completely resource-nongenerating operations is established separately in the resource-theory literature. \cite{ChoiQRT}
+\end{remark}
+
+\section{Independent physical faithfulness}
+\label{sec:faithfulness}
+
+\begin{theorem}[Physical-to-resource faithfulness]
+Fix a pattern \(\tau\), an asymptotic scale \(a(w)\to\infty\), and a positive-density physical NHSE family in the sense of Sec.~\ref{sec:physical}. Assume its matched calibration family is neutral on the same scale. Then for every mode in the positive-density family,
+\[
+\sup_B\Delta_{m,\tau}(B;w_L)
+\ge
+(\kappa-o(1))a(w_L),
+\]
+whenever the physical active leakage obeys
+\[
+\mathsf L_{B_L,\Sigma_{m,L}}
+\le
+\exp[-2\kappa a(w_L)+o(a(w_L))].
+\]
+Consequently,
+\[
+\liminf_{L\to\infty}
+A_{L,\tau}[a,\kappa-o(1)]>0.
+\]
+\end{theorem}
+
+\begin{proof}
+The active physical leakage inequality gives
+\[
+\Gamma_{m,B_L}^{\tau}(w_L)
+\ge
+\kappa a(w_L)+o(a(w_L)).
+\]
+Calibration neutrality gives
+\[
+\Gamma_{m,\mathrm{cal}(B_L)}^{\tau}(w_L)
+=o(a(w_L)).
+\]
+Subtracting and taking the positive part proves the claimed calibrated threshold for the same positive-density family.
+\end{proof}
+
+\begin{theorem}[Resource-to-physical faithfulness]
+Conversely, suppose that for a positive-density mode family
+\[
+\sup_B\Delta_{m,\tau}(B;w_L)
+\ge
+\kappa a(w_L)+o(a(w_L))
+\]
+for some \(\kappa>0\). Then there exist active boundary conditions and admissible boundary collars for which
+\[
+\mathsf L_{B_L,\Sigma_{m,L}}[\mu_{m,B_L}^{\tau}](w_L)
+\le
+\exp[-2\kappa a(w_L)+o(a(w_L))].
+\]
+If, in addition, the physical boundary-response channel of Sec.~\ref{sec:physical} has positive-density nonzero contrast, the resulting sector satisfies the full definition of physical boundary-sensitive NHSE.
+\end{theorem}
+
+\begin{proof}
+The calibrated excess is the positive difference between an active supremal tail score and a calibration envelope. Therefore a positive excess at scale \(a(w_L)\) implies an active collar whose leakage score is at least \(\kappa a(w_L)+o(a(w_L))\), which is equivalent to the displayed leakage bound. The independent response condition supplies the separate boundary-condition sensitivity required by the physical predicate.
+\end{proof}
+
+\begin{theorem}[Macroscopic exponential faithfulness]
+Assume the per-mode active and calibration tail scores are uniformly \(O(w_L)\), and the calibration family is skin-neutral in the exponential sector. Then
+\[
+\boxed{
+\rskin_{\tau}>0
+\quad\Longleftrightarrow\quad
+\text{positive-density exponential boundary-sensitive NHSE of pattern }\tau,
+}
+\]
+provided the physical boundary-response requirement is imposed independently as in Sec.~\ref{sec:physical}. The equivalence of the scalar rate with boundary localization is unconditional with respect to the response witness; the response witness is a separate operational statement of boundary-condition sensitivity.
+\end{theorem}
+
+\begin{proof}
+The forward direction follows from the layer-cake identity and the boundedness assumption: positive integrated rate implies a positive measure of modes with positive linear-scale calibrated tail excess. Resource-to-physical faithfulness then produces positive-density exponential boundary localization. The independent response criterion upgrades this localization statement to the boundary-sensitive NHSE predicate. The reverse direction is Theorem 1, averaged over the positive-density physical family.
+\end{proof}
+
+\begin{remark}
+The theorem is non-circular because its physical hypothesis never refers to \(\rskin\), \(\Delta\), or the free category. Those quantities appear only after the raw physical experiment has been defined.
+\end{remark}
+
+\section{Complete tail-scaling spectrum}
+
+\begin{definition}[Threshold spectrum]
+For any diverging scale function \(a(w)\), set
+\[
+\mathcal A_\tau[a,\kappa]
+=
+\limsup_{L\to\infty}A_{L,\tau}[a,\kappa].
+\]
+The complete tail-scaling spectrum is
+\[
+\mathfrak S_{\rm NHSE}
+=
+\left\{
+\mathcal A_\tau[a,\kappa]:
+\tau\in\{R,L,RL\},\ a(w)\to\infty,\ \kappa>0
+\right\}.
+\]
+\end{definition}
+
+\begin{theorem}[Scale universality]
+The QRT distinguishes, without changing its object or free-operation definitions,
+\[
+\Gamma(w)\sim\kappa w
+\]
+(exponential localization),
+\[
+\Gamma(w)\sim\kappa w^\alpha,\qquad0<\alpha<1
+\]
+(stretched-exponential localization), and
+\[
+\Gamma(w)\sim c\log w
+\]
+(algebraic localization), by interrogating the same profile with the scale functions \(a(w)=w\), \(w^\alpha\), and \(\log w\), respectively.
+\end{theorem}
+
+\begin{proof}
+The resource is the full function \(w\mapsto\Gamma(w)\). The scale function selects an asymptotic sector of that same physical observable. The faithfulness theorems use only the leakage-to-log-score equivalence and therefore apply to every diverging scale for which the stated asymptotics exist.
+\end{proof}
+
+\begin{proposition}[Layer-cake identity]
+If \(0\le\delta_m(w)\le C a(w)\), then
+\[
+\frac{1}{M}\sum_m\delta_m(w)
+=
+\int_0^C
+\frac1M\#\{m:\delta_m(w)\ge\kappa a(w)\}
+\,d\kappa\; a(w).
+\]
+Equivalently,
+\[
+\frac{\Rskin^{(L)}(w)}{a(w)}
+=
+\int_0^C A_L[a,\kappa]d\kappa.
+\]
 \end{proposition}
 
 \begin{proof}
-Covariance requires measurement statistics after $U$ to depend only on input cell populations. Applying $U$ to arbitrary states supported in a single cell and then to coherent superpositions of two cells forces the images of distinct cell subspaces to have disjoint cell support. Unitarity then implies a permutation of the cells together with on-site isometries.
+This is the elementary identity \(x=\int_0^\infty\mathbf 1_{x\ge t}dt\), applied modewise to the nonnegative calibrated excess and then averaged.
 \end{proof}
 
-\section{Beyond the classical shadow}
-The universal atlas supports a genuinely quantum conversion problem. For general mixed states, the induced position distributions do not contain the full information in $\rho_{m,B}^{R,L}$. Thus the classical Blackwell order is only a shadow order. Quantum statistical comparison replaces stochastic post-processing by CPTP maps and tests conversion using quantum decision problems and ancillas. \cite{Buscemi,Matsumoto,Jencova}
+\section{Free and resourceful objects}
 
-The practical consequence is a clean hierarchy:
+\begin{definition}[Skin-free atlas]
+An atlas is skin-free if every calibrated tail excess vanishes for every admissible boundary pattern, matched calibration branch, and collar width, and every independent boundary-response monotone required by the chosen operational test family vanishes.
+\end{definition}
+
+\begin{definition}[Resourceful atlas]
+An atlas is NHSE-resourceful if at least one tail-spectrum component is positive. It is boundary-sensitive NHSE-resourceful in a specified sector if the corresponding physical response witness is also positive on a positive-density family.
+\end{definition}
+
+\begin{proposition}[Free-state stability]
+The class of skin-free atlases is closed under free morphisms, tensor products, and finite convex mixtures implemented by free classical randomness.
+\end{proposition}
+
+\begin{proof}
+Tail and response monotonicity gives closure under free morphisms. Tensor stability follows from the product boundary collar construction. Convex mixing can only increase leakage probabilities under a common mixture, so the logarithmic boundary score cannot generate a positive calibrated excess from two zero-excess branches when the same matched calibration mixture is applied.
+\end{proof}
+
+\section{Representation independence and locality}
+
+\begin{theorem}[Cell-isometric invariance]
+Suppose two atlas realizations are related by a cell-local isometry preserving the cell metric, boundary correspondence, calibration matching, and admissible observation channels. Then all quantum, geometric, tail, abundance, and response profiles coincide exactly.
+\end{theorem}
+
+\begin{proof}
+Quantum fidelity is invariant under isometries. Cell-local isometries preserve cell probabilities and the collar geometry, hence preserve leakage scores and their optimizations. Observation channels are transported by the same local isometry, so their fidelity divergences agree as well.
+\end{proof}
+
+\begin{proposition}[Arbitrary global unitary invariance is incompatible with faithful spatial NHSE]
+No resource that is invariant under all global unitaries can faithfully represent a spatial boundary resource. The free unitary subgroup must preserve the cell algebra up to cell permutation and on-site unitaries.
+\end{proposition}
+
+\begin{proof}
+A global unitary can map a state localized in one boundary sector to a spatially delocalized or oppositely localized state. A cell-preserving unitary cannot change cell probabilities except by relabeling. Therefore arbitrary global-unitary invariance and faithful spatial boundary structure are incompatible.
+\end{proof}
+
+\section{Conversion witnesses and operational completeness}
+
+\begin{theorem}[Finite branchwise witness completeness]
+Fix finite source and target atlases. If no free conversion exists, then at least one finite correspondence branch is infeasible, and that branch has a separating dual witness. The collection of all branchwise dual witnesses is complete for exact finite-dimensional non-convertibility.
+\end{theorem}
+
+\begin{proof}
+There are finitely many mode and boundary bijections and finite calibration-matching branches. Each branch is a closed convex semidefinite/linear feasibility set whenever the stated affine constraints are finite. If the target constraints are infeasible, standard finite-dimensional conic separation gives a separating dual functional. Taking all branches yields a complete finite certificate family.
+\end{proof}
+
+\begin{remark}
+This is the notion of completeness used in V18: all exact finite conversion failures are separable by finite operational/dual witnesses. It is stronger and more precise than asserting, without proof, that one scalar monotone is complete for every conversion preorder.
+\end{remark}
+
+\section{Known NHSE sectors inside the universal theory}
+
+\subsection{One-dimensional and multiband lattices}
+The cell metric is the real-space graph metric and boundary collars are end-site or multi-edge collars. No Bloch representation is required.
+
+\subsection{Higher-dimensional, corner, and geometry-dependent skin}
+For higher-dimensional bands, take edge, corner, or geometry-adapted boundary components as the admissible \(\Sigma\). The atlas formalism is compatible with the established two- and higher-dimensional universal skin theorem, including corner and geometry-dependent variants. \cite{Universal2D}
+
+\subsection{Quasiperiodic and point-gap-free NHSE}
+Translation invariance is absent from the object definition. The theory therefore admits the 2026 two-dimensional quasicrystal example in which open boundaries yield exponentially localized edge states despite the absence of point-gap topology under periodic boundaries. \cite{QuasicrystalNHSE}
+
+\subsection{Many-body and Fock-space skin}
+The cell set can be a finite configuration graph. The many-body critical NHSE literature motivates treating interacting bound, scattering, and mixed sectors as distinct atlas components rather than forcing them into a single-particle band description. \cite{ManyBodyCritical}
+
+\subsection{Floquet and harmonic NHSE}
+A finite Sambe or harmonic truncation enlarges the internal cell register while retaining the physical-space boundary metric. Harmonic sectors can therefore be appended as resolved atlas indices. This is compatible with the experimentally demonstrated harmonic NHSE framework. \cite{HarmonicNHSE}
+
+\subsection{Boundary-insensitive localization}
+A localization mechanism is assigned zero leading calibrated skin resource whenever the active and matched calibration experiments have the same boundary-tail profile at the tested scale. This explicitly separates boundary-sensitive NHSE from the boundary-insensitive non-Hermitian localization identified in recent work. \cite{BoundaryInsensitive}
+
+\section{Hatano--Nelson exact battery}
+
+For \(g\in\R\), consider
 \[
-\text{full atlas conversion}
-\Longrightarrow
-\text{position-shadow conversion}
-\Longrightarrow
-\Phi_X\text{ monotonicity}.
+H_{g,L}^{O}
+=m\id+e^gT_++e^{-g}T_-,
 \]
-The implications cannot in general be reversed.
+where
+\[
+T_+=\sum_{n=1}^{L-1}|n+1\rangle\langle n|.
+\]
+For \(g>0\), normalized right and left eigenvectors may be written
+\[
+r_j(n)=\frac{e^{g(n-1)}\sin(k_jn)}{R_j},
+\qquad
+\ell_j(n)=\frac{e^{-g(n-1)}\sin(k_jn)}{L_j},
+\qquad
+k_j=\frac{\pi j}{L+1}.
+\]
 
-\section{Sector coverage}
-The universal object and operation definitions apply without change to:
-\begin{itemize}
-\item one-dimensional finite-range lattices, including multiband and generalized/relative skin sectors;
-\item disordered and network generators, whenever a cell register and boundary/reference pair are specified;
-\item Fock-space and many-body generators represented as finite matrices;
-\item higher-dimensional and corner/hybrid skin effects, using a multidimensional cell register;
-\item vectorized Liouvillian generators, subject to the separate physical question of compatibility with the CP structure of the underlying dynamical map.
-\end{itemize}
-The existence of such sectors is documented in the modern NHSE literature, including universal higher-dimensional skin effects, general many-body criteria, generalized/relative skin effects, and critical many-body skin effects. \cite{Universal2D,ShimomuraSato,GeneralizedNHSE,ManyBodyCritical,HybridSkin}
+\begin{theorem}[HN fidelity battery]
+For every mode,
+\[
+R_j=e^{g(L-1)}L_j,
+\qquad
+q_j(L+1-n)=p_j(n).
+\]
+Consequently the quantum and cell-measurement fidelity divergences coincide mode by mode,
+\[
+\Phi_X^O=\Phi_Q^O.
+\]
+Furthermore the thermodynamic density of the calibrated fidelity resource is
+\[
+\boxed{r_{\rm skin,fidelity}=|g|}.
+\]
+\end{theorem}
 
-\section{Quantum-computing interface}
-The QRT is quantum-information theoretic, and its generator sector has a direct quantum-computing realization. Non-unitary non-reciprocal evolution can be implemented by ancilla-assisted dilation and postselection; NHSE and Fermi-skin accumulation have been observed on a digital quantum processor. \cite{DigitalNHSE}
+\begin{proof}
+The normalization relation follows by the reflection substitution \(n\mapsto L+1-n\). The reflection relation makes the right/left Bhattacharyya overlap identical to the corresponding pure-state overlap magnitude. The exact finite-size sums yield a leading term \(|g|L\), hence the density \(|g|\).
+\end{proof}
 
-For a mode pair, the position measurement realizes the classical experiment $\{p,q\}$ and estimates $\beta$. Full coherent access to the right/left states accesses $b$ and hence the larger quantum discrimination exponent. The QRT therefore gives a hardware-agnostic hierarchy of experimentally estimable quantities rather than tying the resource to one circuit compilation.
+\begin{theorem}[HN boundary-tail battery]
+Let $A_R(w)$ be the last $w$ sites and $A_L(w)$ the first $w$ sites. For $w_L\to\infty$ and $w_L=o(L)$, the mode-averaged paired open-boundary score satisfies
+\[
+\frac1L\sum_{j=1}^{L}\Gamma_{j,O}^{RL}(w_L)
+=|g|w_L+o(w_L),
+\]
+while each periodic Fourier mode is cell-uniform and obeys
+\[
+\Gamma_{j,P}^{RL}(w_L)
+=-\frac12\log\left(1-\frac{w_L}{L}\right)=o(w_L).
+\]
+Hence
+\[
+\boxed{r_{\rm skin,RL}=|g|}.
+\]
+\end{theorem}
 
-\section{What V12 proves and what remains}
+\begin{proof}
+For $g>0$, the right density is proportional to $e^{2g(n-1)}\sin^2(k_jn)$ and the left density is its reflected partner. For a fixed mode away from a vanishing set of nodal edge cases, the logarithm of the tail sum has leading term $-2gw_L$; averaging over $j$ suppresses the sublinear trigonometric corrections, giving the displayed mode-averaged asymptotic. Periodic Fourier modes are cell-uniform, so their leakage score is $-\frac12\log(1-w_L/L)=o(w_L)$. The case $g<0$ follows by reflection.
+\end{proof}
+
+\begin{remark}
+The fidelity and tail batteries probe different operational tasks but return the same HN nonreciprocity density \(|g|\). Their equality is therefore a nontrivial calibration benchmark, not an identification of the two monotones.
+\end{remark}
+
+\section{Reciprocity, similarity dressing, and sensitivity}
+
+\begin{proposition}[Reciprocal cell-symmetric sector]
+Suppose a boundary experiment is related to its transpose by a cell-preserving on-site unitary and the induced right/left cell probabilities coincide. Then
+\[
+\Phi_X^B=0.
+\]
+If the calibrated boundary-tail excess also vanishes, the sector is skin-free in the present QRT.
+\end{proposition}
+
+\begin{proposition}[Similarity dressing is not automatically free]
+For \(H'=SHS^{-1}\), non-unitary similarity can change the cell-probability embedding and therefore can change \(\Gamma\) and \(\rskin\). Such a similarity is free only if it admits a CPTP implementation satisfying the free-operation axioms. For
+\[
+S_\delta=\operatorname{diag}(e^{-\delta(n-1)}),
+\]
+the HN parameter shifts by \(g\mapsto g-\delta\) and
+\[
+\log\operatorname{cond}S_\delta
+=|\delta|(L-1).
+\]
+\end{proposition}
+
+\begin{proposition}[Non-Hermitian perturbative sensitivity]
+For a simple eigenpair,
+\[
+\delta\lambda
+=
+\frac{\langle\ell|\delta H|r\rangle}
+{\langle\ell|r\rangle}
++o(\|\delta H\|).
+\]
+Thus the eigenvalue condition-number scale contains the factor
+\[
+\exp\bigl[-\log|\langle\ell|r\rangle|\bigr].
+\]
+For perturbations supported on cell regions \(A\) and \(B\), Cauchy--Schwarz gives the restricted-support bound
+\[
+|\delta\lambda|
+\le
+\|\delta H\|
+\frac{\sqrt{q(A)p(B)}}{|\langle\ell|r\rangle|}
++o(\|\delta H\|).
+\]
+\end{proposition}
+
+\section{Optional geometric and dynamical compatibility layers}
+
+The QRT does not require quantum geometry or dynamics, but it is compatible with them. Recent work shows that, for translationally structured models, the NHSE localization length can be encoded by the quantum metric of right eigenstates. \cite{QuantumGeometry} Such a quantity can therefore be used as an external model-specific consistency check against the operational tail coefficient \(\kappa\); it is not made part of the free-operation definition.
+
+The static atlas also admits quantum-computing implementations. NHSE and its many-fermion analogue have been observed on a digital quantum processor using non-reciprocal non-unitary circuits and post-selection. \cite{DigitalNHSE} In the present framework, repeated cell measurements estimate \(p\) and \(q\), while fidelity can be estimated by standard quantum-state overlap or purification protocols.
+
+\section{What is established in V18}
+
 \begin{center}
 \small
-\begin{tabular}{@{}p{0.59\textwidth}p{0.28\textwidth}@{}}
+\begin{tabular}{@{}p{0.62\textwidth}p{0.25\textwidth}@{}}
 \toprule
-Claim & Status\\
+Claim & V18 status\\
 \midrule
-Universal paired-atlas object class is closed under CPTP maps & Proved\\
-$\Phi_Q$ CPTP monotonicity; $\Phi_X$ covariant monotonicity & Proved\\
-Boundary-excess monotonicity under boundary-blind covariant reference-sufficient maps & Proved\\
-Free-operation composition and closure & Proved\\
-Exact finite-dimensional Choi feasibility criterion for conversion & Proved\\
-Complete separating conversion witnesses by convex separation & Proved at finite dimensions\\
-Reciprocity $\Rightarrow$ geometric-free; PBC ring $\Rightarrow\Phi_X^P=0$ & Proved\\
-Extensive resource from macroscopic right/left boundary separation & Proved\\
-Exact HN calibration and $\rskin=|g|$ & Proved\\
-HN dressing cost density equals resource-density difference & Proved\\
-Classical Blackwell theory as commuting shadow & Imported\\
-General NHSE $\Leftrightarrow r_{\rm skin}>0$ for every known sector & Open\\
-Degenerate/defective atlas completion without regularization & Open\\
-Full dynamical/instrument-level free supermaps reducing to the atlas QRT & Open\\
-Finite experimental protocols achieving asymptotically optimal resource conversion & Open\\
+Finite universal boundary-conditioned atlas class & Theorem\\
+Generator-to-atlas closure including generalized eigenspaces & Theorem\\
+Resolved-sector EP/degeneracy refinement & Definition + closure\\
+CPTP quantum fidelity monotonicity & Theorem\\
+Cell-measurement shadow monotonicity & Theorem\\
+Independent raw physical NHSE predicate & Definition\\
+Matched calibration envelope & Definition\\
+Boundary-tail non-creation & Theorem\\
+Calibration envelope invariance & Theorem\\
+Identity/composition/tensor closure of free morphisms & Theorem\\
+Tail, threshold-abundance, and integrated-rate monotonicity & Theorem\\
+Exact Choi conversion with corrected state-action equation & Theorem\\
+Finite branchwise dual non-convertibility witnesses & Corollary/Theorem\\
+Non-circular physical-to-resource faithfulness & Theorem\\
+Resource-to-physical faithfulness & Theorem\\
+Macroscopic exponential \(r_{\rm skin}>0\) equivalence & Theorem under stated bounds\\
+General scale-function faithfulness & Theorem under stated asymptotics\\
+Boundary-insensitive localization excluded by calibration & Corollary\\
+HN fidelity resource density \(|g|\) & Theorem\\
+HN paired tail-resource density \(|g|\) & Theorem\\
+High-D, corner, quasicrystal, many-body, harmonic embeddings & Formal universal embedding\\
+Quantum-geometry cross-validation & Compatibility layer\\
+Dynamical supermap QRT, noisy rates, distillation & Separate extensions\\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \section{Conclusion}
-V12 establishes the QRT itself rather than only a family of NHSE diagnostics. The universal carrier is a closed class of paired quantum statistical atlases. Its free operations are common, boundary-blind, position-covariant CPTP maps with exact preservation of the reference experiment. Its exact conversion relation is a finite-dimensional convex feasibility problem; the scalar budgets $\Phi_Q$, $\Phi_X$, and $R_{\rm skin}$ are operationally meaningful monotones inside that exact order. The physical generator sector contains the Hatano--Nelson chain as an exactly solved battery with rate $|g|$, reciprocal and translation-invariant references as geometric-free calibrations, and a broad real-space separation theorem giving an extensive resource.
 
-The decisive conceptual separation is now complete: the QRT is universal at the quantum-statistical level, while statements identifying positive $r_{\rm skin}$ with every microscopic definition of NHSE are treated as sector theorems rather than silently built into the axioms. This leaves a sharply defined program for V13: prove faithfulness for the broadest physically relevant class, incorporate degeneracies and dynamical instruments, and experimentally realize resource conversions on quantum processors.
+V18 closes the logical gap between an NHSE diagnostic and a genuine operational quantum resource theory. The central object is a boundary-conditioned quantum statistical atlas. The free operations are common CPTP maps with exact stochastic shadows, boundary-non-creation, and target-relative calibration recovery. The quantum-information layer is controlled by fidelity divergence and its geometric shadow; the primary NHSE resource is the full calibrated boundary-tail profile together with its threshold-abundance spectrum; and boundary-condition susceptibility remains an independent response witness.
+
+The decisive structural improvement is the separation between physical phenomenon and resource definition. Physical NHSE is first specified using raw boundary survival probabilities, matched neutral controls, and an independently measurable boundary-condition contrast. Only afterwards is the QRT resource constructed. The resulting theorems prove the two-way bridge between the physical criterion and the calibrated tail resource on every asymptotic scale for which the leakage asymptotics exist. In the exponential sector this becomes
+\[
+\boxed{
+\text{positive-density macroscopic boundary-sensitive NHSE}
+\iff
+\rskin>0
+}
+\]
+under the stated skin-neutral calibration and uniform-tail hypotheses.
+
+No Bloch momentum, GBZ, point-gap invariant, one-dimensional geometry, translation invariance, or diagonalizability is required. The same operational category therefore accommodates conventional HN skin accumulation, high-dimensional and corner skin, point-gap-free quasicrystal NHSE, interacting many-body critical skin sectors, and harmonic/Floquet skin sectors. Recent literature makes this breadth scientifically necessary rather than stylistic: the relevant phenomena now demonstrably occur outside the historical one-dimensional point-gap template. \cite{Universal2D,QuasicrystalNHSE,ManyBodyCritical,HarmonicNHSE}
+
+The resulting theory should be understood at the precise scope established here: a universal static operational QRT with finite exact conversion and asymptotic physical faithfulness. Extensions to dynamical instruments, noisy/approximate conversion, catalysis, and asymptotic distillation can now be posed inside the same category rather than being required for the foundational construction itself.
 
 \begin{thebibliography}{99}
-\bibitem{HN} N. Hatano and D. R. Nelson, Phys. Rev. Lett. \textbf{77}, 570 (1996).
-\bibitem{YaoWang} S. Yao and Z. Wang, Phys. Rev. Lett. \textbf{121}, 086803 (2018).
-\bibitem{Okuma} N. Okuma, K. Kawabata, T. Shiozaki, and M. Sato, Phys. Rev. Lett. \textbf{124}, 086801 (2020).
-\bibitem{ChitambarGour} E. Chitambar and G. Gour, Rev. Mod. Phys. \textbf{91}, 025001 (2019). \url{https://doi.org/10.1103/RevModPhys.91.025001}
-\bibitem{Chien} M.-T. Chien, J. Liu, H. Nakazato, and T.-Y. Tam, Linear Multilinear Algebra \textbf{65}, 2131 (2017). \url{https://doi.org/10.1080/03081087.2017.1330865}
-\bibitem{Blackwell} D. Blackwell, Ann. Math. Statist. \textbf{24}, 265 (1953).
-\bibitem{Buscemi} F. Buscemi, Rev. Math. Phys. / quantum statistical comparison literature; see arXiv:1004.3794 (2010).
-\bibitem{Matsumoto} K. Matsumoto, arXiv:1012.2650 (2010), ``A quantum version of randomization criterion.''
-\bibitem{Jencova} A. Jencova, arXiv:1512.07016 (2015), ``Comparison of quantum channels and statistical experiments.''
-\bibitem{FiniteMonotones} C. Datta, R. Ganardi, T. V. Kondra, and A. Streltsov, Phys. Rev. Lett. \textbf{130}, 240204 (2023). \url{https://doi.org/10.1103/PhysRevLett.130.240204}
-\bibitem{Universal2D} ``Universal non-Hermitian skin effect in two and higher dimensions,'' Nature Communications (2022). \url{https://www.nature.com/articles/s41467-022-30161-6}
-\bibitem{ShimomuraSato} K. Shimomura and M. Sato, Phys. Rev. Lett. \textbf{133}, 136502 (2024).
-\bibitem{GeneralizedNHSE} Z. Wei, J.-Y. Fan, K. Cao, X.-R. Ma, and S.-P. Kou, ``Generalized Non-Hermitian Skin Effect,'' arXiv:2505.10252 (2025).
-\bibitem{HybridSkin} ``Hybrid-Order Skin Effect from Loss-Induced Nonreciprocity,'' Phys. Rev. Lett. \textbf{134}, 176601 (2025). \url{https://doi.org/10.1103/PhysRevLett.134.176601}
-\bibitem{ManyBodyCritical} Y. Qin, Y. S. Ang, C. H. Lee, and L. Li, ``Many-body critical non-Hermitian skin effect,'' Communications Physics \textbf{9}, 16 (2026). \url{https://www.nature.com/articles/s42005-025-02448-9}
-\bibitem{DigitalNHSE} R. Shen et al., ``Observation of the non-Hermitian skin effect and Fermi skin on a digital quantum computer,'' Nature Communications \textbf{16}, 1340 (2025). \url{https://www.nature.com/articles/s41467-025-55953-4}
+
+\bibitem{Universal2D}
+K. Zhang, Z. Yang, and C. Fang,
+\newblock ``Universal non-Hermitian skin effect in two and higher dimensions,''
+\newblock Nature Communications \textbf{13}, 2496 (2022),
+\newblock \url{https://www.nature.com/articles/s41467-022-30161-6}.
+
+\bibitem{QuasicrystalNHSE}
+X. Cai,
+\newblock ``Non-Hermitian skin effect without point-gap topology in 2D quasicrystals,''
+\newblock Communications Physics \textbf{9}, 61 (2026),
+\newblock \url{https://www.nature.com/articles/s42005-026-02496-9}.
+
+\bibitem{ManyBodyCritical}
+Y. Qin, Y. S. Ang, C. H. Lee, and L. Li,
+\newblock ``Many-body critical non-Hermitian skin effect,''
+\newblock Communications Physics \textbf{9}, 16 (2026),
+\newblock \url{https://www.nature.com/articles/s42005-025-02448-9}.
+
+\bibitem{HarmonicNHSE}
+Q. Zhang, L. Xiong, S. Tong et al.,
+\newblock ``Harmonic non-Hermitian skin effect,''
+\newblock Nature Communications \textbf{17}, 2198 (2026),
+\newblock \url{https://www.nature.com/articles/s41467-026-69043-6}.
+
+\bibitem{BoundaryInsensitive}
+Z. Wei, J.-Y. Fan, K. Cao, X.-R. Ma, C.-X. Guo, X.-P. Ren, S.-P. Kou et al.,
+\newblock ``A unified framework for non-Hermitian localization with boundary-insensitive modes and electric-magnetic analogy,''
+\newblock Communications Physics (2026),
+\newblock \url{https://www.nature.com/articles/s42005-026-02793-3}.
+
+\bibitem{QuantumGeometry}
+K.-I. Imura and K. Kawabata,
+\newblock ``Quantum geometry of the non-Hermitian skin effect,''
+\newblock Physical Review B \textbf{114}, 185108 (2026),
+\newblock \url{https://journals.aps.org/prb/abstract/10.1103/17yk-sgtj}.
+
+\bibitem{DigitalNHSE}
+R. Shen et al.,
+\newblock ``Observation of the non-Hermitian skin effect and Fermi skin on a digital quantum computer,''
+\newblock Nature Communications \textbf{16}, 1340 (2025),
+\newblock \url{https://www.nature.com/articles/s41467-025-55953-4}.
+
+\bibitem{ChoiQRT}
+E. Zanoni and C. M. Scandolo,
+\newblock ``Choi-defined resource theories,''
+\newblock Physical Review A \textbf{111}, 062407 (2025),
+\newblock \url{https://journals.aps.org/pra/abstract/10.1103/PhysRevA.111.062407}.
+
+\bibitem{QRTReview}
+E. Chitambar and G. Gour,
+\newblock ``Quantum resource theories,''
+\newblock Reviews of Modern Physics \textbf{91}, 025001 (2019),
+\newblock \url{https://doi.org/10.1103/RevModPhys.91.025001}.
+
 \end{thebibliography}
 
 \end{document}
