@@ -1,0 +1,10 @@
+V30-01 reciprocity: collar-reciprocal max s=2.2e-16; U^T=U: max |cell law R-L|=7.7e-15, max s=2.3e-15; U^T=-U: max rel. distance to nearest other eigenvalue=7.7e-15 (all degenerate); passed=True
+V30-02 spectral sensitivity: min[sqrt(lR)+sqrt(lL)-F]=0.000; min[log kappa-(s-log2/2)]=0.140; min[fwd residue - sqrt((e^2s-1)/2)]=0.000; residue identity err/kappa max=3.4e-12 (median 1.7e-16); cases with s>1: 2055; passed=True
+V30-03 leakage monotones: tests=6000, violations=0; maps collar-non-expanding=600/600; skinless->skinless failures=0/600; passed=True
+V30-04 Phi_Q monotone (violations=0) and additive (err=2.7e-15); passed=True
+V30-05 calibration: gauge bound min slack=0.617 over 29216 (mode,w) pairs (564 with bound>1); HN analytic-vs-eig dev=1.0e-13; |s-gw|<=C_L slack lo=3.465, hi=4.254; HN wrong-orientation max s=0.0e+00; passed=True
+V30-06 controls: Hermitian max s=1.1e-16; periodic HN max s=1.0e-14; bulk bond (L, mean log kappa, max kappa, max_w s): (40,0.674,2.065,0.894), (60,0.676,2.065,0.929), (100,0.678,2.065,0.966), (160,0.679,2.066,0.991); Thm2 violations=0; passed=True
+V30-07 leakage-preorder completeness: primal-feasible XOR certificate in 300/300 (feasible=103); certificate psi separates in 197/197; passed=True
+V30-08 complete monotones (commuting sector): reachable=33, unreachable=27; separating V_u found in 27/27; monotone violations on reachable pairs=0; passed=True
+V30-09 conversions: dilution band excess=0.0e+00; HN(g),HN(g') mutually non-convertible in 120/120 (L,w,g,g') cases; approx. HN(.8)->HN(.4) min l1 error 4.4e-03, 6.7e-04, 9.4e-05, 1.2e-05 (L=12..24), ratio to proved lower bound 1.000006, 1.000017, 1.000008, 0.999834; passed=True
+SUMMARY: 9/9 V30 checks passed

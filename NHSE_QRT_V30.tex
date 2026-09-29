@@ -1,0 +1,449 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{hypothesis}{Hypothesis}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\one}{\mathbb{I}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\proj}[1]{|#1\rangle\!\langle #1|}
+\newcommand{\Obj}{\mathfrak{O}}
+\newcommand{\Free}{\mathcal{F}}
+\newcommand{\isig}{\iota\sigma}
+\DeclareMathOperator{\dist}{dist}
+
+\title{A Resource Theory of the Non-Hermitian Skin Effect}
+\author{Marcelo Group}
+\date{September 29, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The non-Hermitian skin effect (NHSE), the accumulation of an extensive number of eigenmodes at a boundary, is usually diagnosed model by model through spectral winding. We formulate it as a quantum resource theory whose objects are the right and left eigen-responses of an arbitrary finite-dimensional generator together with a family of boundary collars, in any spatial dimension. The resource is \emph{paired boundary localization}: right responses at a boundary and left responses at the opposite one. It is quantified by a skin score $s$ that is the advantage of a boundary-only test in discriminating the two responses. We prove the following.
+(i) Every reciprocal generator ($G^{T}=UGU^\dagger$ with a boundary-compatible unitary $U$) with simple spectrum is exactly skin-free, and reciprocity with $U^{T}=-U$ forces degeneracy, which isolates the $\mathbb Z_2$ skin effect as the only reciprocal route to skin.
+(ii) Skin forces exponential spectral sensitivity: the eigenvalue condition number obeys $\log\kappa_m\ge s_m-\tfrac12\log2$, and the boundary-to-boundary residue of the resolvent is exponentially large and directional.
+(iii) The free operations, blind processing of the response pair that never moves weight into a boundary collar, form a symmetric monoidal category and never create skin. They admit an infinite family of monotones, a faithful monotone, every data-processing divergence, and a complete family of SDP-computable monotones that characterizes exact and approximate convertibility.
+(iv) At the level of skin rates the theory is scalar: from a uniformly scaling object exactly the rates in $[0,r]$ are reachable. At fixed size, Hatano--Nelson chains with different couplings are mutually inconvertible, and the error of an approximate conversion is bounded below by an exponentially small collar deficit.
+(v) For every tridiagonal generator with positive hopping products, whether clean, disordered or quasiperiodic, the skin score is bounded below by the accumulated imaginary gauge field minus an edge-amplitude penalty, which recovers the Hatano--Nelson rate.
+All load-bearing statements are checked numerically in a companion script.
+\end{abstract}
+
+%======================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Under open boundary conditions, a non-Hermitian generator can localize an extensive fraction of its eigenvectors at a boundary. This is the non-Hermitian skin effect (NHSE) \cite{HN96,YW18,KEBB18,LT19,YM19,OKSS20,ZYF20,ZYF22}, reviewed in \cite{AGU20,BBK21}. Its standard characterization is spectral: in one dimension, skin modes accompany a non-zero point-gap winding of the periodic-boundary spectrum \cite{OKSS20,ZYF20}, and in higher dimensions a non-zero spectral area \cite{ZYF22}. Its consequences are dynamical and operational: exponential sensitivity of the spectrum to perturbations \cite{TE05,BB20}, large Petermann factors \cite{Pet79}, and directional amplification \cite{Por19,WBN20}.
+
+Quantum resource theories \cite{CG19,CFS16} organize a physical property around three structures: free objects, free operations that cannot create the property, and monotones that quantify it and decide which conversions are possible. This paper builds such a theory for the NHSE. Its design goals are as follows.
+\begin{enumerate}
+\item[(U1)] \emph{Domain.} Every finite-dimensional generator with a boundary structure defines an object, in any dimension and for any lattice, disorder or internal structure.
+\item[(U2)] \emph{Null sector.} The free objects are exactly the objects with zero skin score, and they contain every Hermitian and every reciprocal generator with simple spectrum.
+\item[(U3)] \emph{Order.} The free operations have a physical reading, never create skin, and admit a \emph{complete} family of monotones.
+\item[(U4)] \emph{Physics.} The resource controls measurable quantities (condition numbers, directional resolvent residues) and is calibrated on the standard models with explicit constants.
+\end{enumerate}
+Sections~\ref{sec:objects}--\ref{sec:calib} establish (U1)--(U4). Section~\ref{sec:disc} states precisely what is not established.
+
+The structural input is that the objects are \emph{pairs} of (classical--quantum) states, $\omega^R$ and $\omega^L$, processed by a common channel. This makes the theory a restriction of the resource theory of asymmetric distinguishability \cite{WW19} and of the comparison of statistical experiments \cite{Bla53,Bus12}, so all of their monotones remain monotones here. The skin effect is the part of that distinguishability that can be read off at the boundary. It is isolated by one additional constraint on the free operations (collar non-expansion), and the specific physics enters through that constraint.
+
+%======================================================================
+\section{Objects}
+\label{sec:objects}
+
+Throughout, $\Sigma$ is a finite set of boundary labels with a fixed-point-free involution $\iota$ that assigns to each boundary its opposite. In one dimension $\Sigma=\{+,-\}$ (right and left ends) and $\iota(\pm)=\mp$. In $d$ dimensions $\Sigma=\{\pm x_1,\dots,\pm x_d\}$, and corners can be included. A width cutoff $W\in\mathbb N$ is fixed at each system size.
+
+\begin{definition}[Skin datum]\label{def:object}
+A skin datum $X$ consists of:
+\begin{itemize}
+\item a finite-dimensional Hilbert space $H$;
+\item projectors $\Pi_{\sigma,w}$ on $H$ for $\sigma\in\Sigma$ and $w\in[W]$, nested in $w$ (the \emph{collars});
+\item a finite response set with weights $\pi_m>0$;
+\item density operators $\rho^R_m,\rho^L_m$ on $H$ (the right and left responses).
+\end{itemize}
+$X$ is \emph{boundary-separated} if $\Pi_{\sigma,W}\Pi_{\isig,W}=0$ for all $\sigma$, and then, by nesting, $\Pi_{\sigma,w}\Pi_{\isig,w}=0$ for all $w$. The class of boundary-separated skin data is denoted $\Obj$. The \emph{type} of $X$ is $(M,H,\{\Pi_{\sigma,w}\})$. The classical--quantum (cq) operators are $\omega^h_X=\sum_m\pi_m\proj m\otimes\rho^h_m$ for $h\in\{R,L\}$.
+\end{definition}
+
+\begin{definition}[Generator datum]\label{def:generator}
+Let $G$ be a matrix on $H=\ell^2(\mathcal C)\otimes\mathbb C^{d}$, where $\mathcal C$ is a finite set of cells with open boundaries, and let $\Pi_{\sigma,w}$ project onto the $w$ cell layers nearest boundary $\sigma$. For each simple eigenvalue $\lambda_m$, let $R_m$ and $L_m$ be unit vectors with $GR_m=\lambda_mR_m$ and $G^\dagger L_m=\bar\lambda_mL_m$, so that $L_m^\dagger R_m\neq0$. The generator datum of $G$ has responses $\rho^R_m=\proj{R_m}$, $\rho^L_m=\proj{L_m}$ and weights $\pi$ (uniform unless stated otherwise; an energy window is also allowed). If $G$ is Hermitian we take $L_m=R_m$, which also covers degenerate spectra. Liouvillian, Floquet and scattering generators enter the same way once a matrix with right and left eigen-responses is specified.
+\end{definition}
+
+The left-vector convention $G^\dagger L=\bar\lambda L$ is fixed once and for all. All boundary quantities below depend only on the collar weights $\Tr[\Pi\rho]$, which are invariant under complex conjugation of the vectors, so they do not depend on this convention.
+
+\begin{remark}[Non-projective boundary read-out]
+If the boundary is read out by a POVM $\{E_x\}$, the isometry $V\psi=\sum_x\sqrt{E_x}\psi\otimes\ket x$ turns it into a projective read-out with the same statistics. Every fidelity and divergence used below is invariant under a common isometry, so nothing is lost by assuming projective collars.
+\end{remark}
+
+%======================================================================
+\section{Skin score, skinless objects, and what skin forces}
+\label{sec:score}
+
+\begin{definition}[Paired leakage and skin score]\label{def:score}
+For a response $m$, boundary $\sigma$ and width $w$, the paired leakages are
+\[
+\lambda^R_m(\sigma,w)=\Tr[(\one-\Pi_{\sigma,w})\rho^R_m],\qquad
+\lambda^L_m(\sigma,w)=\Tr[(\one-\Pi_{\isig,w})\rho^L_m].
+\]
+The right response is tested at $\sigma$ and the left response at the opposite boundary $\isig$. The skin score is
+\[
+s_m(\sigma,w)=\tfrac12\log^+\frac{1}{\lambda^R_m(\sigma,w)+\lambda^L_m(\sigma,w)}\in[0,\infty],\qquad \log^+x=\max(0,\log x),
+\]
+and its average is $\mathcal R_\sigma(w)=\E_\pi\, s_m(\sigma,w)$.
+\end{definition}
+
+\begin{remark}[Operational meaning]\label{rem:operational}
+Given a copy of $\rho^R_m$ or $\rho^L_m$ with equal priors, perform the boundary-only test $\{\Pi_{\sigma,w},\Pi_{\isig,w},\one-\Pi_{\sigma,w}-\Pi_{\isig,w}\}$. Answer ``$R$'' on the first outcome, ``$L$'' on the second, and abstain otherwise. The probability of a correct conclusive answer is $P_{\rm succ}=1-\frac12(\lambda^R_m+\lambda^L_m)$, so
+\[
+s_m=\tfrac12\log^+\frac{1}{2(1-P_{\rm succ})}.
+\]
+If the two responses coincide, $P_{\rm succ}\le\frac12$. Thus $s_m>0$ exactly when the boundary alone discriminates the right response from the left one better than it could discriminate two copies of the same state.
+\end{remark}
+
+\begin{definition}[Skinless objects]\label{def:free}
+$\Free=\{X\in\Obj:\ s_m(\sigma,w)=0\ \forall m,\sigma,w\}=\{X\in\Obj:\ \lambda^R_m+\lambda^L_m\ge1\ \forall m,\sigma,w\}$.
+\end{definition}
+
+\begin{lemma}[Collar reciprocity implies skinless]\label{lem:collarrec}
+If $X\in\Obj$ and $\Tr[\Pi_{\sigma,w}\rho^R_m]=\Tr[\Pi_{\sigma,w}\rho^L_m]$ for all $m,\sigma,w$, then $X\in\Free$.
+\end{lemma}
+\begin{proof}
+$\lambda^R_m+\lambda^L_m=2-\Tr[\Pi_{\sigma,w}\rho^L_m]-\Tr[\Pi_{\isig,w}\rho^L_m]\ge1$, because $\Pi_{\sigma,w}+\Pi_{\isig,w}$ is a projector.
+\end{proof}
+
+\begin{theorem}[Reciprocity]\label{thm:recip}
+Let $G$ be as in Definition~\ref{def:generator}, with transposition taken in a basis in which every $\Pi_{\sigma,w}$ is real. Suppose $G^{T}=UGU^\dagger$ for a unitary $U$ that commutes with every $\Pi_{\sigma,w}$ (for example, a cell-local unitary).
+\begin{enumerate}
+\item[(a)] For every simple eigenvalue $\lambda_m$, $\Tr[\Pi_{\sigma,w}\rho^R_m]=\Tr[\Pi_{\sigma,w}\rho^L_m]$ for all $\sigma,w$. Hence, if every response is a simple eigenvalue, the generator datum is skinless.
+\item[(b)] If $U^{T}=-U$, then $G$ has no simple eigenvalue.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+From $G^{T}(UR_m)=UGR_m=\lambda_mUR_m$, the vector $UR_m$ is an eigenvector of $G^{T}$. Moreover, $G^{T}v=\lambda v$ holds if and only if $G^\dagger\bar v=\bar\lambda\bar v$.
+(a) For a simple $\lambda_m$ the left eigenspace is one-dimensional, so $L_m\propto\overline{UR_m}$. Since $\Pi=\Pi_{\sigma,w}$ is real and commutes with $U$, $\|\Pi\overline{UR_m}\|=\|\Pi UR_m\|=\|U\Pi R_m\|=\|\Pi R_m\|$.
+(b) If $\lambda_m$ were simple, then $L_m\propto\overline{UR_m}$ as in (a), so $L_m^\dagger R_m\propto(UR_m)^{T}R_m=R_m^{T}U^{T}R_m$. This scalar equals its own transpose $R_m^{T}UR_m=-R_m^{T}U^{T}R_m$, so it vanishes. That contradicts $L_m^\dagger R_m\ne0$.
+\end{proof}
+
+\begin{corollary}\label{cor:hermitian}
+The following generator data are skinless: Hermitian generators, whatever their spectrum; complex-symmetric generators ($G^{T}=G$) with simple spectrum, which include reciprocal gain/loss chains with symmetric hopping; and more generally all generators with simple spectrum that are reciprocal up to a cell-local gauge, $G^T=UGU^\dagger$. By Theorem~\ref{thm:recip}(b), simplicity then forces $U^T\neq-U$.
+\end{corollary}
+
+\begin{remark}[The $\mathbb Z_2$ skin effect]\label{rem:z2}
+Reciprocity with $U\bar U=-\one$ (equivalently $U^T=-U$) is the transpose-type time-reversal symmetry with $TT^*=-1$ in the classification of \cite{KSUS19}. Such systems host the $\mathbb Z_2$ skin effect \cite{OKSS20}, in which Kramers-like partners accumulate at opposite ends. Theorem~\ref{thm:recip}(b) shows that this degeneracy is \emph{forced}, and part (a) shows that without it reciprocity kills skin. Degenerate eigenspaces are therefore the only reciprocal route to skin. The generator datum then depends on a choice of biorthogonal basis inside each eigenspace, and we make no claim about that case.
+\end{remark}
+
+\begin{theorem}[Skin forces spectral sensitivity]\label{thm:sens}
+Let $X\in\Obj$ and fix $m,\sigma,w$, abbreviating $\lambda^h=\lambda^h_m(\sigma,w)$ and $s=s_m(\sigma,w)$.
+\begin{enumerate}
+\item[(a)] $F(\rho^R_m,\rho^L_m)\le\sqrt{\lambda^R}+\sqrt{\lambda^L}\le\sqrt2\,e^{-s}$, where $F(\rho,\tau)=\|\sqrt\rho\sqrt\tau\|_1$. Hence
+\[
+\Phi_Q(X):=-\log\sum_m\pi_mF(\rho^R_m,\rho^L_m)\ \ge\ -\log\E_\pi e^{-s_m(\sigma,w)}-\tfrac12\log2 .
+\]
+\item[(b)] For generator data, let $P_m=R_mL_m^\dagger/(L_m^\dagger R_m)$ be the spectral projector of $\lambda_m$, and let $\kappa_m=\|P_m\|=|L_m^\dagger R_m|^{-1}$ be the eigenvalue condition number \cite{Wil65,TE05}. Then
+\[
+\log\kappa_m\ \ge\ s-\tfrac12\log 2,\qquad
+\|\Pi_{\sigma,w}P_m\Pi_{\isig,w}\|=\kappa_m\sqrt{(1-\lambda^R)(1-\lambda^L)}\ \ge\ \sqrt{\tfrac12(e^{2s}-1)},
+\]
+and, if $s>0$, $\|\Pi_{\isig,w}P_m\Pi_{\sigma,w}\|\le\frac12\kappa_me^{-2s}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a) Because the collars are orthogonal, Remark~\ref{rem:operational} defines a valid three-outcome measurement. Its outcome laws are $p=(p_1,p_2,p_3)$ and $q=(q_1,q_2,q_3)$. Fidelity does not decrease under measurement \cite{Uhl76}, so $F\le\sum_i\sqrt{p_iq_i}$. Here $p_2+p_3=\lambda^R$ and $q_1+q_3=\lambda^L$. Cauchy--Schwarz gives $\sqrt{p_1q_1}+\sqrt{p_3q_3}\le\sqrt{(p_1+p_3)(q_1+q_3)}\le\sqrt{\lambda^L}$, and $\sqrt{p_2q_2}\le\sqrt{\lambda^R}$. Next, $\sqrt{\lambda^R}+\sqrt{\lambda^L}\le\sqrt{2(\lambda^R+\lambda^L)}$, which equals $\sqrt2e^{-s}$ when $s>0$; when $s=0$ the bound $F\le1\le\sqrt2$ is trivial. Averaging over $m$ gives the bound on $\Phi_Q$.
+(b) For pure responses $F=|L_m^\dagger R_m|=\kappa_m^{-1}$, so the first inequality is (a). $\Pi_{\sigma,w}P_m\Pi_{\isig,w}$ has rank one with norm $\|\Pi_{\sigma,w}R_m\|\,\|\Pi_{\isig,w}L_m\|\,\kappa_m$, which gives the identity. Using $(1-\lambda^R)(1-\lambda^L)\ge1-e^{-2s}$ and $\kappa_m\ge e^{s}/\sqrt2$ gives the lower bound. For the reverse block, $\|\Pi_{\isig,w}R_m\|^2\le\lambda^R$ and $\|\Pi_{\sigma,w}L_m\|^2\le\lambda^L$, so it is at most $\kappa_m\sqrt{\lambda^R\lambda^L}\le\kappa_m(\lambda^R+\lambda^L)/2$.
+\end{proof}
+
+Theorem~\ref{thm:sens}(b) is the physical content of the score. Near $\lambda_m$ the resolvent is $(z-G)^{-1}=P_m/(z-\lambda_m)+O(1)$. The residue block $\Pi_{\sigma,w}P_m\Pi_{\isig,w}$ is the response at boundary $\sigma$ to a drive at the opposite boundary. It exceeds $\sqrt{(e^{2s}-1)/2}$, and it beats the reverse block by a factor of at least $2e^{2s}\sqrt{1-e^{-2s}}$. This is the mechanism of end-to-end directional amplification in driven-dissipative arrays \cite{Por19,WBN20}. At the same time, $\kappa_m$ bounds the first-order eigenvalue shift, $|\delta\lambda_m|\le\kappa_m\|\delta G\|+O(\|\delta G\|^2)$, and $\kappa_m^2$ is the Petermann factor \cite{Pet79}. A skin score $s$ therefore guarantees a sensitivity of order $e^{s}$ \cite{BB20}. For the Hatano--Nelson (HN) chain, $\log\kappa_j\simeq gL$ while $\max_{w\le L/2}s_j\simeq gL/2$, so part (b) captures the exponential growth up to a factor of~2 in the rate.
+
+\begin{remark}[The converse fails]\label{rem:converse}
+Non-normality does not imply skin. Consider a Hermitian chain with one strongly non-reciprocal bulk bond (hoppings $3$ and $0.2$). Its mean $\log\kappa_m$ is $\approx0.68$ at every size, but $\kappa_m\le2.07$ uniformly in $L$. Theorem~\ref{thm:sens}(b) then caps the score at $s_m\le\log\kappa_m+\frac12\log2<1.1$ for all $w\le L/2$, so there is no accumulation (check V30-06, $L\le160$). The skin sector is therefore a proper part of the non-normality sector. Theorem~\ref{thm:sens} is the one-way bridge between them, and it also serves as a practical upper bound on $s$.
+\end{remark}
+
+\begin{definition}[Directed skin accumulation]\label{def:phys}
+A sequence $(X_L)$ with widths $w_L$ ($2w_L$ at most the linear size) shows \emph{directed skin accumulation} at boundary $\sigma$ and scale $a$ (with $a(w)\to\infty$) if $\mathcal R_\sigma(w_L)\ge\kappa\,a(w_L)$ for some $\kappa>0$ and all large $L$. The accumulation is \emph{extensive} if moreover $\pi\{m:s_m(\sigma,w_L)\ge\kappa a(w_L)\}\ge f>0$. The rates are $r^\pm_\sigma=\limsup/\liminf_L\mathcal R_\sigma(w_L)/a(w_L)$. The sequence is \emph{uniformly scaling with rate $r$} if $\max_m|s_m(\sigma,w_L)/a(w_L)-r|\to0$.
+\end{definition}
+
+%======================================================================
+\section{Free operations and monotones}
+\label{sec:rt}
+
+\begin{definition}[Free processing and free morphism]\label{def:mor}
+Let $X$ have type $(M,H,\Pi)$ and let $\tau=(M',H',\Pi')$ be a type. A \emph{free processing} of $X$ into $\tau$ is a pair $(\Xi,\kappa)$, where $\Xi$ is a CPTP map from $B(\mathbb C^M\otimes H)$ to $B(\mathbb C^{M'}\otimes H')$ and $\kappa\in[0,1]^{M'\times M}$ is column-stochastic, such that for all $m',\sigma,w$:
+\begin{align*}
+&\text{(M2)}\quad \Xi^\dagger(\proj{m'}\otimes\one)=\textstyle\sum_m\kappa_{m'm}\proj m\otimes\one,\\
+&\text{(M3)}\quad \Xi^\dagger(\proj{m'}\otimes\Pi'_{\sigma,w})\le\textstyle\sum_m\kappa_{m'm}\proj m\otimes\Pi_{\sigma,w}.
+\end{align*}
+A \emph{free morphism} $X\to Y$ is a free processing into the type of $Y$ that also satisfies
+\[
+\text{(M1)}\quad \Xi(\omega^R_X)=\omega^R_Y,\qquad \Xi(\omega^L_X)=\omega^L_Y .
+\]
+We write $X\to Y$ if a free morphism exists. (M1) and (M2) imply $\pi^Y=\kappa\pi^X$.
+\end{definition}
+
+Each axiom has a physical reading. (M1) says that the \emph{same} processing acts on the right and left responses. The operation is blind to whether the forward problem $G$ or the adjoint problem $G^\dagger$ was realized, which is the defining feature of the asymmetric-distinguishability setting \cite{WW19}. (M2) says that responses are relabelled, merged or forgotten classically, independently of the quantum data. (M3), \emph{collar non-expansion}, says that the probability of ending up in a collar never exceeds the probability of having started there: free operations never pump weight toward a boundary. Two kinds of process are therefore not free. The first is non-reciprocal transport toward a boundary, which is the microscopic origin of skin. The second is reciprocal transport into a collar, which can move an existing separation of the right and left responses from width $w+1$ into width $w$ and so raise the fixed-width score.
+
+\begin{proposition}[Examples of free morphisms]\label{prop:examples}
+\begin{enumerate}
+\item[(a)] \emph{Boundary-compatible embeddings.} Let $V:H\to H'$ be an isometry with $V^\dagger\Pi'_{\sigma,w}V\le\Pi_{\sigma,w}$. Then $\Xi=\mathrm{id}\otimes V(\cdot)V^\dagger$ with $\kappa=\one$ is free. At the level of generators, if $G'=VGV^\dagger+QKQ$ with $Q=\one-VV^\dagger$, then $G'VR_m=\lambda_mVR_m$ and $G'^\dagger VL_m=\bar\lambda_mVL_m$. Examples include cell-local unitary gauge transformations, enlarging the internal space, inserting bulk cells, and moving a boundary outward by attaching cells.
+\item[(b)] \emph{Collar-compatible channels.} $\mathrm{id}\otimes\mathcal N$ is free whenever $\mathcal N^\dagger(\Pi'_{\sigma,w})\le\Pi_{\sigma,w}$, for example cell-local noise or dephasing.
+\item[(c)] \emph{Response processing.} $\ket m\!\bra{m}\otimes\rho\mapsto\sum_{m'}\kappa_{m'm}\proj{m'}\otimes\rho$ for any column-stochastic $\kappa$.
+\item[(d)] \emph{Erasure.} If $\omega$ is a bulk state ($\Tr[\Pi_{\sigma,W}\omega]=0$ for all $\sigma$), then $\Xi(A)=\Tr(A)\proj1\otimes\omega$ with $\kappa=(1,\dots,1)$ is a free morphism $X\to O_\omega$, where $O_\omega$ has one response $\rho^R=\rho^L=\omega$. Moreover $O_\omega\in\Free$.
+\item[(e)] \emph{Dilution.} For $t\in[0,1]$, $\Xi_t=(1-t)\mathrm{id}+t\,\Xi_{\rm er}$ with $\Xi_{\rm er}(\ket m\!\bra{m'}\otimes B)=\delta_{mm'}\Tr(B)\proj m\otimes\omega$ and $\kappa=\one$ is a free morphism $X\to X_t$, where $X_t$ has responses $(1-t)\rho^h_m+t\omega$.
+\end{enumerate}
+Convex combinations of free processings into the same type are free processings.
+\end{proposition}
+\begin{proof}
+In each case (M2) is immediate. For (M3): (a) $\Xi^\dagger(P\otimes\Pi')=P\otimes V^\dagger\Pi'V$. When the boundary is moved outward by $k$ cells, $V^\dagger\Pi'_{\sigma,w}V=\Pi_{\sigma,w-k}$ (zero if $w\le k$). The generator statement follows from $QV=0$. (b) is the same computation. (c) gives equality. (d) and (e) follow from $\Xi_{\rm er}^\dagger(P\otimes\Pi')=\Tr[\Pi'\omega]\,P\otimes\one=0$. Convexity holds because (M2) is linear and (M3) is preserved under convex combinations.
+\end{proof}
+
+\begin{lemma}[Leakage domination]\label{lem:dom}
+Let $(\Xi,\kappa):X\to Y$ be a free morphism, and put $\beta_{mm'}=\kappa_{m'm}\pi_m/\pi'_{m'}$, a probability vector in $m$. Then for all $m',h,\sigma,w$,
+\[
+\lambda^{h,Y}_{m'}(\sigma,w)\ \ge\ \sum_m\beta_{mm'}\lambda^{h,X}_m(\sigma,w).
+\]
+\end{lemma}
+\begin{proof}
+By (M2) and (M3), $\Xi^\dagger(\proj{m'}\otimes(\one-\Pi'))\ge\sum_m\kappa_{m'm}\proj m\otimes(\one-\Pi)$. Take the trace against $\omega^h_X$ and use (M1). For $h=L$ apply this with $\isig$.
+\end{proof}
+
+\begin{proposition}[Category]\label{prop:cat}
+Skin data and free morphisms form a category. With the tensor product $X\otimes Y$ (Hilbert space $H_X\otimes H_Y$, responses $(m,n)$ with weights $\pi_m\pi_n$, states $\rho^h_m\otimes\rho^h_n$, collars $\Pi^X_{\sigma,w}\otimes\Pi^Y_{\sigma,w}$) it is symmetric monoidal, and $\Obj$ is closed under $\otimes$. The monoidal unit $\mathcal I$ (the space $\mathbb C$, one response, $\Pi_{\sigma,w}=1$) is not boundary-separated. A morphism $\mathcal I\to X$ exists if and only if $\omega^R_X=\omega^L_X$.
+\end{proposition}
+\begin{proof}
+Composition: (M1) and (M2) compose with $\kappa_2\kappa_1$. For (M3), positivity of $\Xi_1^\dagger$ gives
+\[
+\Xi_1^\dagger\Xi_2^\dagger(\proj{m''}\otimes\Pi^Z)\le\textstyle\sum_{m'}\kappa^{(2)}_{m''m'}\Xi_1^\dagger(\proj{m'}\otimes\Pi^Y)\le\sum_m(\kappa_2\kappa_1)_{m''m}\proj m\otimes\Pi^X .
+\] Tensor product: for $0\le A\le A'$ and $0\le B\le B'$, $A'\otimes B'-A\otimes B=(A'-A)\otimes B'+A\otimes(B'-B)\ge0$. Associators and the swap commute with (M1)--(M3). Products of orthogonal projectors are orthogonal. For the unit, a CPTP map from $\mathbb C$ prepares a single state, which must equal both $\omega^R_X$ and $\omega^L_X$. Conversely, $\Xi(1)=\omega^R_X=\omega^L_X$ with $\kappa=\pi$ satisfies (M2) and (M3).
+\end{proof}
+
+\begin{theorem}[No skin creation, and monotones]\label{thm:mono}
+Let $X\to Y$.
+\begin{enumerate}
+\item[(i)] \emph{Golden rule.} If $X\in\Free$ then $Y\in\Free$.
+\item[(ii)] \emph{Leakage monotones.} Let $\psi:[0,1]^{2|\Sigma|W}\to(-\infty,\infty]$ be convex and non-increasing in each coordinate, and let $\Lambda_m=(\lambda^R_m(\sigma,w),\lambda^L_m(\sigma,w))_{\sigma,w}$. Then $\Psi_\psi(X):=\E_\pi\psi(\Lambda_m)$ satisfies $\Psi_\psi(Y)\le\Psi_\psi(X)$. This covers $\mathcal R_\sigma(w)$, the faithful monotone $\mathcal S(X):=\E_\pi\max_{\sigma,w}s_m(\sigma,w)$ (which vanishes if and only if $X\in\Free$), and the rates of Definition~\ref{def:phys} along levelwise free sequences.
+\item[(iii)] \emph{Divergence monotones.} For every function $\mathbf D$ on pairs of states that satisfies data processing, $\mathbf D(\omega^R_Y\|\omega^L_Y)\le\mathbf D(\omega^R_X\|\omega^L_X)$. Only (M1) is used. In particular $\Phi_Q$ is monotone and additive, $\Phi_Q(X\otimes Y)=\Phi_Q(X)+\Phi_Q(Y)$, and for generator data $\Phi_Q=-\log\E_\pi\kappa_m^{-1}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(i) By Lemma~\ref{lem:dom}, $\lambda'^R+\lambda'^L\ge\sum_m\beta_{mm'}(\lambda^R_m+\lambda^L_m)\ge1$.
+(ii) Since $\psi$ is non-increasing, Lemma~\ref{lem:dom} and Jensen's inequality give $\psi(\Lambda'_{m'})\le\psi(\sum_m\beta_{mm'}\Lambda_m)\le\sum_m\beta_{mm'}\psi(\Lambda_m)$. Multiply by $\pi'_{m'}$, sum, and use $\sum_{m'}\kappa_{m'm}=1$. The score $s=\max\{0,-\frac12\log(\lambda^R+\lambda^L)\}$ is a maximum of convex non-increasing functions, and so is $\max_{\sigma,w}s$. Faithfulness holds because all $\pi_m>0$.
+(iii) Data processing under $\Xi$ together with (M1). For cq operators with a common classical part, $F(\omega^R,\omega^L)=\sum_m\pi_mF(\rho^R_m,\rho^L_m)$, and $F$ is multiplicative under $\otimes$.
+\end{proof}
+
+\begin{remark}[Copies versus size]\label{rem:copies}
+Because $\Phi_Q$ is additive, exact conversion $X^{\otimes n}\to Y^{\otimes k}$ with $\Phi_Q(Y)>0$ requires $k/n\le\Phi_Q(X)/\Phi_Q(Y)$. The skin score is not additive: with intersection collars, $\lambda(X^{\otimes n})=1-(1-\lambda)^n$. Tensor copies are not the thermodynamic limit of the NHSE. That limit is system size, which Theorem~\ref{thm:rate} treats.
+\end{remark}
+
+\begin{theorem}[Completeness]\label{thm:complete}
+\leavevmode
+\begin{enumerate}
+\item[(a)] \emph{Leakage preorder.} For $X,Y$ with finitely many responses the following are equivalent:
+(i) there is a column-stochastic $\kappa$ with $\pi^Y=\kappa\pi^X$ and $\Lambda^Y_{m'}\ge\sum_m\beta_{mm'}\Lambda^X_m$ coordinatewise (the conclusion of Lemma~\ref{lem:dom});
+(ii) $\Psi_\psi(Y)\le\Psi_\psi(X)$ for all $\psi$ as in Theorem~\ref{thm:mono}(ii);
+(iii) the same holds for all $\psi(\Lambda)=\max_{k\le M_Y}(\alpha_k-c_k\cdot\Lambda)$ with $c_k\ge0$.
+\item[(b)] \emph{Full conversion.} For a type $\tau$ and Hermitian operators $U=(U_R,U_L)$ on $\mathbb C^{M'}\otimes H'$, let
+\[
+V_{\tau,U}(X)=\max\bigl\{\Tr[U_R\,\Xi(\omega^R_X)]+\Tr[U_L\,\Xi(\omega^L_X)]:\ (\Xi,\kappa)\ \text{a free processing of $X$ into $\tau$}\bigr\},
+\]
+with $\max\emptyset=-\infty$. Each $V_{\tau,U}$ is a monotone, computable by a semidefinite program. For $Y$ of type $\tau$, $X\to Y$ holds if and only if $V_{\tau,U}(X)\ge V_{\tau,U}(Y)$ for every $U$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a) (i)$\Rightarrow$(ii) is the proof of Theorem~\ref{thm:mono}(ii), and (ii)$\Rightarrow$(iii) is trivial. For (iii)$\Rightarrow$(i), write (i) as a linear program in the coupling $J_{mm'}=\kappa_{m'm}\pi_m\ge0$ with constraints $\sum_{m'}J_{mm'}=\pi_m$, $\sum_mJ_{mm'}=\pi'_{m'}$ and $\sum_mJ_{mm'}\Lambda_m\le\pi'_{m'}\Lambda'_{m'}$. If it is infeasible, Farkas' lemma \cite{Sch86} gives $a_m,b_{m'}\in\mathbb R$ and $c_{m'}\in\mathbb R^{2|\Sigma|W}_{\ge0}$ with $a_m+b_{m'}+c_{m'}\cdot\Lambda_m\ge0$ for all $m,m'$ and $\sum_m\pi_ma_m+\sum_{m'}\pi'_{m'}(b_{m'}+c_{m'}\cdot\Lambda'_{m'})<0$. Set $\psi(\Lambda)=\max_{m'}(-b_{m'}-c_{m'}\cdot\Lambda)$. Then $a_m\ge\psi(\Lambda_m)$, and $\psi(\Lambda'_{m'})\ge-b_{m'}-c_{m'}\cdot\Lambda'_{m'}$. Hence $\Psi_\psi(X)\le\sum\pi_ma_m<-\sum\pi'_{m'}(b_{m'}+c_{m'}\cdot\Lambda'_{m'})\le\Psi_\psi(Y)$, which contradicts (iii).
+
+(b) The free processings of $X$ into $\tau$ form a compact convex set: (M2) is linear and (M3) is a closed convex constraint on the Choi operator and on $\kappa$. Its image $\mathrm{Reach}_\tau(X)=\{(\Xi(\omega^R_X),\Xi(\omega^L_X))\}$ is therefore compact and convex, and $V_{\tau,U}$ is its support function. Composing a morphism $X\to X'$ with a processing of $X'$ into $\tau$ gives a processing of $X$ into $\tau$ (the argument of Proposition~\ref{prop:cat}), so $\mathrm{Reach}_\tau(X')\subseteq\mathrm{Reach}_\tau(X)$ and $V_{\tau,U}$ is monotone. The identity is a processing of $Y$ into its own type, so $V_{\tau,U}(Y)\ge\Tr[U_R\omega^R_Y]+\Tr[U_L\omega^L_Y]$. If $V_{\tau,U}(X)\ge V_{\tau,U}(Y)$ for all $U$, then $(\omega^R_Y,\omega^L_Y)$ is not strictly separated from $\mathrm{Reach}_\tau(X)$, so it lies in that set, that is, $X\to Y$. The converse is monotonicity.
+\end{proof}
+
+\begin{remark}[Approximate conversion]\label{rem:robust}
+For any norm on pairs of operators, with dual norm $\|\cdot\|_*$, the minimal conversion error is
+\[
+\min_{\Theta}\|\Theta(X)-Y\|=\max_{\|U\|_*\le1}\bigl[\Tr[U_R\omega^R_Y]+\Tr[U_L\omega^L_Y]-V_{\tau,U}(X)\bigr],
+\]
+where $\Theta$ runs over free processings into the type $\tau$ of $Y$. This follows from minimax over a compact convex set. It is again an SDP, and here all free-operation constraints are imposed exactly. Each $V_{\tau,U}$ is the optimal payoff of a decision game played with boundary-constrained processing, in the sense of \cite{TR19,Gour17}. In the commuting (cell-diagonal) sector, Theorem~\ref{thm:complete}(b) is a linear program. Without (M3) it becomes a Blackwell-type comparison of experiments \cite{Bla53,Bus12}.
+\end{remark}
+
+%======================================================================
+\section{Conversions}
+\label{sec:conv}
+
+\begin{proposition}[Dilution band]\label{prop:dil}
+Let $X_t$ be as in Proposition~\ref{prop:examples}(e) with $t\le\frac12$. Then $\lambda^h_m(X_t)=(1-t)\lambda^h_m(X)+t$, and
+\[
+\bigl|\,s_m(X_t)-\min\{s_m(X),\tfrac12\log\tfrac1{2t}\}\bigr|\le\tfrac12\log2\qquad\text{for all }m,\sigma,w.
+\]
+\end{proposition}
+\begin{proof}
+Let $u=\lambda^R+\lambda^L$. Then $u'=(1-t)u+2t$ satisfies $\frac12\max(u,2t)\le u'\le2\max(u,2t)$ for $t\le\frac12$. Hence $-\frac12\log u'$ lies within $\frac12\log2$ of $\min(-\frac12\log u,\frac12\log\frac1{2t})$. The map $x\mapsto x^+$ is 1-Lipschitz, and $[\min(x,c)]^+=\min(x^+,c)$ for $c\ge0$.
+\end{proof}
+
+\begin{theorem}[Rate-level classification]\label{thm:rate}
+Let $(X_L)$ be uniformly scaling with rate $r$ at boundary $\sigma$ and scale $a$ (Definition~\ref{def:phys}).
+(i) If $X_L\to Y_L$ for every $L$, then $r^\pm_{\sigma'}(Y)\le r^\pm_{\sigma'}(X)$ for every $\sigma'$.
+(ii) For every $c\in[0,r]$ there are free morphisms $X_L\to Y_L$ such that $(Y_L)$ is uniformly scaling with rate $c$ at $\sigma$.
+Hence the set of rates reachable from $(X_L)$ is exactly $[0,r]$, and at the rate level the resource is totally ordered by the single number $r$.
+\end{theorem}
+\begin{proof}
+(i) is Theorem~\ref{thm:mono}(ii) applied at each $L$. (ii) For $c=0$ use erasure (Proposition~\ref{prop:examples}(d)). For $c>0$ dilute with $t_L=\frac12e^{-2c\,a(w_L)}$. By Proposition~\ref{prop:dil}, $|s_m(Y_L)-\min\{s_m(X_L),c\,a(w_L)\}|\le\frac12\log2$, so $s_m(Y_L)/a(w_L)\to\min(r,c)=c$ uniformly in $m$.
+\end{proof}
+
+At fixed size the order is much richer than at the rate level.
+
+\begin{theorem}[Hatano--Nelson chains are mutually inconvertible]\label{thm:HNinc}
+Let $\mathrm{HN}_L(g)$ be the generator datum (one site per cell, uniform weights on all $L$ modes) of the open chain with $G_{n+1,n}=e^{g}$ and $G_{n,n+1}=e^{-g}$. Let $L\ge2$ and $1\le W\le L/2$. If $g\ne g'$, then neither $\mathrm{HN}_L(g)\to\mathrm{HN}_L(g')$ nor $\mathrm{HN}_L(g')\to\mathrm{HN}_L(g)$. In particular $\mathrm{HN}_L(g)$ cannot be converted into the skinless Hermitian chain $\mathrm{HN}_L(0)$.
+\end{theorem}
+\begin{proof}
+Averaging Lemma~\ref{lem:dom} over $\pi'$ shows that $X\to Y$ requires $c^R_Y(\sigma,w)\le c^R_X(\sigma,w)$ for all $\sigma,w$, where $c^R(\sigma,w)=\E_\pi\Tr[\Pi_{\sigma,w}\rho^R]$. By the similarity $G=SH_0S^{-1}$ with $S=\mathrm{diag}(e^{gn})$ (Section~\ref{sec:calib}), mode $j$ has cell law $p^{(g)}_j(n)\propto e^{2gn}\mu_j(n)$ with $\mu_j(n)=\sin^2(k_jn)$, $k_j=\pi j/(L+1)$, and $\mu_j(1)=\mu_j(L)=\sin^2k_j>0$. For $A=\{n\le w\}$ with $1\le w\le L-1$, $\frac{d}{dg}p^{(g)}_j(A)=2\,\mathrm{Cov}_g(n,\mathbf 1_A)<0$, because $\mathbf 1_A$ is non-increasing in $n$ and non-constant on the support. Hence $c^R(-,1)$ is strictly decreasing in $g$ and $c^R(+,1)$ is strictly increasing. For $g>g'$ the conversion $\mathrm{HN}(g)\to\mathrm{HN}(g')$ violates the condition at $(-,1)$. For $g<g'$ it violates it at $(+,1)$. The reverse direction follows by exchanging $g$ and $g'$.
+\end{proof}
+
+The obstruction is exact but can be exponentially weak:
+
+\begin{proposition}[Lower bound for approximate conversion]\label{prop:approx}
+For every free processing $\Theta=(\Xi,\kappa)$ of $X$ into the type of $Y$, and every $h,\sigma,w$,
+\[
+\|\Xi(\omega^h_X)-\omega^h_Y\|_1\ \ge\ 2\,[c^h_Y(\sigma,w)-c^h_X(\sigma,w)]^+ ,
+\]
+with $c^L(\sigma,w)=\E_\pi\Tr[\Pi_{\isig,w}\rho^L]$. For $\mathrm{HN}_L(g)\to\mathrm{HN}_L(g')$ with $g>g'>0$, the right-hand side vanishes except in the orientation $\sigma=-$. There it is at most $2c^h_{g'}(-,W)\le\frac{(L+1)^2}{2(1-e^{-2g'})}e^{-2g'(L-W)}$ for $h=R,L$. For $g'=0$ (the Hermitian target) it equals $2W/L$ up to exponentially small corrections, so the Hermitian chain is not even approximately reachable when $W\propto L$.
+\end{proposition}
+\begin{proof}
+Lemma~\ref{lem:dom}, averaged over $\pi'$, gives $c^h_{\Theta(X)}\le c^h_X$, and $\|A\|_1\ge2|\Tr[(\one\otimes\Pi)A]|$ for traceless Hermitian $A$. For HN, $p^{(g)}_j$ is stochastically increasing in $g$ (proof of Theorem~\ref{thm:HNinc}), so for $g>g'$ only $\sigma=-$ contributes. There, $c^R_{g'}(-,W)=\E_jp^{(g')}_j(n\le W)$. The numerator is at most $\sum_{n\le W}e^{2g'(n-1)}\le e^{2g'(W-1)}/(1-e^{-2g'})$, and the normalization is at least $e^{2g'(L-1)}\sin^2k_j\ge4e^{2g'(L-1)}/(L+1)^2$. The left response is the mirror image. For $g'=0$, $\sum_j\sin^2(k_jn)=\frac{L+1}2$ gives $c^R_0(-,W)=W/L$.
+\end{proof}
+
+In the commuting sector, for single HN modes, the minimal total $\ell_1$ conversion error (summed over $h=R,L$) is computed by linear programming. It coincides to solver precision with the sum over $h$ of the bounds of Proposition~\ref{prop:approx}, and it decays exponentially in $L$ (check V30-09). Whether exponentially small approximate conversion $\mathrm{HN}_L(g)\to\mathrm{HN}_L(g')$ also holds for the full quantum data is left open. It would require an explicit coherent free processing, which we have not constructed.
+
+%======================================================================
+\section{Calibration: imaginary gauge fields and edge amplitudes}
+\label{sec:calib}
+
+\begin{theorem}[Gauge bound for tridiagonal generators]\label{thm:gauge}
+Let $G$ be tridiagonal on $\ell^2(\{1,\dots,L\})$ with real diagonal $V_n$, and off-diagonals $t^+_n=G_{n+1,n}$, $t^-_n=G_{n,n+1}$ satisfying $t^+_nt^-_n>0$. Put $\gamma_n=\frac12\log(t^+_n/t^-_n)$ and $\Gamma_n=\sum_{k<n}\gamma_k$. Let $H_0$ be the real symmetric Jacobi matrix with diagonal $V_n$ and off-diagonals $\mathrm{sgn}(t^+_n)\sqrt{t^+_nt^-_n}$, and let $\phi_j$ be its unit eigenvectors. Then $G=SH_0S^{-1}$ with $S=\mathrm{diag}(e^{\Gamma_n})$, the spectrum is real and simple, $R_j\propto S\phi_j$, $L_j\propto S^{-1}\phi_j$, $\phi_j(1)\phi_j(L)\ne0$, and for $1\le w\le L/2$
+\[
+s_j(+,w)\ \ge\ \min\{\Gamma^+_w,\Gamma^-_w\}-\tfrac12\log\frac{2}{\min\{\phi_j(1)^2,\phi_j(L)^2\}},
+\]
+where $\Gamma^+_w=\min_{n\le L-w}(\Gamma_L-\Gamma_n)$ and $\Gamma^-_w=\min_{n>w}(\Gamma_n-\Gamma_1)$.
+If $\gamma_n\ge\gamma>0$ for all $n$, then $\Gamma^\pm_w\ge\gamma w$. The mirror statement holds for $\sigma=-$.
+\end{theorem}
+\begin{proof}
+Conjugation by $S$ turns the off-diagonals of $H_0$ into $t^\pm_n$. Since $H_0$ is Hermitian, $G^\dagger=S^{-1}H_0S$, so $G^\dagger S^{-1}\phi_j=\lambda_jS^{-1}\phi_j$. A Jacobi matrix with non-zero off-diagonals has simple spectrum, and its eigenvectors cannot vanish at an end, since the three-term recursion would then force $\phi_j=0$. Now
+\[
+\lambda^R_j(+,w)=\frac{\sum_{n\le L-w}e^{2\Gamma_n}\phi_j(n)^2}{\sum_ne^{2\Gamma_n}\phi_j(n)^2}\le\frac{e^{2(\Gamma_L-\Gamma^+_w)}\sum_n\phi_j(n)^2}{e^{2\Gamma_L}\phi_j(L)^2}=\frac{e^{-2\Gamma^+_w}}{\phi_j(L)^2},
+\]
+because $\Gamma_n\le\Gamma_L-\Gamma^+_w$ for $n\le L-w$. Likewise $\lambda^L_j(+,w)\le e^{-2\Gamma^-_w}/\phi_j(1)^2$. Therefore $\lambda^R+\lambda^L\le2e^{-2\min(\Gamma^+_w,\Gamma^-_w)}/\min(\phi_j(1)^2,\phi_j(L)^2)$.
+\end{proof}
+
+The theorem says that the skin score is the imaginary gauge flux $\Gamma$ \cite{HN96} accumulated toward the boundary, minus a penalty set by the edge amplitudes of the Hermitian partner $H_0$. It holds for arbitrary real disorder and quasiperiodic potentials, and it checks numerically on random disordered and Aubry--Andr\'e chains (V30-05). If $H_0$ is Anderson-localized, the edge amplitudes of states localized far from both ends are exponentially small, and the bound becomes a competition between bias and localization length. This is consistent with the delocalization transition of \cite{HN96,JLYZC19}, but we do not derive the critical point. The bound is empty for a non-reciprocal bulk defect with zero bias elsewhere, in agreement with Remark~\ref{rem:converse}. Scale-free skin modes \cite{LLG21} have localization length proportional to $L$ and hence bounded $s$. They do not show directed skin accumulation in the sense of Definition~\ref{def:phys}, and a size-relative scale would be needed to classify them, as it would for the size-dependent critical skin effect \cite{LLMG20}.
+
+\begin{corollary}[Hatano--Nelson, two-sided]\label{cor:HN}
+For $\mathrm{HN}_L(g)$ with $g>0$, $L\ge3$ and $1\le w\le L/2$, uniformly in $j$,
+\[
+|s_j(+,w)-g\,w|\le C_L(g):=\tfrac32\log(L+1)+g+\tfrac12\log\frac{1}{1-e^{-2g}},\qquad s_j(-,w)=0 .
+\]
+If $w_L\le L/2$ and $w_L/\log L\to\infty$, the sequence is uniformly scaling with rate $g$ at scale $a(w)=w$ and shows extensive directed skin accumulation with $f=1$.
+\end{corollary}
+\begin{proof}
+Here $\gamma_n=g$ and $\phi_j(n)=\sqrt{2/(L+1)}\sin(k_jn)$, so $\phi_j(1)^2=\phi_j(L)^2=\frac{2}{L+1}\sin^2k_j\ge\frac{8}{(L+1)^3}$. Theorem~\ref{thm:gauge} then gives $s_j\ge gw-\frac32\log(L+1)+\log2$.
+
+For the upper bound, write $p(n)\propto e^{2g(n-1)}\sin^2(k_jn)$. The normalization is at most $e^{2g(L-1)}/(1-e^{-2g})$. With $n_0=L-w-1\ge1$,
+\[
+p(n_0)+p(n_0+1)\ge e^{-2g(w+1)}(1-e^{-2g})\bigl[\sin^2(k_jn_0)+\sin^2(k_j(n_0+1))\bigr],
+\]
+and the bracket equals $1-\cos k_j\cos(k_j(2n_0+1))\ge\frac12\sin^2k_j\ge\frac2{(L+1)^2}$. Hence $\lambda^R\ge2e^{-2g(w+1)}(1-e^{-2g})/(L+1)^2$, which gives $s_j\le g(w+1)+\log(L+1)+\frac12\log\frac1{1-e^{-2g}}-\frac12\log2$.
+
+For $\sigma=-$: $p^{(g)}$ is stochastically larger than $p^{(0)}$ (proof of Theorem~\ref{thm:HNinc}), and the left law $q^{(g)}$ is the mirror image of $p^{(g)}$ under $n\mapsto L+1-n$, hence stochastically smaller than $p^{(0)}$, which is mirror-symmetric. Since $2w\le L$, both $\{n>w\}$ and $\{n\le L-w\}$ contain at least half of the mirror-symmetric weight. So $\lambda^R(-,w)=p^{(g)}(n>w)\ge p^{(0)}(n>w)\ge\frac12$ and $\lambda^L(-,w)=q^{(g)}(n\le L-w)\ge p^{(0)}(n\le L-w)\ge\frac12$.
+\end{proof}
+
+Beyond tridiagonal chains we rely on the standard theory, and we make the imported input explicit.
+
+\begin{hypothesis}[Exponential biorthogonal localization]\label{hyp:H}
+For a family of generators $G_L$ there are $\gamma>0$, $c\ge0$, $C$ and $f>0$ such that, for a fraction at least $f$ of the modes, $\lambda^R_m(\sigma,w)+\lambda^L_m(\sigma,w)\le CL^ce^{-2\gamma w}$ for all $w\le W_L$.
+\end{hypothesis}
+
+Since $s_m\ge\gamma w-\frac12\log(CL^c)$ on the good modes, Hypothesis~\ref{hyp:H} immediately gives extensive directed skin accumulation with $a(w)=w$, any $\kappa<\gamma$, and any widths with $w_L/\log L\to\infty$. Theorem~\ref{thm:gauge} establishes it for tridiagonal chains with bias $\gamma_n\ge\gamma>0$ whenever a fraction $f$ of modes has edge amplitudes $\min\{\phi_j(1)^2,\phi_j(L)^2\}\ge L^{-c}$. For banded (block-)Toeplitz generators it is the content of non-Bloch band theory \cite{YW18,YM19,LT19}: right eigenvectors decay with the generalized-Brillouin-zone radius, left eigenvectors decay oppositely, and a non-zero point-gap winding is equivalent to the NHSE \cite{OKSS20,ZYF20}. In two and more dimensions the corresponding criterion is a non-zero spectral area \cite{ZYF22}. We import these results and do not re-prove them. Once Hypothesis~\ref{hyp:H} holds, everything in Sections~\ref{sec:score}--\ref{sec:conv} applies with no further assumption.
+
+%======================================================================
+\section{Numerical checks}
+\label{sec:num}
+
+The script \texttt{nhse\_qrt\_v30\_checks.py} (numpy/scipy, runtime of a few seconds) tests each load-bearing statement independently, and its output is \texttt{nhse\_qrt\_v30\_checks\_output.txt}. Tolerances are stated in the script. Direct eigen-decompositions are used only at small sizes, where they agree with the exact similarity transformation to $10^{-13}$ (V30-05), or with condition numbers at most $10^6$ (V30-02). At larger $L$ we use the exact similarity transformation, because numerical eigensolvers fail at pseudospectral sensitivity $\sim e^{gL}$ \cite{TE05}. The results are summarized in Table~\ref{tab:num}.
+
+\begin{table}[t]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}p{0.27\linewidth}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Check & Statement & Result\\
+\midrule
+V30-01 & Lemma~\ref{lem:collarrec}, Theorem~\ref{thm:recip} & $s\le3\times10^{-15}$; cell laws of $R,L$ agree to $10^{-14}$; for $U^T=-U$ every eigenvalue degenerate to $10^{-14}$\\
+V30-02 & Theorem~\ref{thm:sens} & all three bounds hold; residue identity to $3\times10^{-12}\kappa$; 2055 cases with $s>1$\\
+V30-03 & Theorem~\ref{thm:mono}(i),(ii) & 6000 monotone tests, 0 violations; skinless$\to$skinless 600/600\\
+V30-04 & Theorem~\ref{thm:mono}(iii) & $\Phi_Q$: 0 violations; additivity to $10^{-14}$\\
+V30-05 & Theorem~\ref{thm:gauge}, Corollary~\ref{cor:HN} & gauge bound min.\ slack $0.62$ over $2.9\times10^4$ (mode, $w$) pairs, disordered and quasiperiodic; HN band holds up to $L=400$; $s(-,w)=0$\\
+V30-06 & Remark~\ref{rem:converse}, controls & Hermitian and periodic HN: $s\le10^{-14}$; bulk bond, $L=40$--$160$: mean $\log\kappa\approx0.68$, $\kappa\le2.07$, $s<1$\\
+V30-07 & Theorem~\ref{thm:complete}(a) & LP feasibility vs.\ Farkas certificate: 300/300; certificate separates 197/197\\
+V30-08 & Theorem~\ref{thm:complete}(b), commuting sector & separating $V_{\tau,U}$ found 27/27; no violation on 33 reachable pairs\\
+V30-09 & Proposition~\ref{prop:dil}, Theorem~\ref{thm:HNinc}, Proposition~\ref{prop:approx} & dilution band holds; inconvertibility 120/120; minimal LP error equals the lower bound ($4.4\times10^{-3}\to1.2\times10^{-5}$, $L=12\to24$)\\
+\bottomrule
+\end{tabularx}
+\caption{Numerical checks of the load-bearing statements (\texttt{nhse\_qrt\_v30\_checks.py}).}
+\label{tab:num}
+\end{table}
+
+Not tested numerically: Theorem~\ref{thm:complete}(b) in the non-commuting sector (this needs an SDP solver), the category axioms beyond their proof, and Hypothesis~\ref{hyp:H} beyond tridiagonal chains.
+
+%======================================================================
+\section{Discussion and scope}
+\label{sec:disc}
+
+The results answer (U1)--(U4) as follows. The domain is every finite-dimensional generator with right and left eigen-responses and boundary collars, in any dimension (U1). The free objects are exactly the objects with zero skin score. They contain all Hermitian generators and all reciprocal generators with simple spectrum, and the one reciprocal exception, the $\mathbb Z_2$ skin effect, is traced to a forced degeneracy (U2). The free operations are blind to the right/left label and never pump weight into a collar. They cannot create skin, and they admit both explicit monotones and a complete SDP family (U3). The score bounds the eigenvalue condition number and the directional resolvent residue from below, and it reproduces the Hatano--Nelson rate with explicit constants, including disordered and quasiperiodic chains (U4). At the rate level the theory reduces to a single number. At fixed size the order is not total, and Theorem~\ref{thm:HNinc} shows this already within the Hatano--Nelson family.
+
+The following is not established here.
+(1) \emph{Beyond tridiagonal chains}, lower bounds on the score rely on Hypothesis~\ref{hyp:H}, which is imported from non-Bloch band theory for banded Toeplitz generators and is not proved for general disordered or long-range generators.
+(2) \emph{Degenerate spectra and exceptional points}: generator data use simple eigenvalues; at an exceptional point $\kappa_m=\infty$ and the construction must be modified.
+(3) \emph{Maximality}: collar non-expansion is sufficient for all results but is not the largest class of operations that never create skin, and that class is not characterized.
+(4) \emph{Copies}: only the zero-error converse of Remark~\ref{rem:copies} is proved. Asymptotic rates in the number of copies are not computed, and we argue that system size, not copy number, is the physical limit.
+(5) \emph{Approximate conversion within the HN family} for full quantum data is open (Section~\ref{sec:conv}).
+(6) \emph{Interacting and many-body} generators fit Definition~\ref{def:object}, but no calibration is given for them.
+
+%======================================================================
+\begin{thebibliography}{99}
+\bibitem{HN96} N. Hatano and D. R. Nelson, Phys. Rev. Lett. \textbf{77}, 570 (1996).
+\bibitem{YW18} S. Yao and Z. Wang, Phys. Rev. Lett. \textbf{121}, 086803 (2018).
+\bibitem{KEBB18} F. K. Kunst, E. Edvardsson, J. C. Budich, and E. J. Bergholtz, Phys. Rev. Lett. \textbf{121}, 026808 (2018).
+\bibitem{LT19} C. H. Lee and R. Thomale, Phys. Rev. B \textbf{99}, 201103(R) (2019).
+\bibitem{YM19} K. Yokomizo and S. Murakami, Phys. Rev. Lett. \textbf{123}, 066404 (2019).
+\bibitem{OKSS20} N. Okuma, K. Kawabata, K. Shiozaki, and M. Sato, Phys. Rev. Lett. \textbf{124}, 086801 (2020).
+\bibitem{ZYF20} K. Zhang, Z. Yang, and C. Fang, Phys. Rev. Lett. \textbf{125}, 126402 (2020).
+\bibitem{ZYF22} K. Zhang, Z. Yang, and C. Fang, Nat. Commun. \textbf{13}, 2496 (2022).
+\bibitem{AGU20} Y. Ashida, Z. Gong, and M. Ueda, Adv. Phys. \textbf{69}, 249 (2020).
+\bibitem{BBK21} E. J. Bergholtz, J. C. Budich, and F. K. Kunst, Rev. Mod. Phys. \textbf{93}, 015005 (2021).
+\bibitem{KSUS19} K. Kawabata, K. Shiozaki, M. Ueda, and M. Sato, Phys. Rev. X \textbf{9}, 041015 (2019).
+\bibitem{TE05} L. N. Trefethen and M. Embree, \emph{Spectra and Pseudospectra} (Princeton University Press, 2005).
+\bibitem{Wil65} J. H. Wilkinson, \emph{The Algebraic Eigenvalue Problem} (Oxford University Press, 1965).
+\bibitem{BB20} J. C. Budich and E. J. Bergholtz, Phys. Rev. Lett. \textbf{125}, 180403 (2020).
+\bibitem{Pet79} K. Petermann, IEEE J. Quantum Electron. \textbf{15}, 566 (1979).
+\bibitem{Por19} D. Porras and S. Fern\'andez-Lorenzo, Phys. Rev. Lett. \textbf{122}, 143901 (2019).
+\bibitem{WBN20} C. C. Wanjura, M. Brunelli, and A. Nunnenkamp, Nat. Commun. \textbf{11}, 3149 (2020).
+\bibitem{JLYZC19} H. Jiang, L.-J. Lang, C. Yang, S.-L. Zhu, and S. Chen, Phys. Rev. B \textbf{100}, 054301 (2019).
+\bibitem{LLMG20} L. Li, C. H. Lee, S. Mu, and J. Gong, Nat. Commun. \textbf{11}, 5491 (2020).
+\bibitem{LLG21} L. Li, C. H. Lee, and J. Gong, Commun. Phys. \textbf{4}, 42 (2021).
+\bibitem{CG19} E. Chitambar and G. Gour, Rev. Mod. Phys. \textbf{91}, 025001 (2019).
+\bibitem{CFS16} B. Coecke, T. Fritz, and R. W. Spekkens, Inf. Comput. \textbf{250}, 59 (2016).
+\bibitem{TR19} R. Takagi and B. Regula, Phys. Rev. X \textbf{9}, 031053 (2019).
+\bibitem{Gour17} G. Gour, Phys. Rev. A \textbf{95}, 062314 (2017).
+\bibitem{WW19} X. Wang and M. M. Wilde, Phys. Rev. Research \textbf{1}, 033170 (2019).
+\bibitem{Bla53} D. Blackwell, Ann. Math. Statist. \textbf{24}, 265 (1953).
+\bibitem{Bus12} F. Buscemi, Commun. Math. Phys. \textbf{310}, 625 (2012).
+\bibitem{Uhl76} A. Uhlmann, Rep. Math. Phys. \textbf{9}, 273 (1976).
+\bibitem{Sch86} A. Schrijver, \emph{Theory of Linear and Integer Programming} (Wiley, 1986).
+\end{thebibliography}
+
+\end{document}
