@@ -1,0 +1,427 @@
+% =====================================================================
+% V11 -- A Universal Quantum Resource Theory of the Non-Hermitian Skin Effect
+%
+% Design principle (what changed relative to V10):
+%   (1) The object is the biorthogonal *atlas* (right/left mode states of a
+%       geometric generator).  No claim is made that free maps act on
+%       instruments; the no-jump instrument only gives the physical
+%       preparation of the atlas states.
+%   (2) Two budgets: Phi_Q (unitarily invariant nonnormality, quantum
+%       monotone under all CPTP maps) and Phi_X (position-resolved skin
+%       budget = order-1/2 divergence of the *cell densities* of right and
+%       left modes).  Phi_X <= Phi_Q.  Only Phi_X sees geometry; it vanishes
+%       exactly on reciprocal objects (on-site transposition symmetry) and on
+%       translation-invariant rings, and is nonzero for HN.
+%   (3) Free operations are position-covariant and boundary-blind; the
+%       reference-preservation condition is proved necessary (counterexample)
+%       and shown to be automatic in the translation-invariant sector.
+%   (4) Exact HN asymptotics with sharp constant log(coth|g|/2).
+%   (5) Conversion cost is stated for a precisely defined class (dressing
+%       similarities) with matching upper/lower bounds up to O(1).
+%   (6) Every claim carries a status (Proved / Imported / Conditional /
+%       Conjecture / Open); nothing unproved is asserted.
+% =====================================================================
+\documentclass[11pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,booktabs,hyperref,microtype,xcolor,array}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{assumption}{Assumption}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{openproblem}{Open problem}
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\id}{\mathbf{1}}
+\newcommand{\Rskin}{R_{\rm skin}}
+\newcommand{\rskin}{r_{\rm skin}}
+\newcommand{\PhiQ}{\Phi_{\rm Q}}
+\newcommand{\PhiX}{\Phi_{\rm X}}
+\newcommand{\BC}{\mathrm{BC}}
+\newcommand{\cond}{\operatorname{cond}}
+\newcommand{\ip}[2]{\langle #1|#2\rangle}
+
+\begin{document}
+
+\title{A Universal Quantum Resource Theory of the Non-Hermitian Skin Effect:\\
+Position-Resolved Biorthogonality, Reciprocal Free Objects, and Exact Conversion Cost}
+\author{Ann Author}
+\date{September 29, 2026}
+\maketitle
+
+\begin{abstract}
+We construct a quantum resource theory of the non-Hermitian skin effect (NHSE) whose resource is
+\emph{geometric}, not merely a nonnormality scalar. The object is the biorthogonal atlas of a
+generator on a finite register of cells; each eigenmode contributes a pair of pure states (right, left).
+Two monotones are built from one primitive, the order-$1/2$ fidelity divergence: the nonnormality budget
+$\PhiQ$, monotone under all CPTP maps, and the \emph{skin budget} $\PhiX\le\PhiQ$, the same divergence
+between the cell-position densities of right and left modes, monotone under position-covariant maps.
+We prove: $\PhiX$ vanishes exactly on reciprocal objects (on-site transposition symmetry) and on every
+translation-invariant ring, even when $\PhiQ>0$ there, so the periodic reference is exactly free;
+nonlocal unitaries are not free, which is why Chien's Toeplitz-to-symmetric similarity does not trivialize the theory;
+free operations are position-covariant, boundary-blind, reference-sufficient, and reference-sufficiency is shown to be necessary by an explicit
+counterexample; conversion under free maps is governed by Blackwell's theorem; a real-space theorem gives
+an extensive resource without translation invariance; the Hatano--Nelson chain is solved exactly,
+$\Phi=|g|(L-1)-\log(L+1)+\log(\tfrac12\coth|g|)+\tfrac2L\log[(L+1)(1-e^{-2|g|})]+O(e^{-2|g|L})$; and the
+minimal conditioning cost of dressing one HN skin sector into another equals the resource difference up to $O(1)$.
+A claims ledger separates what is proved, imported, conditional, conjectural, and open.
+\end{abstract}
+
+%-----------------------------------------------------------------------
+\section{Introduction, scope, and what ``universal'' means}
+The NHSE is defined by a boundary contrast: one bulk rule gives different spectra and eigenmodes under open (OBC) and
+periodic (PBC) boundaries~\cite{HN,YaoWang,Okuma}. Nakai et al.\ established that OBC skin accumulation produces a macroscopic
+enhancement of nonnormality and introduced eigenvector condition-number diagnostics~\cite{Nakai}; the Petermann factor
+$K_\lambda=|\ip{\ell_\lambda}{r_\lambda}|^{-2}$ and Wilkinson's eigenvalue condition number are classical~\cite{Petermann,Siegman}.
+We therefore do \emph{not} claim that exponential nonnormality is new. The question is:
+\begin{quote}\emph{Which quantum object carries the skin resource, which operations are free, which quantity is monotone, and what does it cost to change the resource?}
+\end{quote}
+\paragraph*{Two obstructions and their resolution.}
+(i) Every finite complex Toeplitz matrix is unitarily similar to a complex symmetric one~\cite{Chien}. Hence any resource
+invariant under \emph{all} unitaries, in particular any function of $\|P_\lambda\|$ alone, cannot distinguish the OBC Hatano--Nelson (HN) chain from
+a reciprocal system. The resolution is that the skin resource must be \emph{position-resolved}: it lives in the
+cell densities of right and left modes, and the free unitaries are only those that respect the cell register.
+(ii) The difference of two monotones is not a monotone. The resolution is to prove monotonicity in the class where it is true,
+to show that the extra condition is automatic for translation-invariant references, and to prove by counterexample that it cannot be dropped in general.
+
+\paragraph*{Meaning of ``universal''.}
+We claim universality in four precisely stated senses and no others.
+\begin{enumerate}
+\item[\textbf{U1}] \emph{Domain.} The theory is defined for every finite-dimensional generator with simple spectrum on a register of cells $X\times[q]$, for any lattice, dimension, disorder, Fock-space register, or vectorized Liouvillian; no translation invariance or GBZ is used.
+\item[\textbf{U2}] \emph{Structure.} One object class, one free-operation class, a family of monotones, and (via Blackwell) a complete conversion criterion at the atlas level.
+\item[\textbf{U3}] \emph{Free set.} Reciprocal objects and translation-invariant rings are exactly free (Theorem~\ref{thm:props}).
+\item[\textbf{U4}] \emph{Calibration.} An exact solution (HN) and an extensivity theorem for macroscopically separated modes.
+\end{enumerate}
+\emph{Not} claimed: a universal scaling law, a proof that $\rskin>0$ characterizes every NHSE phase (Conjecture~\ref{conj:toeplitz}), or a dynamical-level (instrument) monotone (Open problem~\ref{op:dyn}). Section~\ref{sec:ledger} lists every item with its status.
+
+%-----------------------------------------------------------------------
+\section{The quantum object}
+\begin{definition}[Geometric generator and boundary pair]
+Fix a finite register of cells $X$, $|X|=L$, and $q$ orbitals per cell, so $\mathcal H=\mathbb C^X\otimes\mathbb C^q$ with cell projectors $\Pi_x$.
+A \emph{geometric generator} is any $H\in\mathbb C^{N\times N}$, $N=qL$, with simple spectrum. A \emph{boundary pair} is $(H_O,H_P)$ on the same register;
+for a bulk rule $H(\beta)=\sum_{a=-R_-}^{R_+}H_a\beta^a$ they are the block-Toeplitz and block-circulant matrices. Disordered rules are allowed: $(H_O,H_P)$ are two prescribed realizations of one device family.
+\end{definition}
+
+\begin{definition}[Biorthogonal atlas and dichotomy family]
+For each eigenvalue: $Hr_\lambda=\lambda r_\lambda$, $H^\dagger\ell_\lambda=\bar\lambda\ell_\lambda$, $\|r_\lambda\|=\|\ell_\lambda\|=1$.
+The atlas is $\mathcal A(H)=\{\lambda;\rho^R_\lambda,\rho^L_\lambda\}$ with $\rho^R_\lambda=|r_\lambda\rangle\langle r_\lambda|$, $\rho^L_\lambda=|\ell_\lambda\rangle\langle\ell_\lambda|$.
+The \emph{cell-measurement channel} $\Delta_X(\rho)=\sum_x\Tr(\Pi_x\rho)|x\rangle\langle x|$ produces the cell densities
+\[
+p_\lambda(x)=\|\Pi_xr_\lambda\|^2,\qquad q_\lambda(x)=\|\Pi_x\ell_\lambda\|^2 .
+\]
+The \emph{dichotomy family} is $\mathcal D(H)=\{(p_\lambda,q_\lambda)\}_\lambda$.
+\end{definition}
+
+\begin{remark}[Physical preparation of the atlas states]
+$K_H(t)=e^{-i(H-i\gamma)t}$ is a contractive no-jump Kraus operator for suitable $\gamma$ (a valid quantum instrument together with its failure branch).
+Evolving a generic input under $K_H(t)$ and postselecting on no jump prepares the right state of the eigenvalue with largest imaginary part; evolving under $H^\dagger$ prepares the left state;
+spectral filtering selects other modes. Thus both members of each pair are laboratory states, and the ``discrimination of right from left'' below compares the outputs of the forward and adjoint dynamics.
+The theory is defined on the atlas; we make no claim that a map acting on the atlas is an operation on the dynamics (Open problem~\ref{op:dyn}).
+\end{remark}
+
+%-----------------------------------------------------------------------
+\section{Two budgets from one primitive}
+The primitive is the order-$1/2$ root-fidelity divergence $D_{1/2}(\rho\|\sigma)=-2\log F(\rho,\sigma)$, $F=\|\sqrt\rho\sqrt\sigma\|_1$; this is the sandwiched R\'enyi divergence of order $1/2$ for all states, and coincides with the Petz one for pure states.
+\begin{definition}[Budgets]
+For simple spectrum and uniform mode weights,
+\begin{align}
+b_\lambda&=-\log|\ip{\ell_\lambda}{r_\lambda}|=\tfrac12D_{1/2}(\rho^R_\lambda\|\rho^L_\lambda), &
+\PhiQ(H)&=\tfrac1N\textstyle\sum_\lambda b_\lambda,\\
+\beta_\lambda&=-\log\BC(p_\lambda,q_\lambda)=\tfrac12D_{1/2}(\Delta_X\rho^R_\lambda\|\Delta_X\rho^L_\lambda), &
+\PhiX(H)&=\tfrac1N\textstyle\sum_\lambda \beta_\lambda,
+\end{align}
+where $\BC(p,q)=\sum_x\sqrt{p(x)q(x)}$ is the Bhattacharyya coefficient.
+\end{definition}
+
+\begin{proposition}[Identities and chain]\label{prop:chain}
+(a) $\|P_\lambda\|=e^{b_\lambda}=K_\lambda^{1/2}$ with $P_\lambda=|r_\lambda\rangle\langle\ell_\lambda|/\ip{\ell_\lambda}{r_\lambda}$.
+(b) $|\ip{\ell_\lambda}{r_\lambda}|\le F(\Delta^{\rm pin}\rho^R,\Delta^{\rm pin}\rho^L)\le\BC(p_\lambda,q_\lambda)\le1$, where $\Delta^{\rm pin}$ is the cell pinching. Hence $b_\lambda\ge\beta_\lambda\ge0$ and $\PhiQ\ge\PhiX\ge0$.
+(c) $\beta_\lambda=0$ iff $p_\lambda=q_\lambda$.
+\end{proposition}
+\begin{proof}
+(a) The rank-one projector has norm $\|r\|\|\ell\|/|\ip\ell r|$. (b) The first inequality is data processing for $F$ under pinching; for the second, $F=\sum_x\|\Pi_xr\|\|\Pi_x\ell\||\ip{\hat\ell_x}{\hat r_x}|$ with unit vectors $\hat r_x,\hat\ell_x$ in cell $x$, and $|\ip{\hat\ell_x}{\hat r_x}|\le1$. (c) $\sum_x(\sqrt p-\sqrt q)^2=2(1-\BC)$.
+\end{proof}
+
+\begin{theorem}[Properties of the budgets; status: proved]\label{thm:props}
+Let $H$ have simple spectrum.
+\begin{enumerate}
+\item[(a)] \emph{Faithfulness of $\PhiQ$:} $\PhiQ=0\iff H$ normal. \emph{Faithfulness of $\PhiX$:} $\PhiX=0\iff p_\lambda=q_\lambda$ for all $\lambda$.
+\item[(b)] \emph{Reciprocity is free.} If there is a unitary $V$ commuting with all $\Pi_x$ such that $VH^{T}V^\dagger=H$ (on-site transposition symmetry; e.g.\ $H=H^T$), then $\PhiX(H)=0$, although $\PhiQ(H)$ may be positive.
+\item[(c)] \emph{Translation-invariant rings are free.} If $H_P$ commutes with the cyclic cell translation $\mathcal T$, then $\PhiX(H_P)=0$ exactly, for every $q$, even when $\PhiQ(H_P)>0$.
+\item[(d)] \emph{Unitary control cannot exceed the nonnormality budget.} For every unitary $U$, $0\le\PhiX(UHU^\dagger)\le\PhiQ(H)$; $\PhiQ$ is unitarily invariant.
+\item[(e)] \emph{Additivity.} For $H_1\otimes\id+\id\otimes H_2$ with simple spectrum and product register, $\PhiQ$ and $\PhiX$ are additive.
+\item[(f)] \emph{Separation.} If $\PhiX(H)\ge s$ then some mode has $\mathrm{TV}(p_\lambda,q_\lambda)\ge1-e^{-s}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(a) If $\PhiQ=0$ then $\ell_\lambda\propto r_\lambda$, so $r_\lambda$ is an eigenvector of both $H$ and $H^\dagger$; then $(\lambda-\mu)\ip{r_\mu}{r_\lambda}=0$ and the eigenbasis is orthonormal, so $H$ is normal; the converse is immediate. The $\PhiX$ statement is Prop.~\ref{prop:chain}(c) applied mode by mode.
+(b) From $H^T=V^\dagger HV$ we get $H^\dagger=\overline{H^T}=V^T\bar H\bar V$. Then $H^\dagger\ell=\bar\lambda\ell$ reads $\bar H(\bar V\ell)=\bar\lambda\,\bar V\ell$, i.e.\ $H(V\bar\ell)=\lambda\,V\bar\ell$. By simplicity $r_\lambda\propto V\bar\ell_\lambda$. Since $V$ commutes with every $\Pi_x$, $\|\Pi_xr_\lambda\|=\|\Pi_x\ell_\lambda\|$.
+(c) With simple spectrum each $r_\lambda$ is a $\mathcal T$-eigenvector; $\mathcal T$ permutes cells unitarily, so $\|\Pi_{x+1}r\|=\|\Pi_{x+1}\mathcal Tr\|=\|\mathcal T\Pi_xr\|=\|\Pi_xr\|$: $p_\lambda$ is uniform. The same holds for $\ell_\lambda$ since $\mathcal T$ commutes with $H^\dagger$. So $p=q=1/L$.
+(d) $UHU^\dagger$ has eigenvectors $Ur,U\ell$, so $\PhiQ$ is invariant; then apply Prop.~\ref{prop:chain}(b).
+(e) Eigenvectors and biorthogonal overlaps are tensor products, $\BC$ multiplies on product densities, and the uniform average over product labels splits.
+(f) $\max_\lambda\beta_\lambda\ge\PhiX\ge s$ gives $\BC\le e^{-s}$, and $\mathrm{TV}\ge1-\BC$.
+\end{proof}
+
+\begin{remark}[Why nonlocal unitaries are not free; resolution of the Toeplitz obstruction]
+By~\cite{Chien} the OBC HN matrix is unitarily similar to a complex symmetric matrix $S_{\rm sym}$ via a \emph{nonlocal} unitary $U$. By (d), $\PhiQ(S_{\rm sym})=\PhiQ(HN)$, but in the basis of $S_{\rm sym}$ Theorem~\ref{thm:props}(b) gives $\PhiX=0$. Skin content is basis-dependent \emph{by design}: nonlocal unitaries can convert skin into unlocalized nonnormality. Numerically (Sec.~\ref{sec:num}, C7) a random unitary leaves $\PhiQ$ unchanged and reduces $\PhiX$. The free unitaries are the position-covariant ones (Prop.~\ref{prop:unitary}).
+\end{remark}
+
+\begin{proposition}[Operational meaning; status: proved]\label{prop:oper}
+(a) \emph{Sensitivity.} To first order, $\delta\lambda=\ip{\ell}{\delta H|r}/\ip\ell r$, so $\sup_{\|\delta H\|\le\varepsilon}|\delta\lambda|=\varepsilon e^{b_\lambda}$, attained by $\delta H=\varepsilon|\ell\rangle\langle r|$. For $\delta H=\Pi_A\delta H\Pi_B$ supported on cell sets $A,B$: $|\delta\lambda|\le\varepsilon\,e^{b_\lambda}\sqrt{q_\lambda(A)p_\lambda(B)}$.
+(b) \emph{Discrimination.} The quantum Chernoff exponent for discriminating $\rho^R_\lambda$ from $\rho^L_\lambda$ is $2b_\lambda=D_{1/2}(\rho^R_\lambda\|\rho^L_\lambda)$. The classical Chernoff exponent of the position statistics $(p_\lambda,q_\lambda)$ is $\ge\beta_\lambda$, with equality for every HN mode; position measurement therefore retains exactly half of the optimal exponent for HN.
+\end{proposition}
+\begin{proof}
+(a) is first-order perturbation theory and Cauchy--Schwarz. (b) For pure states $\Tr\rho^s\sigma^{1-s}=|\ip{\ell}{r}|^2$ for all $s$, so the quantum Chernoff exponent~\cite{Audenaert} is $-2\log|\ip\ell r|$. The classical exponent is $-\log\min_s\sum_xp^sq^{1-s}\ge-\log\sum_x\sqrt{pq}=\beta$, since $s=\tfrac12$ is a competitor. For HN, Theorem~\ref{thm:HN} gives $q_j(L+1-n)=p_j(n)$, so $s\mapsto\sum p^sq^{1-s}$ is convex and symmetric about $\tfrac12$, hence minimal at $s=\tfrac12$.
+\end{proof}
+The physical reading of $\PhiX$: the skin budget is the log-sensitivity of an eigenvalue to a perturbation that couples the two regions where right and left modes live; the PBC-closing link is exactly such a perturbation.
+
+%-----------------------------------------------------------------------
+\section{The NHSE resource theory}
+\subsection{Objects and resource}
+\begin{definition}[Boundary-paired object; resource]
+$X_L=(\mathcal A(H_O),\mathcal A(H_P))$. Signed excess $\Delta_B^{(L)}=\PhiX(H_O)-\PhiX(H_P)$; finite-size resource $\Rskin^{(L)}=[\Delta_B^{(L)}]_+$; density $\rskin=[\limsup_L\Delta_B^{(L)}/L]_+$; the full sequence is the resource profile.
+A pair is \emph{free at size $L$} if $\Rskin^{(L)}=0$, and a family is \emph{free} if $\Rskin^{(L)}=O(1)$.
+\end{definition}
+By Theorem~\ref{thm:props}(c), for every translation-invariant bulk rule with simple PBC spectrum, $\PhiX(H_P)=0$ and $\Rskin^{(L)}=\PhiX(H_O)$: the periodic calibration is exactly free. (This corrects V10: PBC \emph{nonnormality}, which can be extensive for multiband rules, sits in $\PhiQ(H_P)$ and does not enter $\PhiX$.)
+The calibration term matters only for disordered or interacting references, where the ring may itself carry cell-density asymmetry.
+
+\subsection{Free operations}
+\begin{definition}[Position-covariant, boundary-blind, reference-sufficient]
+A CPTP map $\Lambda$ (possibly with ancillas in product states) is \emph{position-covariant} if there is a classical channel $T$ with $\Delta_X\circ\Lambda=T\circ\Delta_X$.
+A free operation $\Theta$ applies the \emph{same} covariant $\Lambda$, with the same mode labels (bijective relabelings allowed, coarse-graining of modes not), to both members of $X_L$. It is \emph{reference-sufficient} if the induced $T$ is sufficient for the reference densities: there is a classical channel $\tilde T$ with $\tilde TTp^P_\lambda=p^P_\lambda$ and $\tilde TTq^P_\lambda=q^P_\lambda$ for all $\lambda$.
+No condition involves the value of $\Rskin$.
+\end{definition}
+Then $\Delta_X(\Lambda\rho^{R}_\lambda)=Tp_\lambda$ and $\Delta_X(\Lambda\rho^{L}_\lambda)=Tq_\lambda$: covariant maps act on the dichotomy family by a common stochastic matrix.
+
+\begin{proposition}[Richness and the free unitaries; status: proved]\label{prop:unitary}
+The covariant class contains: measure-and-prepare maps from the cell measurement, cell-local CPTP maps, random cell permutations, dephasing, product ancillas. A unitary is covariant iff it is a cell permutation composed with an on-site unitary, $U=\sum_x|\pi(x)\rangle\langle x|\otimes V_x$. Reference-sufficiency holds whenever $T$ is injective on the union of supports of the reference densities, in particular for all such unitaries.
+\end{proposition}
+\begin{proof}
+The listed maps satisfy $\Delta_X\Lambda=T\Delta_X$ by inspection (for measure-and-prepare, $T(x'|x)=\Tr\Pi_{x'}\sigma_x$). For a unitary, covariance requires $\|\Pi_yU\psi\|^2$ to depend only on $\{\|\Pi_x\psi\|^2\}$. Taking $\psi$ inside one cell forces $(\Pi_yU)^\dagger(\Pi_yU)\propto\id$ on each $V_x=\Pi_x\mathcal H$; taking $\psi$ a superposition of two cells forces $\Pi_yUV_x\perp\Pi_yUV_{x'}$ for $x\neq x'$. A dimension count ($\sum_x\dim\Pi_yUV_x\le q$ for each $y$, while $\sum_y\dim\Pi_yUV_x\ge q$) then forces each $UV_x$ into a single cell. Injectivity of $T$ on the supports gives a left inverse.
+\end{proof}
+\noindent Local coherent unitaries such as a beam splitter between neighboring cells are \emph{not} free: they can convert nonnormality into skin (e.g.\ $r=(1,1)/\sqrt2$, $\ell=(1,-1)/\sqrt2$ have $\BC=1$; after the beam splitter $\BC=0$). This is the price of a geometric monotone, and Theorem~\ref{thm:props}(d) bounds what any unitary can create by $\PhiQ$.
+
+\begin{theorem}[Monotonicity of the NHSE resource; status: proved]\label{thm:mono}
+Let $\Theta$ be a boundary-blind covariant free operation. Then $\PhiQ$ and $\PhiX$ of each member satisfy $\PhiQ(\Lambda\mathcal A)\le\PhiQ(\mathcal A)$ for every CPTP $\Lambda$, and $\PhiX(\Theta\mathcal A)\le\PhiX(\mathcal A)$ for covariant $\Lambda$.
+For the boundary excess:
+\begin{enumerate}
+\item[(a)] if the reference is reciprocal ($p^P_\lambda=q^P_\lambda$ for all $\lambda$; this holds for every translation-invariant ring), then $\Rskin^{(L)}(\Theta X_L)\le\Rskin^{(L)}(X_L)$ for \emph{every} boundary-blind covariant $\Theta$;
+\item[(b)] in general, the same holds for every reference-sufficient $\Theta$;
+\item[(c)] consequently $\rskin(\Theta X)\le\rskin(X)$ and the free sector is invariant.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Classical data processing for $\BC$: $\BC(Tp,Tq)\ge\BC(p,q)$ for any stochastic $T$ (joint concavity of $\sqrt{pq}$, or the Cauchy--Schwarz form $\sum_{x'}\sqrt{\sum_xT_{x'x}p_x\sum_xT_{x'x}q_x}\ge\sum_x\sqrt{p_xq_x}$). Averaging over modes gives $\PhiX$ monotonicity; $\PhiQ$ is data processing of $F$.
+(a) $p^P=q^P\Rightarrow Tp^P=Tq^P$, so $\PhiX(\Theta P)=0=\PhiX(P)$ and $\Rskin'=\PhiX(\Theta O)\le\PhiX(O)=\Rskin$.
+(b) Sufficiency gives $\PhiX(P)=\PhiX(\tilde TTP)\le\PhiX(TP)\le\PhiX(P)$, hence equality, and $\Rskin'=[\PhiX(\Theta O)-\PhiX(P)]_+\le\Rskin$.
+(c) divide by $L$, take $\limsup$; if $\Rskin^{(L)}=O(1)$ the image is $O(1)$.
+\end{proof}
+
+\begin{proposition}[Reference-sufficiency is necessary in general; status: proved]\label{prop:counter}
+Let $X=\{1,2,3,4\}$, one mode, $O$: $p=(\tfrac34,\tfrac14,0,0)$, $q=(\tfrac14,\tfrac34,0,0)$; $P$: $p=(0,0,\tfrac9{10},\tfrac1{10})$, $q=(0,0,\tfrac1{10},\tfrac9{10})$. Then $\PhiX(O)=-\log\frac{\sqrt3}2\approx0.144$, $\PhiX(P)=-\log0.6\approx0.511$, so $\Rskin=0$. The boundary-blind covariant $T$ merging cell $4$ into cell $3$ gives $\PhiX(TP)=0$, $\PhiX(TO)=0.144$: $\Rskin$ increases from $0$ to $0.144$.
+\end{proposition}
+\noindent By Theorem~\ref{thm:props}(c) such a reference cannot be a translation-invariant ring; the sufficiency condition is needed only for genuinely nonreciprocal references (disordered or interacting rings), and there it cannot be removed.
+
+\begin{theorem}[Complete conversion criterion at the atlas level; status: imported]\label{thm:blackwell}
+Let $\mathcal D=\{p_m\}_{m=1}^{2N}$ and $\mathcal D'=\{p'_m\}$ be the lists of all right and left cell densities of two atlases. A common stochastic map with $Tp_m=p'_m$ for all $m$ exists iff for every finite decision problem the Bayes risk based on $\mathcal D$ is at most that based on $\mathcal D'$ (Blackwell's theorem~\cite{Blackwell}); for a single mode ($2$ hypotheses) this is Lorenz-curve dominance of $(p,q)$ over $(p',q')$, equivalently monotonicity of all $f$-divergences.
+\end{theorem}
+\noindent Thus the family $\{\text{all }f\text{-divergence averages}\}$, of which $\PhiX$ is one member, is a complete set of monotones for single-mode atlas conversion by free maps. We make no claim about which HN conversions are free in this sense (Open problem~\ref{op:downhill}).
+
+\begin{theorem}[Resource-theory axioms; status: proved]\label{thm:axioms}
+(i) Objects: boundary-paired atlases. (ii) Free objects: $\Rskin^{(L)}=0$ (family: $O(1)$). (iii) Free operations: boundary-blind, covariant, reference-sufficient; closed under composition, tensoring with product ancillas, and mode relabeling (a composition in which each map is sufficient for the reference it acts on is sufficient, with recovery $\tilde T_1\tilde T_2$). (iv) Free objects are mapped to free objects (Theorem~\ref{thm:mono}). (v) $\Rskin^{(L)}$, $\rskin$ are monotones, additive across independent boundary pairs with reciprocal references.
+\end{theorem}
+
+%-----------------------------------------------------------------------
+\section{Real-space extensivity theorem}
+\begin{assumption}[Macroscopic boundary separation]\label{ass:sep}
+There exist $\kappa,A>0$, a sequence $f_L\in(0,1]$ and mode sets $S_L$ with $|S_L|=f_LN$ such that for all $\lambda\in S_L$, cells $1\le n\le L$, orbitals $a$: $|r_\lambda(n,a)|\le Ae^{-\kappa(L-n)}$ and $|\ell_\lambda(n,a)|\le Ae^{-\kappa(n-1)}$.
+\end{assumption}
+\begin{lemma}\label{lem:ov}
+For $\lambda\in S_L$: $\BC(p_\lambda,q_\lambda)\le qLA^2e^{-\kappa(L-1)}$, hence $\beta_\lambda\ge\kappa(L-1)-\log(qLA^2)$.
+\end{lemma}
+\begin{proof}
+$\|\Pi_nr\|\le\sqrt qAe^{-\kappa(L-n)}$, $\|\Pi_n\ell\|\le\sqrt qAe^{-\kappa(n-1)}$; the product is $qA^2e^{-\kappa(L-1)}$ for every $n$; sum over $L$ cells.
+\end{proof}
+\begin{theorem}[Extensive skin resource; status: proved]\label{thm:extensive}
+Under Assumption~\ref{ass:sep},
+\[
+\Rskin^{(L)}\ \ge\ f_L\big[\kappa(L-1)-\log(qLA^2)\big]-\PhiX(H_P),
+\]
+so $\rskin\ge\kappa\liminf f_L-\limsup\PhiX(H_P)/L$. If $H_P$ is translation-invariant, $\PhiX(H_P)=0$, and if $f_L\ge f-C/L$ then $\Rskin^{(L)}\ge f\kappa L-O(\log L)$.
+\end{theorem}
+\begin{proof}
+All $\beta_\lambda\ge0$; modes in $S_L$ contribute at least the Lemma bound; divide by $N$. This corrects V10, whose $o(1)$ error term should have been $o(L)$ when $|S_L|=fN+o(L)$.
+\end{proof}
+\begin{proposition}[Exact no-skin direction for Toeplitz rules; status: proved]
+If the bulk rule satisfies $H_{-a}=VH_a^TV^\dagger$ for a fixed unitary $V$ on $\mathbb C^q$ (for $q=1$: $a_{-j}=a_j$, i.e.\ the symbol satisfies $f(\beta)=f(1/\beta)$), then $H_O$ has on-site transposition symmetry, $\PhiX(H_O)=0$ and $\Rskin^{(L)}=0$ for all $L$, even if $\PhiQ(H_O)>0$.
+\end{proposition}
+
+\begin{conjecture}[Faithfulness for banded Toeplitz rules]\label{conj:toeplitz}
+For $q=1$, finite-range symbols with simple OBC spectrum: $\rskin>0$ iff the point-gap winding of the symbol is nonzero at some point of the limiting OBC spectrum (equivalently the GBZ is not the unit circle). The direction ``reciprocal $\Rightarrow\rskin=0$'' is the Proposition above; the converse is expected to follow from Schmidt--Spitzer/Reichel--Trefethen asymptotics of banded Toeplitz spectra and eigenvector conditioning~\cite{SchmidtSpitzer,ReichelTrefethen} but is \emph{not} proved here.
+\end{conjecture}
+
+%-----------------------------------------------------------------------
+\section{Hatano--Nelson: exact calibration}
+Let $H^O_{g,L}=m\id+e^{g}T_++e^{-g}T_-$, $T_+=\sum_{n=1}^{L-1}|n{+}1\rangle\langle n|$, $T_-=T_+^T$, $m,g\in\mathbb R$; the case $g<0$ follows by reflection, so take $g>0$, $u=e^{-2g}$, $k_j=\pi j/(L+1)$, $s_j(n)=\sin k_jn$. Then $r_j(n)=e^{g(n-1)}s_j(n)/R_j$, $\ell_j(n)=e^{-g(n-1)}s_j(n)/L_j$ with $R_j^2=\sum_ne^{2g(n-1)}s_j^2$, $L_j^2=\sum_ne^{-2g(n-1)}s_j^2$.
+
+\begin{theorem}[HN calibration; status: proved]\label{thm:HN}
+(i) $R_j=e^{g(L-1)}L_j$ and $q_j(L+1-n)=p_j(n)$ exactly; $\ip{\ell_j}{r_j}=\BC(p_j,q_j)=\dfrac{L+1}{2R_jL_j}$; hence $\PhiX=\PhiQ$ and
+$b_j=g(L-1)+\log\dfrac{2L_j^2}{L+1}$.\\
+(ii) With $u=e^{-2g}$,
+\[
+\PhiQ(H^O_{g,L})=g(L-1)-\log(L+1)+\log\!\big(\tfrac12\coth g\big)+\tfrac2L\log\!\big[(L+1)(1-u)\big]-\tfrac2L\log(1-u^{L+1})+O_g(e^{-2gL}).
+\]
+In particular $\PhiQ=g(L-1)-\log(L+1)+\log(\tfrac12\coth g)+O(\tfrac{\log L}L)$ and, within the elementary bounds, $-\log2\le\PhiQ-g(L-1)+\log(L+1)\le\log\frac2{1-u}$.\\
+(iii) For $g\neq0$ the ring has simple spectrum ($k\neq-k$) and $\PhiQ(H^P_{g,L})=\PhiX(H^P_{g,L})=0$.\\
+(iv) Hence $\Rskin^{(L)}=|g|(L-1)-\log(L+1)+\log(\tfrac12\coth|g|)+o(1)$ and $\rskin=|g|$.
+\end{theorem}
+\begin{proof}
+(i) Since $\sin^2k_j(L+1-n)=\sin^2k_jn$, substituting $n\to L+1-n$ in $L_j^2$ gives $L_j^2=e^{-2g(L-1)}R_j^2$ and $q_j(L+1-n)=p_j(n)$. Because $r_j(n)\ell_j(n)=s_j^2/(R_jL_j)\ge0$, $\ip{\ell_j}{r_j}=\sum_n\sqrt{p_jq_j}=\sum s_j^2/(R_jL_j)=(L+1)/(2R_jL_j)$ using $\sum_{n=1}^Ls_j(n)^2=(L+1)/2$. Then $b_j=\log(2R_jL_j/(L+1))$ and $R_j=e^{g(L-1)}L_j$ give the formula.
+(ii) Summing the geometric-trigonometric series to infinity,
+$\Lambda(k)=\sum_{n\ge1}u^{n-1}\sin^2kn=\frac{(1+u)\sin^2k}{(1-u)(1-2u\cos2k+u^2)}$.
+The truncation error is $\tau_j=u^L\sum_{m\ge0}u^m\sin^2(k_jm)$ (using $k_j(L+1)=\pi j$), and with $\tilde k=\min(k_j,\pi-k_j)$, $\tau_j\le u^L\tilde k^2\,u(1+u)/(1-u)^3$ while $\Lambda(k_j)\ge4\tilde k^2/(\pi^2(1-u^2))$; hence $\tau_j/\Lambda(k_j)\le C_gu^L$ uniformly in $j$ and $\log L_j^2=\log\Lambda(k_j)+O(u^L)$. Now
+$\log\Lambda(k)=\log\frac{1+u}{1-u}+\log\sin^2k-\log(1-2u\cos2k+u^2)$, and exact identities give
+$\sum_{j=1}^L\log\sin^2k_j=2\log\frac{L+1}{2^L}$ and, from $\prod_{j=0}^{L}(1-2u\cos\frac{2\pi j}{L+1}+u^2)=(1-u^{L+1})^2$, $\sum_{j=1}^L\log(1-2u\cos2k_j+u^2)=2\log(1-u^{L+1})-2\log(1-u)$. Insert in (i) and use $\frac{1+u}{1-u}=\coth g$. The elementary bounds follow from $R_jL_j\ge e^{g(L-1)}\sin^2k_j$ and $R_j^2\le e^{2g(L-1)}/(1-u)$, $L_j^2\le1/(1-u)$ together with the exact average of $\log\sin^2k_j$.
+(iii) The ring is circulant, hence unitarily diagonalized by the Fourier matrix; then $r=\ell$ (both plane waves) and all overlaps are $1$.
+(iv) Definition of $\Rskin$ and (iii).
+\end{proof}
+\begin{remark}[Relation to Nakai et al.]
+The leading rate coincides with the eigenvector condition-number growth of~\cite{Nakai} ($e^{|g|}=r_N$ in their parametrization). The sharp constant $\log(\frac12\coth|g|)$ and the $-\log(L+1)$ term are the new exact content; the numerics in Sec.~\ref{sec:num} confirm the formula to $10^{-9}$ at $L=40$.
+\end{remark}
+
+%-----------------------------------------------------------------------
+\section{Regular finite-range sector: GBZ representation}
+The GBZ is a coordinate representation, not part of the definition.
+\begin{assumption}[Envelope hypothesis, for a translation-invariant rule]\label{ass:env}
+Modes are labeled by $\lambda=(\alpha,\theta)$ with skin exponents $a_\lambda=|\log|\beta_\alpha(\theta)||\le a_{\max}$, and (orienting each mode so that right modes sit at large $n$) cell densities $p_\lambda(x)=e^{2a_\lambda x}u_\lambda(x)/Z^p_\lambda$, $q_\lambda(x)=e^{-2a_\lambda x}v_\lambda(x)/Z^q_\lambda$. There is $\varepsilon_L\to0$ uniform in $\lambda$ with: (E1) $u_\lambda,v_\lambda\le e^{\varepsilon_LL}$; (E2) some $x\ge L-\varepsilon_LL$ has $u_\lambda(x)\ge e^{-\varepsilon_LL}$ and some $x'\le\varepsilon_LL$ has $v_\lambda(x')\ge e^{-\varepsilon_LL}$; (E3) $\sum_x\sqrt{u_\lambda v_\lambda}\ge e^{-\varepsilon_LL}$. Mode equidistribution: $\frac1N\sum_\lambda a_\lambda\to\frac1q\sum_\alpha\int_0^{2\pi}\frac{d\theta}{2\pi}\,|\log|\beta_\alpha(\theta)||$.
+\end{assumption}
+\begin{theorem}[GBZ representation; status: conditional on Assumption~\ref{ass:env}]\label{thm:gbz}
+Uniformly in $\lambda$, $|\beta_\lambda-a_\lambda L|\le(2a_{\max}+2)\varepsilon_LL+\log L$, hence
+\[
+\rskin=\frac1q\sum_{\alpha=1}^q\int_0^{2\pi}\frac{d\theta}{2\pi}\,\big|\log|\beta_\alpha(\theta)|\big|.
+\]
+\end{theorem}
+\begin{proof}
+$\BC=\sum_x\sqrt{u v}/\sqrt{Z^pZ^q}$. Upper bound on $\BC$: numerator $\le Le^{\varepsilon L}$ by (E1); (E2) gives $Z^p\ge e^{2a(L-\varepsilon L)-\varepsilon L}$, $Z^q\ge e^{-2a\varepsilon L-\varepsilon L}$, so $\BC\le Le^{-aL+(2a+2)\varepsilon L}$. Lower bound: numerator $\ge e^{-\varepsilon L}$ by (E3); $Z^p\le Le^{2aL+\varepsilon L}$, $Z^q\le Le^{\varepsilon L}$, so $\BC\ge e^{-aL-2\varepsilon L}/L$. Average over modes and use $\PhiX(H_P)=0$ (Theorem~\ref{thm:props}(c)).
+\end{proof}
+The HN chain satisfies the hypothesis with $u=v=\sin^2$ and $a_\lambda=g$, reproducing $\rskin=|g|$. Generalized/relative skin effects that violate a single-GBZ description~\cite{Wei} violate only this representation, not the resource theory.
+
+%-----------------------------------------------------------------------
+\section{Cost of nonfree conversion}
+Free operations act on atlases. A different, physically important operation is \emph{dressing} of the generator, $H'=SHS^{-1}$, which conjugates all dynamics and is implemented by postselected Kraus operators proportional to $S$ and $S^{-1}$.
+\begin{proposition}[Dressing; status: proved]\label{prop:dress}
+(a) For any invertible $S$ and $H'=SHS^{-1}$ with the modes matched, $r'_\lambda\propto Sr_\lambda$, $\ell'_\lambda\propto S^{-\dagger}\ell_\lambda$, $|b'_\lambda-b_\lambda|\le\log\cond(S)$; so $|\PhiQ(H')-\PhiQ(H)|\le\log\cond(S)$.
+(b) For cell-diagonal positive $S=\mathrm{diag}(s_x)$: $p'=S^2p/Z^p$, $q'=S^{-2}q/Z^q$ with $Z^p=\sum s_x^2p_x$, $Z^q=\sum s_x^{-2}q_x$; then $\beta'=\beta+\tfrac12\log(Z^pZ^q)$ exactly and $|\beta'-\beta|\le\log\cond(S)$; so $|\PhiX(H')-\PhiX(H)|\le\log\cond(S)$.
+(c) The Kraus operators $S/s_{\max}$ and $s_{\min}S^{-1}$ succeed with probability at least $\cond(S)^{-2}$ on every state, with equality on a state in an extremal cell.
+\end{proposition}
+\begin{proof}
+(a) $P'_\lambda=SP_\lambda S^{-1}$, so $\|P'\|\le\cond(S)\|P\|$ and symmetrically. (b) $\BC(p',q')=\sum\sqrt{pq}/\sqrt{Z^pZ^q}$, and $\sqrt{Z^pZ^q}\in[s_{\min}/s_{\max},s_{\max}/s_{\min}]$. (c) Direct.
+\end{proof}
+\begin{theorem}[Exact dressing cost on the HN ray; status: proved]\label{thm:cost}
+Let $g_1,g_2\ne0$ and $\mathcal S(g_1,g_2)=\{S\ \text{invertible}:SH^O_{g_1,L}S^{-1}=H^O_{g_2,L}\}$. Then
+\begin{enumerate}
+\item[(i)] (achievability) with $W$ the cell reflection ($WH_gW^\dagger=H_{-g}$, unitary and free) and $S_\delta=\mathrm{diag}(e^{-\delta(n-1)})$, an element of $\mathcal S$ with
+$\log\cond=\big||g_2|-|g_1|\big|(L-1)$ exists;
+\item[(ii)] (converse) every $S\in\mathcal S$ has $\log\cond(S)\ge|\PhiQ(g_2)-\PhiQ(g_1)|=\big||g_2|-|g_1|\big|(L-1)-c_L$ with $c_L\to\big|\log\frac{\coth|g_2|}{\coth|g_1|}\big|$;
+\item[(iii)] (operational form) for $g_1>g_2>0$ the dressing $S_\delta$, $\delta=g_1-g_2$, converts every mode exactly ($r_j\mapsto r'_j$, $\ell_j\mapsto\ell'_j$) and every right/left branch succeeds with probability $e^{-2\delta(L-1)}$ times a factor between $c_gL^{-2}$ and $c_g'L^{2}$.
+\end{enumerate}
+Therefore $\lim_{L}\frac1L\inf_{S\in\mathcal S}\log\cond(S)=\big||g_2|-|g_1|\big|$: the minimal conditioning cost density equals the difference of resource densities, and $\inf\log\cond$ lies within $O(1)$ of $\big||g_2|-|g_1|\big|(L-1)$. For a cost budget $c$ (per site), the sector $g_1\to g_2$ is reachable, in the density sense, iff $\big||g_2|-|g_1|\big|\le c$.
+\end{theorem}
+\begin{proof}
+(i) $S_\delta H_{g_1}S_\delta^{-1}=H_{g_1-\delta}$ because $S_\delta T_+S_\delta^{-1}=e^{-\delta}T_+$ and $S_\delta T_-S_\delta^{-1}=e^{\delta}T_-$; for opposite signs first apply $W$. $\cond(S_\delta)=e^{|\delta|(L-1)}$ and $\cond(SW)=\cond(S)$. (ii) Similar matrices have equal spectra, so modes are matched by eigenvalue and Prop.~\ref{prop:dress}(a) applies; then use Theorem~\ref{thm:HN}(ii). (iii) $r_j\propto e^{g_1(n-1)}s_j$ maps to $e^{g_2(n-1)}s_j$; the success probabilities are $\sum_ne^{-2\delta(n-1)}p_j(n)$ and $e^{-2\delta(L-1)}\sum_ne^{2\delta(n-1)}q_j(n)$; bound numerator and denominator using $\sin^2k_j\ge(2/(L+1))^2$ and geometric sums.
+\end{proof}
+\begin{remark}[Scope of the cost theorem]
+The cost is defined for dressing similarities of the generator, with $\log\cond$ as the conditioning (equivalently $\tfrac12\log(1/\text{success probability})$ in the worst case). It is not a claim about all postselected channels and it is not a completeness statement for the HN ray: any scalar monotone is trivially complete on a one-parameter family. The content is the exact matching of cost and resource difference, and the fact that dressing conditioning is bounded below by the monotone.
+\end{remark}
+
+%-----------------------------------------------------------------------
+\section{Sectors: what the definition covers and what is proved}
+The definition applies verbatim to every sector; only the theorems differ.
+\begin{itemize}
+\item \emph{Regular finite skin depth:} Theorem~\ref{thm:extensive} (proved), Theorem~\ref{thm:gbz} (conditional).
+\item \emph{Critical scale-free:} the resource profile $\Rskin^{(L)}$ is defined; we set $\chi_{\rm skin}=\limsup\log(1+\Rskin^{(L)})/\log L$. Values of $\chi_{\rm skin}$ are an open computation~\cite{YokoMura,LiSun}.
+\item \emph{Disorder:} Theorems~\ref{thm:props}, \ref{thm:mono}, \ref{thm:extensive} hold sample by sample; here the reference term $\PhiX(H_P)$ is genuinely nonzero and the reference-sufficiency condition is active. Distributional statements are open.
+\item \emph{Liouvillian and many-body:} the vectorized Liouvillian (or the Fock-space Hamiltonian) is a matrix on a Hilbert space with a chosen cell register, so $\PhiQ$, $\PhiX$ are defined verbatim~\cite{SongYaoWang,ShimomuraSato}. What is \emph{not} used or proved is any compatibility of the free operations with the complete-positivity structure of the Liouvillian.
+\item \emph{Exceptional points:} $b_\lambda\to\infty$ as an eigenpair coalesces, so set $\PhiQ=+\infty$ at defective points (lower semicontinuous extension). For degenerate but diagonalizable spectra, $\|P\|=1/\cos\theta_{\max}$ with $\theta_{\max}$ the largest principal angle between the right and left eigenspaces~\cite{IpsenMeyer}; a cell-density version of the degenerate case is open (Open problem~\ref{op:degenerate}).
+\end{itemize}
+
+%-----------------------------------------------------------------------
+\section{Numerical verification}\label{sec:num}
+The script \texttt{nhse\_qrt\_v11\_checks.py} tests every quantitative statement. Summary of results (double precision; HN at large $L$ uses the closed form of Theorem~\ref{thm:HN}(i), which involves no ill-conditioned eigenproblem):
+\begin{itemize}
+\item C1: direct eigensolver $\PhiQ=\PhiX$ for HN to all printed digits; matches the asymptotic formula of Theorem~\ref{thm:HN}(ii) to $10^{-9}$ at $L=40$ ($g=0.25$).
+\item C2: $|R_j/(e^{g(L-1)}L_j)-1|\le4\times10^{-15}$; the classical Chernoff minimizer sits at $s=1/2$ for all modes.
+\item C3: for $g=0.25$, $\PhiQ-[g(L-1)-\log(L+1)]=0.7873,\,0.7390,\,0.7217,\,0.7161$ at $L=100,400,1600,6400$, converging to $\log(\tfrac12\coth g)=0.7137$ (the $-\log L$ term is verified to $L=6400$); same for $g=0.7$ (limit $-0.1896$).
+\item C4: $|\ip\ell r|\le F_{\rm pin}\le\BC$ in all trials on random banded $q=2$ matrices.
+\item C5: a complex-symmetric banded Toeplitz matrix has $\PhiQ=0.0595>0$ and $\PhiX=10^{-16}$.
+\item C6: a random $q=2$ block-circulant ring has $\PhiQ=0.093>0$ and $\PhiX=10^{-16}$.
+\item C7: for HN ($L=16$) a random unitary keeps $\PhiQ=1.868$ but lowers $\PhiX$ from $1.868$ to $0.252$; a cell permutation leaves $\PhiX$ unchanged.
+\item C8: $\|S_\delta H_{g_1}S_\delta^{-1}-H_{g_2}\|=6\times10^{-16}$; $\beta'=\beta+\tfrac12\log(Z^pZ^q)$ to $4\times10^{-13}$; $|\Delta\beta|\le\log\cond S=3.80$; branch success $\log p\in[-7.09,-5.98]$ versus $-2\delta(L-1)=-7.60$.
+\item C9: counterexample of Prop.~\ref{prop:counter}: $\Rskin$ goes $0\to0.144$.
+\item C10: first-order sensitivity saturates $\varepsilon e^{b}$.
+\end{itemize}
+Still required for a full numerical program (not yet done): tests of Theorem~\ref{thm:gbz} on non-Hermitian SSH-type multiband rules, disordered ensembles, and the Blackwell criterion on HN modes.
+
+%-----------------------------------------------------------------------
+\section{Claims ledger and open problems}\label{sec:ledger}
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.52\textwidth}p{0.36\textwidth}@{}}
+\toprule
+Claim & Status\\
+\midrule
+Budgets, chain, faithfulness, reciprocity, translation-invariant ring free (Thm.~\ref{thm:props}) & Proved\\
+Monotonicity, closure, sufficiency necessary (Thm.~\ref{thm:mono}, Prop.~\ref{prop:counter}, Thm.~\ref{thm:axioms}) & Proved\\
+Covariant unitaries $=$ cell permutations $\times$ on-site unitaries & Proved\\
+Atlas-level complete conversion criterion (Thm.~\ref{thm:blackwell}) & Imported (Blackwell)\\
+Real-space extensivity (Thm.~\ref{thm:extensive}) & Proved\\
+HN exact asymptotics, Chernoff optimality (Thm.~\ref{thm:HN}, Prop.~\ref{prop:oper}) & Proved, numerically confirmed\\
+Dressing cost on HN ray (Thm.~\ref{thm:cost}) & Proved\\
+GBZ representation (Thm.~\ref{thm:gbz}) & Conditional on Assumption~\ref{ass:env}\\
+Toeplitz faithfulness $\rskin>0\iff$ winding $\ne0$ (Conj.~\ref{conj:toeplitz}) & Conjecture\\
+Critical exponents, disorder distributions, Liouvillian CP structure & Open\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{openproblem}[Dynamical-level monotone]\label{op:dyn}
+Define free supermaps on the instruments $\mathcal I_H^t$ (not on the atlas) and find a monotone that reduces to $\PhiX$ on the atlas. The present theory does not provide this.
+\end{openproblem}
+\begin{openproblem}[Downhill HN conversion by free maps]\label{op:downhill}
+Decide, via Theorem~\ref{thm:blackwell}, for which $g_1>g_2>0$ the HN atlas of $g_1$ converts to that of $g_2$ under a common covariant stochastic map without dressing.
+\end{openproblem}
+\begin{openproblem}[Degenerate spectra]\label{op:degenerate}
+Define $\PhiX$ for degenerate eigenvalues using spectral projectors and prove the analogues of Theorem~\ref{thm:props}.
+\end{openproblem}
+\begin{openproblem}[Converse and critical sectors]
+Prove Conjecture~\ref{conj:toeplitz}; extend to $q>1$; classify $\chi_{\rm skin}$ for scale-free models.
+\end{openproblem}
+
+%-----------------------------------------------------------------------
+\section{Conclusion}
+The construction is a quantum resource theory of the NHSE in the following defined sense: an object class (boundary-paired biorthogonal atlases on a register of cells, any geometry), a free-operation class defined without reference to the resource value (boundary-blind, position-covariant, reference-sufficient), a quantum monotone $\PhiQ$ and a geometric monotone $\PhiX$ built from one fidelity divergence, free objects characterized by reciprocity and translation invariance, a complete atlas-level conversion criterion, an extensivity theorem valid without translation invariance, an exactly solved calibration, and an exact conversion cost on the HN ray. The remaining gaps are stated as a conjecture and open problems rather than absorbed into the claims.
+
+\begin{thebibliography}{99}
+\bibitem{HN} N.\ Hatano and D.\ R.\ Nelson, Phys.\ Rev.\ Lett.\ \textbf{77}, 570 (1996).
+\bibitem{YaoWang} S.\ Yao and Z.\ Wang, Phys.\ Rev.\ Lett.\ \textbf{121}, 086803 (2018).
+\bibitem{Okuma} N.\ Okuma, K.\ Kawabata, T.\ Shiozaki, and M.\ Sato, Phys.\ Rev.\ Lett.\ \textbf{124}, 086801 (2020).
+\bibitem{Nakai} Y.\ O.\ Nakai, N.\ Okuma, D.\ Nakamura, K.\ Shimomura, and M.\ Sato, Phys.\ Rev.\ B \textbf{109}, 144203 (2024).
+\bibitem{ShimomuraSato} K.\ Shimomura and M.\ Sato, Phys.\ Rev.\ Lett.\ \textbf{133}, 136502 (2024).
+\bibitem{Chien} M.-T.\ Chien, J.\ Liu, H.\ Nakazato, and T.-Y.\ Tam, Linear Multilinear Algebra \textbf{65}, 2131 (2017).
+\bibitem{SongYaoWang} F.\ Song, S.\ Yao, and Z.\ Wang, Phys.\ Rev.\ Lett.\ \textbf{123}, 170401 (2019).
+\bibitem{YokoMura} K.\ Yokomizo and S.\ Murakami, Phys.\ Rev.\ B \textbf{104}, 165117 (2021).
+\bibitem{LiSun} W.\ Li, Z.\ Sun, Z.\ Yang, and F.\ Li, Phys.\ Rev.\ B \textbf{109}, 035119 (2024).
+\bibitem{Wei} Z.\ Wei, J.-Y.\ Fan, K.\ Cao, X.-R.\ Ma, and S.-P.\ Kou, arXiv:2505.10252 (2025).
+\bibitem{Blackwell} D.\ Blackwell, Ann.\ Math.\ Statist.\ \textbf{24}, 265 (1953).
+\bibitem{Petermann} K.\ Petermann, IEEE J.\ Quantum Electron.\ \textbf{15}, 566 (1979).
+\bibitem{Siegman} A.\ E.\ Siegman, Phys.\ Rev.\ A \textbf{39}, 1253 (1989).
+\bibitem{Audenaert} K.\ M.\ R.\ Audenaert \emph{et al.}, Phys.\ Rev.\ Lett.\ \textbf{98}, 160501 (2007).
+\bibitem{IpsenMeyer} I.\ C.\ F.\ Ipsen and C.\ D.\ Meyer, Amer.\ Math.\ Monthly \textbf{102}, 904 (1995).
+\bibitem{SchmidtSpitzer} P.\ Schmidt and F.\ Spitzer, J.\ Analyse Math.\ \textbf{8}, 15 (1960).
+\bibitem{ReichelTrefethen} L.\ Reichel and L.\ N.\ Trefethen, Linear Algebra Appl.\ \textbf{162--164}, 153 (1992).
+\end{thebibliography}
+\end{document}
