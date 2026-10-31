@@ -1,0 +1,73 @@
+A  golden rule: 300 random reciprocal networks with loops, max N(S_A)/||S|| = 2.6e-16
+   [part A: consistent with claims, 0s]
+B1 cosquare spectrum invariant under S -> A^T S A and closed under mu -> 1/mu: True; isolator (0.9 fwd, 0.3 back) cosquare eigenvalues [0.3333 3.    ] = (1/3, 3) = isolation ratio
+B2 MZI around a pure-phase element (|tf|=|tb|=1, phase difference 0.05; isolation ratio of the element = 1):
+     eps= 1e-01: isolation ratio       1.1 (flat over the band: spread 9e-15), forward transmission 0.0553, N1/budget 0.500
+     eps= 1e-03: isolation ratio      50.0 (flat over the band: spread 1e-12), forward transmission 0.0250, N1/budget 0.500
+     eps= 1e-05: isolation ratio    4999.5 (flat over the band: spread 1e-10), forward transmission 0.0250, N1/budget 0.500
+B3 critically coupled ring around a pure-phase element (phase difference 0.01):
+     r=   0.9: peak isolation   58.4 dB (grid-limited; exact: infinite) with pass transmission 0.047; >20 dB over 3.2e-04 of the band; mean signed log-isolation -9.5e-07 (Jensen: 0); N1/budget 0.552
+     r=  0.99: peak isolation   57.5 dB (grid-limited; exact: infinite) with pass transmission 0.446; >20 dB over 2.9e-04 of the band; mean signed log-isolation -9.5e-07 (Jensen: 0); N1/budget 0.497
+     r= 0.999: peak isolation   44.3 dB (grid-limited; exact: infinite) with pass transmission 0.981; >20 dB over 6.1e-05 of the band; mean signed log-isolation -9.5e-07 (Jensen: 0); N1/budget 0.287
+   => isolation ratio at one frequency, or its band average, can be raised without bound by free networks; neither is a monotone.
+   [part B: consistent with claims, 0s]
+C0 proof steps: (1) |S_A - X Delta X^T| max 3.0e-16;  (2) max mean|X s|^2 over unit s = 0.7499 (<= 1);  (3) rank-2 skew trace-norm formula rel. err 4.1e-16
+C1 one device, 300 random embeddings: max N1(S_ext)/budget = 0.505  (direct wiring gives 1.000000: bound is tight)
+C2 2-3 devices, 150 random embeddings: max N1(S_ext)/(sum of budgets) = 0.258;  violations 0/450
+C3 adversarial hill climb (10 starts x 300 steps): best N1/budget found = 0.812
+C4 is N1 a monotone on dispersive objects?  random: max N1(Theta(S))/N1(S) = 0.601, violations 0/150; adversarial on a narrowband ring object: best ratio 1.175
+C5 stored counterexample: outer network = one 4-port junction, symmetric to 0e+00, largest singular value 1.000000; object = the ring: True
+     N1(Theta(S))/N1(S) = 1.1755 (2^15 pts) / 1.1755 (2^18 pts);  N1(Theta(S)) = 0.0115 <= elementary budget 0.0247
+   => N1 is NOT a monotone on dispersive objects; it lower-bounds the elementary cost, which is the monotone.
+C6 explicit loop: ring object between ports 1 and 3 of a lossless coupler (r=1/2, line phase -i): N1(Theta(S))/N1(S) = 2.1837 (2^15) / 2.1837 (2^18)
+   [part C: consistent with claims, 37s]
+D1 any one-channel nearest-neighbour chain (complex disorder, any z): G_N1/G_1N = prod t+/t- , max rel. err 7.1e-14
+D2 chain with reciprocal nearest-neighbour hopping (t_{+-1}=1/2) and next-nearest hopping t_{+2}=-1/4, t_{-2}=+1/4:
+   equal magnitudes, non-reciprocal only in phase; the PBC loop is a figure eight with winding -1 and +1 lobes
+     z=(-0.6+0.15j): winding -1 | growth rate of log|G_N1| +0.272, of log|G_1N| -0.394 | log-isolation rate +0.666
+     z=(-0.8-0.1j): winding -1 | growth rate of log|G_N1| +0.215, of log|G_1N| -0.466 | log-isolation rate +0.681
+     z=(0.6+0.15j): winding +1 | growth rate of log|G_N1| -0.394, of log|G_1N| +0.272 | log-isolation rate -0.666
+     z=(0.8-0.1j): winding +1 | growth rate of log|G_N1| -0.466, of log|G_1N| +0.215 | log-isolation rate -0.681
+     z=     0.5j: winding +0 | growth rate of log|G_N1| -0.253, of log|G_1N| -0.253 | log-isolation rate +0.000
+     z=      1.3: winding +0 | growth rate of log|G_N1| -0.766, of log|G_1N| -0.256 | log-isolation rate -0.510
+     z=(-1.2+0.3j): winding +0 | growth rate of log|G_N1| -0.221, of log|G_1N| -0.739 | log-isolation rate +0.518
+   => exponential gain to the right iff winding=-1, to the left iff winding=+1: 7/7 points; where w=0 both directions decay, even when their ratio is exponential (z=1.3): gain, not the ratio, marks the NHSE.
+   [part D: consistent with claims, 4s]
+E1 cascade of 2-ports with reflections: S21/S12 = prod_i S21^(i)/S12^(i) at every frequency, max rel. err 1.6e-15
+E2 corollary on 200 random 2-port networks: max mean|S21-S12| / sum_i|D21-D12| = 0.576 (<= 1)
+E3 N pure-phase elements, N*Delta = pi:
+     N=  4: cascade max||S21/S12|-1| = 9e-16;  MZI min|S21| = 1.000000, max|S12| = 4e-16, N1 = 0.5000, budget = 1.5307, efficiency = 0.3266 (1/pi = 0.3183)
+     N= 16: cascade max||S21/S12|-1| = 3e-15;  MZI min|S21| = 1.000000, max|S12| = 1e-15, N1 = 0.5000, budget = 1.5683, efficiency = 0.3188 (1/pi = 0.3183)
+     N= 64: cascade max||S21/S12|-1| = 1e-14;  MZI min|S21| = 1.000000, max|S12| = 5e-15, N1 = 0.5000, budget = 1.5706, efficiency = 0.3183 (1/pi = 0.3183)
+E4 nearest-neighbour chains with |t+|=|t-| (random phases, complex disorder): max | |G_mn| - |G_nm| | / max|G| = 5.4e-16;
+     figure-eight chain of D2: gauge-invariant loop product t1^2 t-2 / (t-1^2 t2) = -1 (a pi 'non-reciprocal flux')
+   [part E: consistent with claims, 1s]
+F1 collapse (MZI cancellation + amplifier 400.0): |S21|^2 = 100.000000..100.000000, max|S12| = 1e-13, max|S11|,|S22| = 0e+00, stable True
+     N1 = 5.000 = 200 x budget;  added noise: port 2 = 160032 quanta (quantum limit 99), port 1 = 1e-28
+F2 197 stable series networks with amplifiers, mirrors and devices: S21/S12 = prod_i S21^(i)/S12^(i), max rel. err 1.8e-15
+F3 equal S21/S12  =>  B = (reciprocal 2-port) after A at a fixed frequency: max asymmetry of the connector 4.0e-14
+F4 noise price on 150 random stable networks with gain: max N1/bound = 0.243, violations 0; transposition identity E(N) = conj(nu-matrix of N^T): rel. err 2.8e-16; amplifiers on both device ports: ratio 1.000000 (tight)
+F5 ring r=0.9, gain 1.1105, element phase 0.02: stable True; at the peak |S21|^2 = 145376, |S12|^2 = 111.23, excess noise -2.6e-10 quanta; N1 = 28.8 x budget <= (1+nu) = 213
+F5 ring r=0.999, gain 1.00099, element phase 0.05: stable True; at the peak |S21|^2 = 1638, |S12|^2 = 1.00, excess noise -4.4e-10 quanta; N1 = 0.2 x budget <= (1+nu) = 255
+F6 HN-type amplifier chain: each bond = element (1, e^-0.3) + amplifier 1.15; partial mirrors (rho=0.2) between bonds
+     N= 2: stable True; |S21|^2 up to    1.7; |S21/S12| = 1.8221 (spread 5e-15; exp(2 gamma N) = 1.8221); total noise / quantum limit = 1.512; N1 = 0.28 vs passive budget 0.26, noise-price bound 0.4
+     N= 8: stable True; |S21|^2 up to    9.3; |S21/S12| = 11.0232 (spread 1e-13; exp(2 gamma N) = 11.0232); total noise / quantum limit = 1.232; N1 = 1.21 vs passive budget 1.04, noise-price bound 3.7
+     N=16: stable True; |S21|^2 up to   86.4; |S21/S12| = 121.5104 (spread 6e-12; exp(2 gamma N) = 121.5104); total noise / quantum limit = 1.149; N1 = 3.87 vs passive budget 2.07, noise-price bound 34.4
+   [part F: consistent with claims, 51s]
+SUMMARY: A=ok, B=ok, C=ok, D=ok, E=ok, F=ok
+G1 matched two-ports closed by reflectors |rho|=r (24 phase pairs each): stable for all phases <=> r^2 max|S12 S21| < 1 in 60/60
+G2 m=1: reciprocal => T^T Omega T = Omega (err 2e-16), mu -> 1/mu (err 1e-13);  det T = det S21/det S12 (err 1e-14)
+G2 m=2: reciprocal => T^T Omega T = Omega (err 3e-16), mu -> 1/mu (err 1e-13);  det T = det S21/det S12 (err 1e-14)
+G2 m=3: reciprocal => T^T Omega T = Omega (err 3e-16), mu -> 1/mu (err 1e-12);  det T = det S21/det S12 (err 3e-14)
+G3 cells with network winding w != 0 (1000 random each): passive two-channel 0; reciprocal two-channel with gain 0; one-channel phase-only with gain 0; two-channel phase-only with gain 39
+G4 HN-type chain (gamma=0.15, g=1.15, rho=0.2): w=-1 on 0.91 of the band; there the forward growth rate (N=16->32) is 0.1340 vs log|mu_1| = 0.1340 (max deviation 1e-02); where w=0 it is <= -0.0064
+G5 chain stability, 2 log g = 0.280:
+     flux per bond 2 gamma = 0.00: N=8: UNSTABLE, N=24: UNSTABLE, N=64: UNSTABLE
+     flux per bond 2 gamma = 0.26: N=8: stable, N=24: stable, N=64: UNSTABLE
+     flux per bond 2 gamma = 0.29: N=8: stable, N=24: stable, N=64: stable
+G6 magnitude element (gamma=0.05): flux 0.1000 = bound 0.1000
+G6 magnitude element (gamma=0.2): flux 0.4000 = bound 0.4000
+G6 phase-only element in an MZI cell (phase 0.1): |S21| = 1.0000, flux 0.00125 = -log cos(phase/2) = 0.00125; budget 0.0500; passive bound 0.1053
+G6 phase-only element in an MZI cell (phase 0.4): |S21| = 1.0000, flux 0.02013 = -log cos(phase/2) = 0.02013; budget 0.1987; passive bound 0.5064
+   [part G: consistent with claims, 112s]
+SUMMARY: G=ok

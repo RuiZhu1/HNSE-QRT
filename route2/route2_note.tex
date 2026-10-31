@@ -1,0 +1,337 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{problem}{Open problem}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\NN}{\mathcal N_1}
+\newcommand{\D}{\mathbb D}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\T}{\mathsf T}
+
+\title{Non-reciprocity as a resource in linear networks:\\ budget, loops, gain and quantum noise}
+\author{Marcelo Group \quad (route 2, working note)}
+\date{October 16, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We set up a resource theory whose free objects are reciprocal linear networks and whose free operations embed an object once into an arbitrary passive reciprocal network, with loops, resonances and interference allowed. We prove that the bandwidth-averaged non-reciprocity $\NN(S)=\int\frac12\|S_A\|_1\,\frac{d\varphi}{2\pi}$ of any such network is bounded by the sum of the non-reciprocities of its elementary components, and that the bound is tight. For two-ports this is an isolation--bandwidth bound: $\int|S_{21}-S_{12}|\,\frac{d\varphi}{2\pi}\le\sum_i|D^{(i)}_{21}-D^{(i)}_{12}|$. The bound is not a monotone on general objects: closing a narrowband isolator into a loop with one lossless coupler raises $\NN$ by a factor $2.18$. The monotone is the elementary cost, which $\NN$ bounds from below. Single-frequency isolation ratios are not monotones either. Loops are what convert phase-type non-reciprocity into directionality: in a cascade of two-ports $S_{21}/S_{12}$ is exactly multiplicative, whereas a single Mach--Zehnder loop turns $\pi/\Delta$ pure-phase elements into a perfect broadband isolator. The lattice analogue is that nearest-neighbour chains with $|t^+_n|=|t^-_n|$ are reciprocal up to gauge, while chains with loops can show a skin effect driven purely by phases. With reciprocal gain allowed the classical theory collapses: one loop and one amplifier turn any weak element into a perfect broadband directional amplifier. Two structures survive. In series (loop-free) networks, $S_{21}/S_{12}$ stays exactly multiplicative even with gain, so the imaginary gauge flux of a Hatano--Nelson-type amplifier chain is an exactly conserved charge that gain cannot create. With loops, the price of gain is quantum noise: $\NN(S)\le\sum_i\beta(D_i)(1+\nu_i)$, where $\nu_i$ counts the amplifier noise quanta that reach element $i$; the bound is tight. For lattices, robust stability forces $|S_{21}/S_{12}|>r^2G$, so in a series chain the stable gain rate cannot exceed the gauge-flux rate: this is what the skin effect buys. A network winding number vanishes for passive cells, for reciprocal cells and for single-channel phase-only cells. A driven skin effect therefore needs both gain and non-reciprocity, and phase-only non-reciprocity also needs a loop. Every statement is labelled as proved, numerical, or open.
+\end{abstract}
+
+\section{Status of the statements}
+
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}Xl@{}}
+\toprule
+& Statement & Status\\
+\midrule
+Lemma~\ref{lem:wellposed} & networks are well posed and passive; reciprocal networks are reciprocal & proved\\
+Theorem~\ref{thm:budget} & $\NN(S)\le\sum_i\beta(D_i)$, tight & proved\\
+Corollary~\ref{cor:isoband} & isolation--bandwidth bound for two-ports & proved\\
+Proposition~\ref{prop:cost} & elementary cost is a faithful monotone, $\ge\NN$ & proved\\
+Proposition~\ref{prop:notmono} & $\NN$ is not a monotone on dispersive objects & numerical (converged)\\
+Proposition~\ref{prop:single} & single-frequency and ratio measures are not monotones & proved\\
+Lemma~\ref{lem:cascade}, Prop.~\ref{prop:mzi} & cascades keep $S_{21}/S_{12}$; one loop makes an isolator & proved\\
+Proposition~\ref{prop:lattice} & lattice analogue: gauge-flux identity, loop-free phase non-reciprocity is gauge & proved\\
+Example~\ref{ex:eight} & phase-only non-reciprocity with a loop gives a skin effect & numerical\\
+Theorem~\ref{thm:collapse} & free classical gain + one loop: collapse & proved\\
+Proposition~\ref{prop:seriesgain} & series networks with gain: gauge flux conserved, complete at one frequency & proved\\
+Theorem~\ref{thm:noise} & noise price $\NN(S)\le\sum_i\beta(D_i)(1+\nu_i)$, tight & proved\\
+Examples~\ref{ex:ring}, \ref{ex:hnamp} & ring amplifier; Hatano--Nelson-type amplifier chain & numerical\\
+Theorem~\ref{thm:stab}, Cor.~\ref{cor:rate} & stable gain needs $|S_{21}/S_{12}|>r^2G$; series: gain rate $\le$ flux rate & proved\\
+Proposition~\ref{prop:multi} & multi-channel transfer matrices: determinant flux, symplectic pairing & proved\\
+Theorem~\ref{thm:winding} & network winding vanishes for passive, reciprocal, one-channel phase-only cells & proved\\
+Proposition~\ref{prop:fluxcell} & flux per cell; phase-only cells are quadratically weaker & proved\\
+Observations in Sec.~\ref{sec:lat} & winding predicts end-to-end gain; sharp length-stability threshold & numerical\\
+Section~\ref{sec:open} & cost of dispersive objects, efficiency, continuum, external monotone with gain, lattices & open\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Numerical checks (labelled A--G below) are in the script \texttt{route2\_nonreciprocity\_toys.py}\\ and its output file \texttt{route2\_nonreciprocity\_toys\_output.txt}.
+
+\section{Setting}
+
+\begin{definition}[Network]\label{def:net}
+A network consists of finitely many \emph{junctions} with constant scattering matrices $S_k$, $\|S_k\|\le1$, whose ports form a set $P$; we write $S_J=\bigoplus_kS_k$. The ports are split as $P=E\sqcup I$ into external and internal ports. The internal ports are matched in pairs by \emph{lines} $\ell=\{p,q\}$ with a delay $d_\ell\in\{1,2,\dots\}$ and an amplitude $|a_\ell|\le1$, the same in both directions. The connection matrix $C(z)$ on $\mathbb C^I$ has $C_{pq}=C_{qp}=a_\ell z^{d_\ell}$ and is symmetric. The response is
+\[
+S(z)=S_{EE}+S_{EI}\,C(z)\bigl(\one-S_{II}C(z)\bigr)^{-1}S_{IE},\qquad z\in\D .
+\]
+A junction is \emph{reciprocal} if $S_k=S_k^\T$. A non-reciprocal junction is called a \emph{device}. Its \emph{budget} is $\beta(D)=\frac12\|D_A\|_1$ with $D_A=\frac12(D-D^\T)$ and $\|\cdot\|_1$ the trace norm.
+\end{definition}
+
+In discrete time $t$, $z^d$ is a delay by $d$ steps and $z=e^{i\varphi}$ on the unit circle, with $\varphi$ the frequency in units of the inverse unit delay. The same matrices describe classical waves and the mode operators of passive linear quantum optics.
+
+\begin{lemma}[Well posedness, passivity, golden rule]\label{lem:wellposed}
+(a) For $z\in\D$, $\|S_{II}C(z)\|\le|z|<1$, so $S$ is analytic on $\D$; moreover $\|S(z)\|\le1$. Hence $S$ has non-tangential boundary values $S(e^{i\varphi})$ for almost every $\varphi$ \cite{Gar07}.
+(b) If every junction is reciprocal, then $S(z)^\T=S(z)$.
+\end{lemma}
+\begin{proof}
+(a) Each row of $C(z)$ has one entry, of modulus at most $|z|$. For input $x$ at $E$ let $a=(x,a_I)$ with $a_I=Cb_I$ and $b=S_Ja$. Then $|b_E|^2+|b_I|^2\le|x|^2+|Cb_I|^2\le|x|^2+|b_I|^2$, so $|S(z)x|=|b_E|\le|x|$.
+(b) Using $S_J^\T=S_J$ and $C^\T=C$, $S^\T=S_{EE}+S_{EI}(\one-CS_{II})^{-1}CS_{IE}$, which equals $S$ by $C(\one-S_{II}C)^{-1}=(\one-CS_{II})^{-1}C$.
+\end{proof}
+
+\begin{definition}[Objects, free objects, free operations]\label{def:rt}
+An \emph{object} is the response $S$ of a network. It is \emph{free} if $S^\T=S$. A \emph{free operation} $\Theta$ inserts the object once into a network all of whose junctions are reciprocal: the object's external ports are joined to designated ports of that network by lines. $\Theta(S)$ is the response of the composite network. It depends on $S$ only, through a Redheffer star product \cite{Red60}.
+\end{definition}
+
+By Lemma~\ref{lem:wellposed}(b), free operations map free objects to free objects. The physical content of the restriction is Lorentz reciprocity: linear, time-invariant components without magnetic or other time-odd bias are reciprocal, so non-reciprocity must be supplied by biased, modulated or nonlinear elements \cite{Jal13,Cal18}. Here these are the devices.
+
+\section{The budget theorem}
+
+\begin{definition}
+For an object $S$, $\displaystyle \NN(S)=\int_0^{2\pi}\tfrac12\|S_A(e^{i\varphi})\|_1\,\frac{d\varphi}{2\pi}$, with $S_A=\frac12(S-S^\T)$.
+\end{definition}
+
+\begin{theorem}[Budget]\label{thm:budget}
+Let $S$ be the response of a network whose devices are $D_1,\dots,D_m$. Then
+\[
+\NN(S)\ \le\ \sum_{i=1}^m\beta(D_i).
+\]
+The bound is attained, for example by wiring a single device directly to the external ports.
+\end{theorem}
+
+\begin{proof}
+We may assume that the external ports sit on reciprocal junctions. Otherwise, insert a reciprocal through-junction $\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$ and a lossless unit line, which replaces $S$ by $ZSZ$ with $Z$ diagonal and unimodular on the circle and leaves $\NN$ unchanged. Let $\mathrm{dev}\subset I$ be the device ports and $\Delta=\bigoplus_iD_{i,A}$ on $\mathbb C^{\mathrm{dev}}$. Then $S_J-S_J^\T=2\Delta$ is supported on $\mathrm{dev}\times\mathrm{dev}$, so $S_{EE}^\T=S_{EE}$ and $S_{EI}^\T=S_{IE}$.
+
+\emph{Step 1 (identity).} For $z\in\D$ put $X(z)=S_{EI}(\one-CS_{II})^{-1}C\,P$, where $P$ embeds $\mathbb C^{\mathrm{dev}}$ into $\mathbb C^I$. Then
+\[
+S_A(z)=X(z)\,\Delta\,X(z)^\T .
+\]
+Indeed, as in Lemma~\ref{lem:wellposed}(b), $S^\T=S_{EE}+S_{EI}(\one-CS_{II}^\T)^{-1}CS_{IE}$. The resolvent identity gives $S-S^\T=S_{EI}(\one-CS_{II})^{-1}C(S_{II}-S_{II}^\T)(\one-CS_{II}^\T)^{-1}CS_{IE}$. Finally, $[(\one-CS_{II}^\T)^{-1}CS_{IE}]^\T=S_{EI}C(\one-S_{II}C)^{-1}=S_{EI}(\one-CS_{II})^{-1}C$.
+
+\emph{Step 2 (energy).} For every $s\in\mathbb C^{\mathrm{dev}}$ and $0<r<1$,
+\[
+\int_0^{2\pi}|X(re^{i\varphi})s|^2\frac{d\varphi}{2\pi}\le|s|^2 .
+\]
+Launch the waves $b_I(0)=Ps$ into the lines at $t=0$, with no external input and the network otherwise at rest. Since every delay is at least $1$, nothing arrives at $t=0$. For $t\ge1$, $b(t)=S_Ja(t)$ and $a_I(t)$ is delivered by the lines. The generating functions satisfy $B_I=Ps+S_{II}CB_I$, and the external output is $Y(z)=S_{EI}CB_I=X(z)s$. Each launched wave arrives once, scaled by $|a_\ell|\le1$, so $\sum_{t=1}^T|a_I(t)|^2\le\sum_{t=0}^{T-1}|b_I(t)|^2$. Junction passivity gives $|y(t)|^2+|b_I(t)|^2\le|a_I(t)|^2$ for $t\ge1$. Summing over $t=1,\dots,T$ yields $\sum_{t\le T}|y(t)|^2\le|b_I(0)|^2=|s|^2$. Parseval for power series then gives the claim.
+
+\emph{Step 3 (Youla decomposition).} By Youla's normal form for complex skew-symmetric matrices \cite{You61},
+\[
+D_{i,A}=U_i\Bigl(\bigoplus_j\sigma_{ij}J\Bigr)U_i^\T,\qquad J=\begin{pmatrix}0&1\\-1&0\end{pmatrix},\quad U_i\ \text{unitary},\ \sigma_{ij}\ge0 .
+\] Hence $\Delta=\sum_{ij}\sigma_{ij}(u_{ij}w_{ij}^\T-w_{ij}u_{ij}^\T)$ with unit vectors $u_{ij},w_{ij}$, and $\sum_{ij}\sigma_{ij}=\sum_i\beta(D_i)$. A rank-two skew matrix $M=ab^\T-ba^\T$ has two equal singular values. Since $\|M\|_F^2=2(|a|^2|b|^2-|a^\dagger b|^2)$, we get $\frac12\|M\|_1=\sqrt{|a|^2|b|^2-|a^\dagger b|^2}\le|a||b|$. By Step 1, the triangle inequality, Cauchy--Schwarz and Step 2,
+\[
+\int\tfrac12\|S_A(re^{i\varphi})\|_1\frac{d\varphi}{2\pi}\le\sum_{ij}\sigma_{ij}\Bigl(\int|Xu_{ij}|^2\Bigr)^{1/2}\Bigl(\int|Xw_{ij}|^2\Bigr)^{1/2}\le\sum_i\beta(D_i).
+\]
+As $r\to1$, $S(re^{i\varphi})\to S(e^{i\varphi})$ almost everywhere, and Fatou's lemma completes the proof. For tightness, direct wiring gives $S=z^2D$ and $\NN=\beta(D)$.
+\end{proof}
+
+\begin{corollary}[Isolation--bandwidth bound]\label{cor:isoband}
+For a two-port built with two-port devices,
+\[
+\int_0^{2\pi}\bigl||S_{21}|-|S_{12}|\bigr|\frac{d\varphi}{2\pi}\le\int_0^{2\pi}|S_{21}-S_{12}|\frac{d\varphi}{2\pi}\le\sum_i|D^{(i)}_{21}-D^{(i)}_{12}|.
+\]
+In particular, an isolator with $|S_{21}|\ge T$ and $|S_{12}|\le L$ on a fraction $f$ of the band needs $\sum_i|D^{(i)}_{21}-D^{(i)}_{12}|\ge f(T-L)$. With identical pure-phase elements ($|D_{21}|=|D_{12}|=1$, relative phase $\Delta$) this requires at least $f(T-L)/(2\sin\frac\Delta2)$ elements, whatever resonances or interferometers are used.
+\end{corollary}
+\begin{proof}
+For a $2\times2$ matrix, $\frac12\|S_A\|_1=\frac12|S_{21}-S_{12}|$, and likewise for each device. Apply Theorem~\ref{thm:budget}.
+\end{proof}
+
+\section{What is, and what is not, a monotone}
+
+\begin{proposition}[Elementary cost]\label{prop:cost}
+Let $\mathrm{Cost}(S)=\inf\sum_i\beta(D_i)$, the infimum being over all networks that realize $S$. Then $\mathrm{Cost}(\Theta(S))\le\mathrm{Cost}(S)$ for every free operation $\Theta$, and $\mathrm{Cost}(S)\ge\NN(S)$. Moreover, $\mathrm{Cost}(S)>0$ whenever $S$ is not free, and $\mathrm{Cost}(S)=0$ when $S$ is realized by a reciprocal network.
+\end{proposition}
+\begin{proof}
+A realization of $S$ followed by $\Theta$ is a realization of $\Theta(S)$ with the same devices. The lower bound is Theorem~\ref{thm:budget} applied to every realization. If $S_A\not\equiv0$, then $S_A$ is a bounded analytic function on $\D$, and its boundary values cannot vanish on a set of positive measure \cite{Gar07}. Hence $\NN(S)>0$.
+\end{proof}
+
+\begin{proposition}[$\NN$ is not a monotone]\label{prop:notmono}
+Let $R$ be the ring object: a coupler with self-coupling $0.99$ whose ring contains the device $0.99\left(\begin{smallmatrix}0&e^{0.05i}\\1&0\end{smallmatrix}\right)$. Let $\Theta$ close $R$ into a loop with one lossless coupler of self-coupling $\frac12$, with one connecting line carrying the phase $-i$ (check C6). Then $\NN(R)=0.009760$, $\NN(\Theta(R))=0.021314$ (ratio $2.1837$, unchanged between $2^{15}$ and $2^{18}$ quadrature points), and the elementary budget is $0.024747$. A second, randomly found four-port junction gives ratio $1.1755$ (check C5).
+\end{proposition}
+
+Theorem~\ref{thm:budget} is consistent with this: a narrowband object leaves part of its budget unused, and a free loop can recover some of it. $\NN$ is a computable lower bound on the monotone $\mathrm{Cost}$, not a monotone itself.
+
+\begin{proposition}[Single-frequency and ratio measures]\label{prop:single}
+(a) In a Mach--Zehnder interferometer with equal arm delays, ideal Y-junctions $\frac1{\sqrt2}\left(\begin{smallmatrix}0&1&1\\1&0&0\\1&0&0\end{smallmatrix}\right)$, a pure-phase element ($\tau_f=1$, $\tau_b=e^{i\Delta}$) in one arm and a reciprocal amplitude $w=-\tau_b(1-\varepsilon)$ in the other, one has $S_{21}=z^2(\tau_f+w)/2$ and $S_{12}=z^2(\tau_b+w)/2$. The isolation ratio $|S_{21}/S_{12}|\approx|1-e^{i\Delta}|/\varepsilon$ is frequency-independent and unbounded as $\varepsilon\to0$, although the element alone has ratio $1$.
+(b) In a critically coupled all-pass ring around the same element, the forward response $t_f(\varphi)=(r-re^{i\varphi})/(1-r^2e^{i\varphi})$ vanishes at $\varphi=0$, so the isolation at that frequency is infinite. Since $t_b(\varphi)=t_f(\varphi+\Delta)$ is a shifted copy, $\int_0^{2\pi}\log|t_b/t_f|\,d\varphi=0$ exactly.
+Hence neither the isolation ratio at a frequency nor its band average is a monotone. Checks B2 and B3.
+\end{proposition}
+
+\section{Loops}
+
+\begin{lemma}[Cascades]\label{lem:cascade}
+For a cascade of two-ports with $S^{(i)}_{12}\ne0$, joined by lines and with reflections allowed, $S_{21}/S_{12}=\prod_iS^{(i)}_{21}/S^{(i)}_{12}$ at every $z$ where both sides are defined. In particular, reciprocal parts never change $|S_{21}/S_{12}|$, and pure-phase elements in a cascade never isolate: $|S_{21}|=|S_{12}|$ at every frequency.
+\end{lemma}
+\begin{proof}
+The transfer matrix $(a_1,b_1)\mapsto(b_2,a_2)$ of a two-port is $T=\frac1{S_{12}}\left(\begin{smallmatrix}S_{12}S_{21}-S_{11}S_{22}&S_{22}\\-S_{11}&1\end{smallmatrix}\right)$, with $\det T=S_{21}/S_{12}$. Cascading multiplies transfer matrices, and a line has $\det T=1$. (Check E1: relative error $\sim10^{-15}$.)
+\end{proof}
+
+\begin{proposition}[One loop suffices]\label{prop:mzi}
+Place $N$ pure-phase elements with relative phase $\Delta=\pi/N$ in series in one arm of the Mach--Zehnder interferometer of Proposition~\ref{prop:single}(a), and a lossless line with the same total delay in the other arm. Then $S_{21}=z^{N+1}$ and $S_{12}=0$ at every frequency, which is a perfect broadband isolator with $\NN=\frac12$. Its budget is $N\sin\frac\Delta2\to\frac\pi2$, so its efficiency $\NN/\sum\beta$ tends to $1/\pi$ (check E3: $0.3183$ at $N=64$). By Lemma~\ref{lem:cascade}, the same elements in a single cascade give no isolation at all.
+\end{proposition}
+\begin{proof}
+$S_{21}=z^{N+1}(1+1)/2$ and $S_{12}=z^{N+1}(e^{iN\Delta}+1)/2=0$.
+\end{proof}
+
+\section{The lattice side: skin effect}\label{sec:lattice}
+
+\begin{proposition}\label{prop:lattice}
+Let $H$ be tridiagonal with arbitrary complex diagonal and hoppings $H_{n+1,n}=t^+_n$, $H_{n,n+1}=t^-_n$, all non-zero.
+\begin{enumerate}
+\item[(a)] (Gauge-flux identity) For every $z\notin\mathrm{spec}\,H$, $G_{N1}(z)/G_{1N}(z)=\prod_nt^+_n/t^-_n$, where $G=(z-H)^{-1}$.
+\item[(b)] If $|t^+_n|=|t^-_n|$ for all $n$, there is a diagonal unitary $V$ with $V^{-1}HV$ complex symmetric. Then $H^\T=UHU^\dagger$ with $U=V^{-2}$, $|G_{mn}|=|G_{nm}|$ for all $m,n,z$, and in the translation-invariant case the point-gap winding vanishes.
+\item[(c)] For a translation-invariant chain with hoppings $t_j$ ($H_{m,n}=t_{m-n}$) and $|t_j|=|t_{-j}|$, if there is $\theta$ with $t_{-j}=e^{-2i\theta j}t_j$ for all $j$, then the winding vanishes. If $t_{\pm1}\neq0$, such a $\theta$ fails to exist exactly when some gauge-invariant loop product $r_jr_1^{-j}$, $r_j=t_{-j}/t_j$, differs from $1$; for $j=2$ this is $\Phi=t_1^2t_{-2}/(t_{-1}^2t_2)$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(a) The $(N,1)$ and $(1,N)$ cofactors of $z-H$ are triangular, with determinants $\prod(-t^+_n)$ and $\prod(-t^-_n)$. (b) Choose phases with $e^{2i(\theta_{n+1}-\theta_n)}=t^+_n/t^-_n$, which has unit modulus. Diagonal unitary similarity preserves $|G_{mn}|$, and a complex symmetric resolvent is symmetric. In the translation-invariant case the gauged symbol satisfies $h(k)=h(-k)$, so the curve is traced back and forth and its winding is zero. (c) The gauge $V=\mathrm{diag}(e^{i\theta n})$ maps $t_j\mapsto e^{-i\theta j}t_j$, so the hypothesis makes the chain symmetric and (b) applies.
+\end{proof}
+
+\begin{example}[Phase-only non-reciprocity with a loop]\label{ex:eight}
+Take $t_{\pm1}=\frac12$, $t_2=-\frac14$, $t_{-2}=+\frac14$. All magnitudes are pairwise equal, but $\Phi=-1$. The periodic-boundary curve $h(k)=\cos k+\frac i2\sin2k$ is a figure eight whose left lobe has winding $-1$ and right lobe $+1$. For points in those lobes, the end-to-end Green's function grows exponentially in the direction set by the sign of the winding, and in the $w=0$ region both directions decay, even where their ratio is exponential (check D2, $N\le50$, 60-digit arithmetic; consistent with \cite{ZRR21,WBN20}). The skin effect here is produced by a phase that lives on a loop. In a nearest-neighbour chain the same phase would be pure gauge.
+\end{example}
+
+\begin{remark}[Dictionary]
+A cascade of two-ports corresponds to a nearest-neighbour chain, and in both $S_{21}/S_{12}$ (respectively $G_{N1}/G_{1N}$) is a product of local ratios: the imaginary gauge flux \cite{HN96}. Interferometers and rings correspond to longer-range hopping. Loops are where phase-type non-reciprocity becomes directionality: an isolator in networks, a skin effect in lattices. In a passive realization, $|S|\le1$, so the directional \emph{gain} that marks the skin effect requires active elements. They are treated next.
+\end{remark}
+
+
+\section{Gain and quantum noise}\label{sec:gain}
+
+\begin{definition}[Active networks, physical noise]\label{def:active}
+An \emph{active network} is as in Definition~\ref{def:net}, except that the junction matrices $S_k$ are arbitrary (reciprocal amplifiers have $S_k=S_k^\T$ with $\|S_k\|>1$). Lines stay passive and devices stay passive. It is \emph{stable} if $\det(\one-S_{II}C(z))\ne0$ for $|z|\le1$. This determinant is a polynomial in $z$ equal to $1$ at $z=0$, so stability means that $S$ is analytic on a neighbourhood of the closed disk and impulse responses decay. Free operations now embed an object into a reciprocal active network, provided the result is stable. Quantum mechanically, junction $k$ adds noise operators $\xi$ to its outputs with $[\xi_i,\xi_j^\dagger]=(\one-S_kS_k^\dagger)_{ij}$. Its normal-ordered noise matrix $X_k=(\langle\xi_j^\dagger\xi_i\rangle)_{ij}$ (vacuum inputs) and the antinormal one $X_k+\one-S_kS_k^\dagger$ are both positive semidefinite, so
+\[
+X_k\ge0,\qquad X_k\ge S_kS_k^\dagger-\one .
+\]
+Every physical realization obeys this. A reciprocal amplifier $g\sigma_x$ emits at least $g^2-1$ quanta per output. For device $i$, let $N_i(\varphi)=K_i(\varphi)XK_i(\varphi)^\dagger$ be the spectral matrix of noise quanta arriving at its input ports, with $K_i$ the transfer from junction outputs to those ports. Put $\nu_i=\lambda_{\max}\int N_i\,\frac{d\varphi}{2\pi}$.
+\end{definition}
+
+\begin{theorem}[Collapse with free classical gain]\label{thm:collapse}
+Let $D=\left(\begin{smallmatrix}0&D_{12}\\D_{21}&0\end{smallmatrix}\right)$ with $D_{21}\ne D_{12}$. Put $D$ in one arm of the Mach--Zehnder interferometer of Proposition~\ref{prop:single}(a), the reciprocal amplitude $w=-D_{12}$ in the other arm, and a reciprocal amplifier $g\sigma_x$ with $g=2\sqrt G/|D_{21}-D_{12}|$ at the output. The result is a stable network with
+\[
+S(z)=\begin{pmatrix}0&0\\\sqrt G\,e^{i\theta}z^{3}&0\end{pmatrix}
+\]
+at every frequency, a perfect broadband directional amplifier of arbitrary gain $G$. Hence, if gain is free and noise is not counted, every non-reciprocal elementary device is equivalent to every other.
+\end{theorem}
+\begin{proof}
+$S_{21}=g(D_{21}+w)/2\cdot z^3$ and $S_{12}=g(D_{12}+w)/2\cdot z^3=0$. No junction couples one arm to the other, and every element is reflectionless, so the signal-flow graph has no directed cycle. Hence $\det(\one-S_{II}C)\equiv1$ and the network is stable. (Check F1: $|S_{21}|^2=100$ to $10^{-12}$ and $|S_{12}|\le10^{-13}$. The added noise at port 2 is $1.6\times10^5$ quanta against the quantum limit of $99$, and $\NN=200\,\beta(D)$.)
+\end{proof}
+
+\begin{proposition}[Series networks with gain]\label{prop:seriesgain}
+Lemma~\ref{lem:cascade} holds verbatim when the two-ports include amplifiers, because a reciprocal two-port of any gain has $\det T=1$. Hence, in a series network the ratio $S_{21}/S_{12}$, and in particular the imaginary gauge flux $\log|S_{21}/S_{12}|$, is exactly conserved and additive, whatever gain or loss is inserted. At a fixed frequency the ratio is also a complete invariant. If $S^A_{21}/S^A_{12}=S^B_{21}/S^B_{12}$, then $T_BT_A^{-1}$ has determinant $1$, so (when its $(2,2)$ entry is non-zero) $B$ is $A$ followed by a reciprocal two-port. Consequently, a series directional amplifier with forward gain $G$ and backward gain $\le1$ requires $\prod_i|D^{(i)}_{21}/D^{(i)}_{12}|\ge\sqrt G$: directionality is paid for in gauge flux, never by gain. (Checks F2, F3.)
+\end{proposition}
+
+\begin{theorem}[Noise price of non-reciprocity]\label{thm:noise}
+For every stable active network with passive devices $D_i$ and every physical noise assignment,
+\[
+\NN(S)\ \le\ \sum_i\beta(D_i)\,\bigl(1+\nu_i\bigr).
+\]
+The bound is attained, for example by a device with an amplifier $g\sigma_x$ on each of its ports ($\NN=g^2\beta$, $\nu=g^2-1$).
+\end{theorem}
+\begin{proof}
+\emph{(i) Gain-energy form.} Let $R_k\ge0$ with $R_k\ge S_k^\dagger S_k-\one$. Repeat Step 2 of Theorem~\ref{thm:budget}. Now $|S_ka|^2\le|a|^2+a^\dagger R_ka$ at each junction, so $\sum_t|y(t)|^2\le|s|^2+s^\dagger Es$, where $s^\dagger Es=\sum_t\sum_ka_k(t)^\dagger R_ka_k(t)$ is the energy gained by the waves launched from the device ports. Stability makes all sums finite. Steps 1 and 3 are unchanged, so $\NN(S)\le\sum_{ij}\sigma_{ij}\sqrt{(1+u^\dagger Eu)(1+w^\dagger Ew)}\le\sum_i\beta(D_i)(1+\lambda_{\max}E_i)$.
+
+\emph{(ii) Transposition.} The network $N^\T$ with junctions $S_k^\T$ and the same lines has response $S^\T$, so it has the same $\NN$ and the same budgets. It is stable as well, since $\det(\one-S_{II}^\T C)=\det(\one-CS_{II})=\det(\one-S_{II}C)$. Apply (i) to $N^\T$ with $R_k=\overline{X_k}$. This is admissible because $\overline{X_k}\ge0$ and $\overline{X_k}\ge\overline{S_kS_k^\dagger}-\one=(S_k^\T)^\dagger S_k^\T-\one$. In $N^\T$, the waves launched from the device ports reach the junction inputs through $(\one-CS_{II}^\T)^{-1}CP=K^\T$, where $K=P^\T(\one-CS_{II})^{-1}C$ carries junction-output noise to the device inputs of $N$. Therefore $E_i(N^\T)=\overline{\int K_iXK_i^\dagger}$, whose largest eigenvalue is $\nu_i$. (Check F4: no violation in 150 random stable networks; the transposition identity holds to $10^{-15}$; the two-amplifier example gives ratio $1.000000$.)
+\end{proof}
+
+Theorem~\ref{thm:noise} reduces to Theorem~\ref{thm:budget} without gain. With gain, a weak element's band-averaged effect can be raised by a factor $F$ only if at least $F-1$ quanta of amplifier noise per mode, band-averaged, reach the element itself. The price is paid at the element, not necessarily at the output.
+
+\begin{example}[Ring amplifier]\label{ex:ring}
+A ring with a lossless coupler ($r=0.9$), an amplifier $1.1105\,\sigma_x$ and a pure-phase element (phase $0.02$) is stable. At its peak it has $|S_{21}|^2=1.45\times10^5$ and $|S_{12}|^2=111$, its external noise is quantum-limited (excess $<10^{-9}$ quanta), and $\NN=28.8\,\beta$. Theorem~\ref{thm:noise} is satisfied because $1+\nu=213$. With $r=0.999$ and phase $0.05$, the same ring is a narrowband directional amplifier with $|S_{12}|^2=1.00$ at the peak, again quantum-limited, with $\NN=0.2\,\beta$ (check F5). So no bound on $\NN$ in terms of the external \emph{excess} noise, the noise above the quantum limit, can hold.
+\end{example}
+
+\begin{example}[Hatano--Nelson-type amplifier chain]\label{ex:hnamp}
+Each bond contains an element $\left(\begin{smallmatrix}0&e^{-2\gamma}\\1&0\end{smallmatrix}\right)$ ($\gamma=0.15$) and an amplifier $1.15\,\sigma_x$, and partial mirrors ($\rho=0.2$) separate the bonds. For $N=2,8,16$ bonds, the network is stable and $|S_{21}/S_{12}|=e^{2\gamma N}$ exactly at every frequency (Proposition~\ref{prop:seriesgain}). The peak forward gain grows to $86$ at $N=16$, and the band-averaged total noise approaches the quantum limit (ratio $1.51$, $1.23$, $1.15$). $\NN$ exceeds the passive budget ($3.87$ against $2.07$ at $N=16$), and Theorem~\ref{thm:noise} accounts for the excess (check F6). The chain's exponential directionality is its gauge flux. The gain only sets the level, and it costs noise.
+\end{example}
+
+\section{Lattices: what the skin effect buys}\label{sec:lat}
+
+\begin{theorem}[Stable gain needs directionality]\label{thm:stab}
+Let $S$ be the response of a stable network with $S_{11}\equiv S_{22}\equiv0$. Terminate its ports through unit lines with constant reflections $\rho_1,\rho_2$, $|\rho_k|\le r$. The result is stable for every such choice if and only if $r^2|S_{12}S_{21}|<1$ on the unit circle. In particular, at every frequency
+\[
+G(\varphi):=|S_{21}(\varphi)|^2\ <\ \frac{1}{r^2}\,\Bigl|\frac{S_{21}(\varphi)}{S_{12}(\varphi)}\Bigr| .
+\]
+\end{theorem}
+\begin{proof}
+The only new loop is $\rho_1\rho_2z^4S_{21}S_{12}$, so the characteristic function of the terminated network is that of the original network times $1-\rho_1\rho_2z^4S_{21}(z)S_{12}(z)$. If $r^2|S_{12}S_{21}|<1$ on the circle, the maximum principle gives $|\rho_1\rho_2z^4S_{21}S_{12}|<1$ on the closed disk, so this factor has no zero there. If instead $r^2|S_{12}S_{21}(e^{i\varphi_0})|\ge1$, choose $|\rho_1\rho_2|=|S_{12}S_{21}(e^{i\varphi_0})|^{-1}\le r^2$ and the phase that makes the factor vanish at $z=e^{i\varphi_0}$. This is the matched case of the classical unconditional-stability condition for amplifiers \cite{Rol62}. (Check G1: $60/60$.)
+\end{proof}
+
+\begin{corollary}[Gain rate $\le$ flux rate]\label{cor:rate}
+In a series network, $G<r^{-2}\prod_i|D^{(i)}_{21}/D^{(i)}_{12}|$ at every frequency (Proposition~\ref{prop:seriesgain}). Consider a chain of $N$ identical matched cells with $|S^{\rm cell}_{21}|=t$ and flux $\lambda=\log|S^{\rm cell}_{21}/S^{\rm cell}_{12}|$, and let $r<1$. The chain is stable under all terminations $|\rho|\le r$ for every $N$ if and only if $2\log t\le\lambda$ at every frequency. Exponential stable gain therefore requires an extensive gauge flux, which is the Hatano--Nelson skin effect.
+\end{corollary}
+\begin{proof}
+$|S_{21}S_{12}|=(t^2e^{-\lambda})^N$, and $r^2(t^2e^{-\lambda})^N<1$ holds for all $N$ exactly when $t^2e^{-\lambda}\le1$.
+\end{proof}
+
+The same threshold appears without matching. Take the chain of Example~\ref{ex:hnamp}, with partial mirrors between the bonds and log-gain per bond $2\log g=0.280$. It is unstable from $N=8$ when the flux per bond is $2\gamma=0$. With $2\gamma=0.26$ it is stable at $N=24$ and unstable at $N=64$. With $2\gamma=0.29$ it is stable at $N=64$ (check G5; numerical).
+
+\begin{proposition}[Multi-channel transfer matrices]\label{prop:multi}
+Let a $2m$-port have left and right port groups and an invertible block $S_{12}$. Its transfer matrix $T:(a_L,b_L)\mapsto(b_R,a_R)$,
+\[
+T=\begin{pmatrix}S_{21}-S_{22}S_{12}^{-1}S_{11}&S_{22}S_{12}^{-1}\\-S_{12}^{-1}S_{11}&S_{12}^{-1}\end{pmatrix},
+\]
+satisfies $\det T=\det S_{21}/\det S_{12}$, and cascading multiplies transfer matrices. If $S=S^\T$, with any gain, loss or internal loops, then $T^\T\Omega T=\Omega$ for $\Omega=\left(\begin{smallmatrix}0&\one\\-\one&0\end{smallmatrix}\right)$. Hence $\det T=1$ and the spectrum of $T$ is closed under $\mu\mapsto1/\mu$. The determinant flux $\log|\det S_{21}/\det S_{12}|$ is therefore conserved and additive under cascading with reciprocal $m$-channel blocks. This generalizes Lemma~\ref{lem:cascade}.
+\end{proposition}
+\begin{proof}
+The Schur complement with respect to the $(2,2)$ block gives $\det T=\det(S_{12}^{-1})\det(S_{21})$. Reciprocity gives $\sum_p(a_pb'_p-b_pa'_p)=a^\T Sa'-a^\T S^\T a'=0$ for any two solutions. Splitting the sum into left and right ports, this reads $x_L^\T\Omega x'_L=x_R^\T\Omega x'_R$, that is, $T^\T\Omega T=\Omega$. A complex symplectic matrix has determinant $1$, and $T^{-1}=\Omega^{-1}T^\T\Omega$ has the spectrum of $T$. (Check G2.)
+\end{proof}
+
+\begin{theorem}[Network winding]\label{thm:winding}
+For a periodic chain of $m$-channel cells, let $\mu_k(z)$ be the eigenvalues of the cell transfer matrix (including the connecting lines), and suppose none lies on the unit circle. Define $w(z)=\#\{k:|\mu_k(z)|<1\}-m$. Then $w(z)=0$ in each of the following cases: (i) the cell is passive; (ii) the cell is reciprocal, whatever its gain; (iii) $m=1$ and $|S^{\rm cell}_{21}/S^{\rm cell}_{12}|=1$. Hence $w\ne0$ requires both gain and non-reciprocity. With phase-only non-reciprocity ($|\det T|=1$) it requires at least two channels, that is, a loop.
+\end{theorem}
+\begin{proof}
+(i) Passivity, $|b_L|^2+|b_R|^2\le|a_L|^2+|a_R|^2$, reads $T^\dagger JT\le J$ with $J=\mathrm{diag}(\one,-\one)$. On the spectral subspace $V_<$ of eigenvalues inside the disk, $T^nv\to0$, and $(T^nv)^\dagger J(T^nv)\le v^\dagger Jv$, so $v^\dagger Jv\ge0$ there. A $J$-nonnegative subspace has dimension at most $m$, because it meets the $m$-dimensional negative subspace only in $0$. Hence $\#\{|\mu|<1\}\le m$. The same argument with $T^{-n}$ on the outer spectral subspace gives $\#\{|\mu|>1\}\le m$. (ii) The spectrum is paired by Proposition~\ref{prop:multi}. (iii) $\mu_1\mu_2=\det T$ has modulus $1$, so exactly one eigenvalue lies inside the disk. (Check G3: among 1000 random cells of each kind, $w\ne0$ never occurs for passive cells, reciprocal cells with gain, or one-channel phase-only cells with gain; it occurs for 39 two-channel phase-only cells with gain.)
+\end{proof}
+
+For the chain of Example~\ref{ex:hnamp}, $w=-1$ on $91\%$ of the band. There the end-to-end forward gain grows at the rate $\log|\mu_1|$ ($0.1340$ from $N=16$ to $32$, against $0.1340$), and it decays where $w=0$ (check G4; numerical). This is the network form of the correspondence between winding and directional amplification \cite{ZRR21,WBN20}.
+
+\begin{proposition}[Flux per cell]\label{prop:fluxcell}
+Let a passive two-port cell have flat $|S_{21}|=T$ and flat flux $\lambda=\log|S_{21}/S_{12}|$, and let it be built from devices of total budget $\beta$. Then $T(1-e^{-\lambda})\le2\beta$, so $\lambda\le-\log(1-2\beta/T)$. A magnitude element $\left(\begin{smallmatrix}0&e^{-\lambda}\\1&0\end{smallmatrix}\right)$ attains this. A pure-phase element in a Mach--Zehnder cell gives only $\lambda=-\log\cos\frac\Delta2\approx\beta^2/2$: phase non-reciprocity is a quadratically weaker source of flux (check G6). With gain, $2\beta$ is replaced by $2\sum_i\beta_i(1+\nu_i)$. Combined with Corollary~\ref{cor:rate}, the log-gain per cell of a robustly stable periodic chain of matched cells with flat response is at most $2\,\mathrm{asinh}\bigl(\beta_{\rm c}(1+\nu_{\rm c})\bigr)$, with the cell's budget and element noise.
+\end{proposition}
+\begin{proof}
+By Theorem~\ref{thm:budget}, $\int|S_{21}-S_{12}|\le2\beta$, and $|S_{21}-S_{12}|\ge T(1-e^{-\lambda})$. The magnitude element has $\beta=(1-e^{-\lambda})/2$. In the Mach--Zehnder cell, $S_{21}=1$, $S_{12}=(1+e^{i\Delta})/2$ and $\beta=\sin\frac\Delta2$. For the last claim, $t\le e^{\lambda/2}$ and $t\le2\beta'/(1-e^{-\lambda})$ with $\beta'=\beta_{\rm c}(1+\nu_{\rm c})$, so $t^2\le\max_\lambda\min(e^\lambda,4\beta'^2/(1-e^{-\lambda})^2)$. The maximum is reached where $2\sinh\frac\lambda2=2\beta'$.
+\end{proof}
+
+So loops do not beat the series bound for free. Inside a cell they convert phase non-reciprocity into flux, quadratically in the passive case or at the noise price with gain. Across cells, a series chain adds the cell fluxes exactly. Every robustly stable amplifier, series or not, needs $|S_{21}/S_{12}|>r^2G$.
+
+\section{Open problems}\label{sec:open}
+
+\begin{problem}[Cost of dispersive objects]
+Characterize or compute $\mathrm{Cost}(S)$ for a dispersive object. Proposition~\ref{prop:notmono} shows that it exceeds $\NN$ by a factor of at least $2.18$ for the ring object $R$. A natural guess is an analytic-interpolation (Nevanlinna--Pick type) formula.
+\end{problem}
+
+\begin{problem}[Distillation efficiency]
+For weak elements, find the largest asymptotic efficiency $\NN(\text{output})/\sum\beta$ with which a perfect broadband isolator can be built. Theorem~\ref{thm:budget} gives at most $1$, and Proposition~\ref{prop:mzi} gives at least $1/\pi$ for pure-phase elements.
+\end{problem}
+
+\begin{problem}[Continuum and dispersive devices]
+Extend Theorem~\ref{thm:budget} from commensurate delays and frequency-independent devices to continuous frequency, where the budget must account for each device's own bandwidth, for instance through gyrotropic sum rules.
+\end{problem}
+
+\begin{problem}[External monotone with gain]\label{op:gain}
+Find a monotone of the external quantum channel (response together with added noise) under reciprocal active operations. Example~\ref{ex:ring} shows that it cannot be $\NN$ normalized by the external excess noise alone; whether the total external noise suffices is open. The internal noise $\nu_i$ of Theorem~\ref{thm:noise} is what is constrained, which suggests a cost defined by minimizing $\sum_i\beta(D_i)(1+\nu_i)$ over realizations.
+\end{problem}
+
+\begin{problem}[Lattices]
+(a) Prove, for generic $m$-channel cells, that the end-to-end forward rate is $\log|\mu_m|$ when $w<0$, as observed in check G4; reflectionless cascades are non-generic and must be excluded. (b) Prove the sharp length-stability threshold (gain rate $=$ flux rate) for chains with internal reflections (check G5). (c) Determine whether multi-channel phase-only lattices can reach a larger stable gain rate per unit budget and noise than series chains, which are bounded by Proposition~\ref{prop:fluxcell}.
+\end{problem}
+
+\begin{thebibliography}{99}
+\bibitem{Gar07} J. B. Garnett, \emph{Bounded Analytic Functions}, revised ed. (Springer, 2007).
+\bibitem{Red60} R. Redheffer, J. Math. Phys. \textbf{39}, 269 (1960).
+\bibitem{You61} D. C. Youla, Canad. J. Math. \textbf{13}, 694 (1961).
+\bibitem{Jal13} D. Jalas \emph{et al.}, Nat. Photonics \textbf{7}, 579 (2013).
+\bibitem{Cal18} C. Caloz \emph{et al.}, Phys. Rev. Applied \textbf{10}, 047001 (2018).
+\bibitem{HN96} N. Hatano and D. R. Nelson, Phys. Rev. Lett. \textbf{77}, 570 (1996).
+\bibitem{ZRR21} H.-G. Zirnstein, G. Refael, and B. Rosenow, Phys. Rev. Lett. \textbf{126}, 216407 (2021).
+\bibitem{WBN20} C. C. Wanjura, M. Brunelli, and A. Nunnenkamp, Nat. Commun. \textbf{11}, 3149 (2020).
+\bibitem{MC15} A. Metelmann and A. A. Clerk, Phys. Rev. X \textbf{5}, 021025 (2015).
+\bibitem{Rol62} J. M. Rollett, IRE Trans. Circuit Theory \textbf{9}, 29 (1962).
+\end{thebibliography}
+
+\end{document}
